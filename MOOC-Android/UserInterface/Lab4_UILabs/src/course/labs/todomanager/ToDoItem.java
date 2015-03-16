@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.content.Intent;
+import android.text.StaticLayout;
+import android.util.Log;
 
 public class ToDoItem {
 
@@ -47,11 +49,16 @@ public class ToDoItem {
 		mTitle = intent.getStringExtra(ToDoItem.TITLE);
 		mPriority = Priority.valueOf(intent.getStringExtra(ToDoItem.PRIORITY));
 		mStatus = Status.valueOf(intent.getStringExtra(ToDoItem.STATUS));
-
+		
+		String TAG1 = "HAHA";
 		try {
 			mDate = ToDoItem.FORMAT.parse(intent.getStringExtra(ToDoItem.DATE));
+			Log.i(TAG1,"HAHA is right");
+			Log.i(TAG1,intent.getStringExtra(ToDoItem.DATE));
+			Log.i(TAG1,mDate.toString());
 		} catch (ParseException e) {
 			mDate = new Date();
+			Log.i(TAG1,"HAHA is wrong");
 		}
 	}
 

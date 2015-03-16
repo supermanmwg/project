@@ -119,24 +119,18 @@ public class ToDoListAdapter extends BaseAdapter {
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
 						Log.i(TAG,"Entered onCheckedChanged()");
-						if(isChecked) {
-							toDoItem.setStatus(Status.DONE);
-							statusView.setChecked(true);
-						} else {
-							//toDoItem.setStatus(Status.NOTDONE);
-						}
-                        
-                        
       
 					}
 				});
+        if(toDoItem.getStatus() == Status.DONE) statusView.setChecked(true);
+        else statusView.setChecked(false);
 
 		// TODO - Display Priority in a TextView
         TextView textPriority = (TextView) convertView.findViewById(R.id.priorityView);
         textPriority.setText(toDoItem.getPriority().toString());
 		// TODO - Display Time and Date
         TextView textTime = (TextView) convertView.findViewById(R.id.dateView);
-        textTime.setText(toDoItem.getDate().toString());
+        textTime.setText(ToDoItem.FORMAT.format(toDoItem.getDate()));
 
 		// Return the View you just created
 		return convertView;

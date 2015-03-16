@@ -1,3 +1,9 @@
 #This lab:three test passed , 2 test failed;
-one is about status checkbox on ToDoListAdapter.java
-one is about Datepicker ,I think it is because I use 5.1 emulator,but the test is 4.3.
+2015.3.16 2:12am 
+1 One is about status checkbox on ToDoListAdapter.java
+2 One is about Datepicker ,I think it is because I use 5.1 emulator,but the test is 4.3.
+
+2015.3.16 17:03
+1 Modify the status checkbox ,when todoItem's status is done ,the checkbox is checked.
+2 Modify the Data format ,use:
+	ToDoItem.FORMAT.format(toDoItem.getDate());
