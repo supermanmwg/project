@@ -7,3 +7,5 @@
 1 Modify the status checkbox ,when todoItem's status is done ,the checkbox is checked.
 2 Modify the Data format ,use:
 	ToDoItem.FORMAT.format(toDoItem.getDate());
+
+haha
