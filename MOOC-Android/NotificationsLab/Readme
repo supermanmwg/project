@@ -1,0 +1,6 @@
+2015-3-20
+1 In DownloaderTaskFragment's onPostExecute() 
+  method should estimate the mCallback is null or not. like below:
+	if(mCallback!=null)
+	   mCallback.notifyDataRefreshed(result);
+2 In Fragment ,onAttach(Activity activity) method the activity and fragment is attached.So we can init and save activity instance in this method.
