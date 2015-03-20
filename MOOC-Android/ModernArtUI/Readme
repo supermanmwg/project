@@ -1,0 +1,13 @@
+First commit
+5 TextView and part of their animations
+include a easter egg ,but not finished.
+
+2015-3-21
+1 SeekBar is finished.
+  When the user drags the SeekBar,all non-whilte/nong grey rectangles gradually change their color.
+2 Problem:
+	setBackgroundColor(int color);
+  the color should be 32bit ,8 bytes. like 0xFFFFFFFF is white.
+  If you pass 0xFFFFFF ,the color is disappeared and become transparent.
+  But the color also can be Color.parseColor("#fffff").it is right to describe 
+  color using string "#XXXXXX".the string is 6 Bytes.

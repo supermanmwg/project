@@ -7,6 +7,8 @@ import android.transition.Visibility;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,13 @@ public class MainActivity extends Activity implements OnClickListener{
 	private TextView blueView;
 	private TextView yellowView;
 	private ImageView easterEgg;
+	private SeekBar seekBar;
+	
+	private int red = 0xFFCC0000;
+	private int white = 0xFFFFFFFF;
+	private int blue = 0xFF0000FF;
+	private int green = 0xFF99CC00;
+	private int yellow = 0xFF3E2723;
 
 	@Override
 	protected void onCreate(Bundle savedState) {
@@ -25,6 +34,25 @@ public class MainActivity extends Activity implements OnClickListener{
 		setContentView(R.layout.main);
 		
 		initTextView();
+		seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				changeColor(progress);
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				
+			}
+			
+		});
 
 	}
 	
@@ -58,7 +86,7 @@ public class MainActivity extends Activity implements OnClickListener{
 		}
 	}
 	
-	public void initTextView() {
+	private void initTextView() {
 		redView = (TextView)findViewById(R.id.red);
 		whiteView = (TextView)findViewById(R.id.white);
 		yellowView = (TextView)findViewById(R.id.yellow);
@@ -71,6 +99,17 @@ public class MainActivity extends Activity implements OnClickListener{
 		greenView.setOnClickListener(this);
 		blueView.setOnClickListener(this);
 		easterEgg.setOnClickListener(this);
+		
+		seekBar = (SeekBar)findViewById(R.id.seek_bar);
+	}
+	
+	private void changeColor(int p) {
+		int progress = p*5;
+		redView.setBackgroundColor(red+progress);
+		whiteView.setBackgroundColor(white);
+		yellowView.setBackgroundColor(yellow+progress);
+		greenView.setBackgroundColor(green+progress);
+		blueView.setBackgroundColor(blue+progress);
 	}
 
 }
