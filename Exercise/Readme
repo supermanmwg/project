@@ -1,0 +1,9 @@
+2015-3-21
+View view = getLayoutInflater().inflate(R.layout.main.null);
+
+in Override 
+public onClick(View view) method,you should first implements the OnClickListener interface.
+for example:
+if you want button1 set on click;
+you should use:
+	button1.setOnClickListener(this);
