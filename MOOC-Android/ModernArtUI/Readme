@@ -11,3 +11,6 @@ include a easter egg ,but not finished.
   If you pass 0xFFFFFF ,the color is disappeared and become transparent.
   But the color also can be Color.parseColor("#fffff").it is right to describe 
   color using string "#XXXXXX".the string is 6 Bytes.
+ 
+ 2015-3-23
+ set and easter egg with count down animation.
