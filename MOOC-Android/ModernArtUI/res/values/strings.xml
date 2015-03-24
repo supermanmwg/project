@@ -3,5 +3,8 @@
     <string name="app_name">ModernArtUI</string>
     <string name="more_information">more information</string>
     <string name="easter_egg">Easter Egg</string>
-
+    <string name="more_info_tips">"Inspired by the works of artists such as Piet Mondrian and Ben Nicholson.\n\nClick below to learn more!"</string>
+	<string name="visit_moma">"Visit MOMA"</string>
+	<string name="not_visit">"Not Now"</string>
+	<string name="web_address">"http://www.moma.org/"</string>
 </resources>

@@ -6,56 +6,46 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 public class MainActivity extends Activity implements OnClickListener {
-
-	private TextView redView;
-	private TextView greenView;
-	private TextView whiteView;
-	private TextView blueView;
-	private TextView yellowView;
-	private TextView easterEgg;
+	
+	//home color rectangle 
+	private ImageView redView;
+	private ImageView greenView;
+	private ImageView whiteView;
+	private ImageView blueView;
+	private ImageView yellowView;
 	private SeekBar seekBar;
 
-	private int red = 0xFFCC0000;
-	private int white = 0xFFFFFFFF;
-	private int blue = 0xFF0000FF;
-	private int green = 0xFF99CC00;
-	private int yellow = 0xFF3E2723;
-	
-	//Dialog
+	// Dialog
 	private DialogFragment mDialog;
-	
-	//visit webView
-	private static WebView webView;
-	
-	//easter egg animation
-	private AnimationDrawable mAnim=null;
+
+	// easter egg animation
+	private TextView easterEgg;
+	private AnimationDrawable mAnim = null;
 	private ImageView imageView;
+
 	@Override
 	protected void onCreate(Bundle savedState) {
 		super.onCreate(savedState);
 		setContentView(R.layout.main);
 
 		initTextView();
+		
+		//set on seekbar listener to change rectangle color except white rect.
 		seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
 			@Override
@@ -66,14 +56,13 @@ public class MainActivity extends Activity implements OnClickListener {
 
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
-
+				
 			}
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-
+				
 			}
-
 		});
 
 	}
@@ -110,40 +99,21 @@ public class MainActivity extends Activity implements OnClickListener {
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			return new AlertDialog.Builder(getActivity())
-					.setMessage(
-							"Inspired by the works of artists such as Piet Mondrian and Ben Nicholson.\n\nClick below to learn more!")
+					.setMessage(R.string.more_info_tips)
 					.setCancelable(false)
-					.setPositiveButton("Visit MOMA", 
+					.setPositiveButton(R.string.visit_moma,
 							new DialogInterface.OnClickListener() {
-						
 								@SuppressLint("SetJavaScriptEnabled")
 								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									webView =(WebView) getActivity().getLayoutInflater().inflate(R.layout.webview, null);
-									getActivity().setContentView(webView);	
-									webView.setWebViewClient(new HelloWebViewClient());	
-									webView.getSettings().setJavaScriptEnabled(true);
-									webView.loadUrl("www.moma.org/");
-															
+								public void onClick(DialogInterface dialog,int which) {
+									Intent intent = new Intent(getActivity(),WebActivity.class);
+									startActivity(intent);
 								}
-								
-								class HelloWebViewClient extends WebViewClient {
-									private static final String TAG = "HelloWebViewClient";;
-
-									// Give application a chance to catch additional URL loading requests
-									@Override
-									public boolean shouldOverrideUrlLoading(WebView view, String url) {
-										Log.i(TAG, "About to load:" + url);
-										view.loadUrl(url);
-										return true;
-									}
-								}
-							})
-					.setNegativeButton("Not Now", null)
-					.create();
+							}).setNegativeButton(R.string.not_visit, null).create();
 		}
 	}
 	
+	//click event process
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -159,14 +129,6 @@ public class MainActivity extends Activity implements OnClickListener {
 			yellowView.setVisibility(View.INVISIBLE);
 			checkVisible();
 			break;
-		case R.id.easter_egg:
-			setContentView(R.layout.nephew);
-			imageView = (ImageView)findViewById(R.id.my_nephew);
-			imageView.setBackgroundResource(R.drawable.view_animation);
-			mAnim = (AnimationDrawable) imageView.getBackground();
-			mAnim.start();
-
-			break;
 		case R.id.green:
 			greenView.setVisibility(View.INVISIBLE);
 			checkVisible();
@@ -175,43 +137,39 @@ public class MainActivity extends Activity implements OnClickListener {
 			blueView.setVisibility(View.INVISIBLE);
 			checkVisible();
 			break;
-
+		case R.id.easter_egg:
+			setContentView(R.layout.nephew);
+			imageView = (ImageView) findViewById(R.id.my_nephew);
+			imageView.setBackgroundResource(R.drawable.view_animation);
+			mAnim = (AnimationDrawable) imageView.getBackground();
+			mAnim.start();
+			break;
 		default:
 			break;
 		}
 	}
-	
-	//Check all the image views are invisible or not
-	private void checkVisible() {
-		int visible = View.INVISIBLE;
-		visible &= redView.getVisibility();
-		visible &= blueView.getVisibility();
-		visible &= greenView.getVisibility();
-		visible &= whiteView.getVisibility();
-		visible &= yellowView.getVisibility();
-		
-		if(visible == View.INVISIBLE) {
-			//Toast.makeText(getApplicationContext(), "all image view disappear", Toast.LENGTH_SHORT).show();
-			setContentView(R.layout.easter_egg);
-			easterEgg = (TextView) findViewById(R.id.easter_egg);
-			easterEgg.setOnClickListener(this);
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if(mAnim !=null && !mAnim.isRunning()) {
+			mAnim.start();
 		}
-	}
+	};
 	@Override
 	protected void onPause() {
- 		super.onPause();
-		if (mAnim!=null&&mAnim.isRunning()) {
+		super.onPause();
+		if (mAnim != null && mAnim.isRunning()) {
 			mAnim.stop();
 		}
 	}
 
-
 	private void initTextView() {
-		redView = (TextView) findViewById(R.id.red);
-		whiteView = (TextView) findViewById(R.id.white);
-		yellowView = (TextView) findViewById(R.id.yellow);
-		greenView = (TextView) findViewById(R.id.green);
-		blueView = (TextView) findViewById(R.id.blue);
+		redView = (ImageView) findViewById(R.id.red);
+		whiteView = (ImageView) findViewById(R.id.white);
+		yellowView = (ImageView) findViewById(R.id.yellow);
+		greenView = (ImageView) findViewById(R.id.green);
+		blueView = (ImageView) findViewById(R.id.blue);
 
 		redView.setOnClickListener(this);
 		whiteView.setOnClickListener(this);
@@ -224,11 +182,28 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private void changeColor(int p) {
 		int progress = p * 5;
-		redView.setBackgroundColor(red + progress);
-		whiteView.setBackgroundColor(white);
-		yellowView.setBackgroundColor(yellow + progress);
-		greenView.setBackgroundColor(green + progress);
-		blueView.setBackgroundColor(blue + progress);
+		redView.setBackgroundColor(Color.red + progress);
+		whiteView.setBackgroundColor(Color.white);
+		yellowView.setBackgroundColor(Color.yellow + progress);
+		greenView.setBackgroundColor(Color.green + progress);
+		blueView.setBackgroundColor(Color.blue + progress);
 	}
+	
+	// Check all the image views are invisible or not
+	private void checkVisible() {
+		int visible = View.INVISIBLE;
+		visible &= redView.getVisibility();
+		visible &= blueView.getVisibility();
+		visible &= greenView.getVisibility();
+		visible &= whiteView.getVisibility();
+		visible &= yellowView.getVisibility();
 
+		if (visible == View.INVISIBLE) {
+			// Toast.makeText(getApplicationContext(),
+			// "all image view disappear", Toast.LENGTH_SHORT).show();
+			setContentView(R.layout.easter_egg);
+			easterEgg = (TextView) findViewById(R.id.easter_egg);
+			easterEgg.setOnClickListener(this);
+		}
+	}
 }

@@ -26,10 +26,11 @@ public final class R {
         public static final int blue=0x7f070005;
         public static final int easter_egg=0x7f070000;
         public static final int green=0x7f070003;
-        public static final int more_information=0x7f070008;
+        public static final int more_information=0x7f070009;
         public static final int my_nephew=0x7f070007;
         public static final int red=0x7f070001;
         public static final int seek_bar=0x7f070006;
+        public static final int web_view=0x7f070008;
         public static final int white=0x7f070004;
         public static final int yellow=0x7f070002;
     }
@@ -45,7 +46,11 @@ public final class R {
     public static final class string {
         public static final int app_name=0x7f040000;
         public static final int easter_egg=0x7f040002;
+        public static final int more_info_tips=0x7f040003;
         public static final int more_information=0x7f040001;
+        public static final int not_visit=0x7f040005;
+        public static final int visit_moma=0x7f040004;
+        public static final int web_address=0x7f040006;
     }
     public static final class style {
         /** 

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">现代艺术设计</string>
+    <string name="more_information">更多信息</string>
+    <string name="easter_egg">彩蛋</string>
+    <string name="more_info_tips">"如果被艺术家的作品所吸引。\n\n请点击下面去了解\n更多内容!"</string>
+	<string name="visit_moma">"访问 MOMA"</string>
+	<string name="not_visit">"不访问"</string>
+	<string name="web_address">"http://www.moma.org/"</string>
+</resources>

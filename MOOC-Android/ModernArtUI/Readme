@@ -27,6 +27,11 @@ problem:
 	<ImageView /> or other view set in *.xml,
 	must set layout_width and layout_height
 
+2015-3-24
+1 Version alpha-2 is updated.
+2 Add WebActivity class and Color class.
+3 Add detect the animation is paused or not in onResume() method,and if it is,The animation would start from the beginning when return back.
+4 Add Chinease locale support 
 
 
 

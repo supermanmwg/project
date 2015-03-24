@@ -1,8 +1,6 @@
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:oneshot="true" >
-   
-
-
+    
     <item 
         android:drawable="@drawable/p8"
         android:duration="1600" />
@@ -25,6 +23,4 @@
         android:drawable="@drawable/haha"
         android:duration="1000" />
                 
-
-
 </animation-list>
