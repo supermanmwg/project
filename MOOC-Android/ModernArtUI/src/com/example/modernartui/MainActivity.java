@@ -32,7 +32,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private TextView whiteView;
 	private TextView blueView;
 	private TextView yellowView;
-	private ImageView easterEgg;
+	private TextView easterEgg;
 	private SeekBar seekBar;
 
 	private int red = 0xFFCC0000;
@@ -149,18 +149,17 @@ public class MainActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.red:
 			redView.setVisibility(View.INVISIBLE);
+			checkVisible();
 			break;
 		case R.id.white:
 			whiteView.setVisibility(View.INVISIBLE);
+			checkVisible();
 			break;
 		case R.id.yellow:
 			yellowView.setVisibility(View.INVISIBLE);
-			easterEgg.setBackgroundResource(R.drawable.haha_part);
+			checkVisible();
 			break;
 		case R.id.easter_egg:
-			yellowView.setVisibility(View.INVISIBLE);
-			easterEgg.setBackgroundResource(R.drawable.haha_part);
-			// toastCustom();
 			setContentView(R.layout.nephew);
 			imageView = (ImageView)findViewById(R.id.my_nephew);
 			imageView.setBackgroundResource(R.drawable.view_animation);
@@ -170,9 +169,11 @@ public class MainActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.green:
 			greenView.setVisibility(View.INVISIBLE);
+			checkVisible();
 			break;
 		case R.id.blue:
 			blueView.setVisibility(View.INVISIBLE);
+			checkVisible();
 			break;
 
 		default:
@@ -180,6 +181,22 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 	}
 	
+	//Check all the image views are invisible or not
+	private void checkVisible() {
+		int visible = View.INVISIBLE;
+		visible &= redView.getVisibility();
+		visible &= blueView.getVisibility();
+		visible &= greenView.getVisibility();
+		visible &= whiteView.getVisibility();
+		visible &= yellowView.getVisibility();
+		
+		if(visible == View.INVISIBLE) {
+			//Toast.makeText(getApplicationContext(), "all image view disappear", Toast.LENGTH_SHORT).show();
+			setContentView(R.layout.easter_egg);
+			easterEgg = (TextView) findViewById(R.id.easter_egg);
+			easterEgg.setOnClickListener(this);
+		}
+	}
 	@Override
 	protected void onPause() {
  		super.onPause();
@@ -195,13 +212,12 @@ public class MainActivity extends Activity implements OnClickListener {
 		yellowView = (TextView) findViewById(R.id.yellow);
 		greenView = (TextView) findViewById(R.id.green);
 		blueView = (TextView) findViewById(R.id.blue);
-		easterEgg = (ImageView) findViewById(R.id.easter_egg);
+
 		redView.setOnClickListener(this);
 		whiteView.setOnClickListener(this);
 		yellowView.setOnClickListener(this);
 		greenView.setOnClickListener(this);
 		blueView.setOnClickListener(this);
-		easterEgg.setOnClickListener(this);
 
 		seekBar = (SeekBar) findViewById(R.id.seek_bar);
 	}
@@ -215,24 +231,4 @@ public class MainActivity extends Activity implements OnClickListener {
 		blueView.setBackgroundColor(blue + progress);
 	}
 
-	private void toastCustom() {
-		Toast toast = new Toast(getApplicationContext());
-		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-		toast.setDuration(Toast.LENGTH_LONG);
-		View view = getLayoutInflater().inflate(R.layout.main, null);
-		redView = (TextView) view.findViewById(R.id.red);
-		whiteView = (TextView) view.findViewById(R.id.white);
-		yellowView = (TextView) view.findViewById(R.id.yellow);
-		greenView = (TextView) view.findViewById(R.id.green);
-		blueView = (TextView) view.findViewById(R.id.blue);
-		easterEgg = (ImageView) view.findViewById(R.id.easter_egg);
-		redView.setOnClickListener(this);
-		whiteView.setOnClickListener(this);
-		yellowView.setOnClickListener(this);
-		greenView.setOnClickListener(this);
-		blueView.setOnClickListener(this);
-		easterEgg.setOnClickListener(this);
-		toast.setView(view);
-		toast.show();
-	}
 }

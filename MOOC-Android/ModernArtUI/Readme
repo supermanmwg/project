@@ -12,5 +12,23 @@ include a easter egg ,but not finished.
   But the color also can be Color.parseColor("#fffff").it is right to describe 
   color using string "#XXXXXX".the string is 6 Bytes.
  
- 2015-3-23
+2015-3-23
  set and easter egg with count down animation.
+ add a actionBar named "more information",when you press the button,it will appear a AlertDialog ,negative button is not now, positive button is visit MOMA. when you press not now, back to .and when you press visit MOMA, go to the www.moma.org webview.
+Problem:
+	in the beginning ,it doesn't work to browser the Internet.
+	because I forgot to add :
+	<uses-permission android:name="android.permission.INTERNET" />
+
+2015-3-24
+the alpha version is finished.
+
+problem:
+	<ImageView /> or other view set in *.xml,
+	must set layout_width and layout_height
+
+
+
+
+
+

@@ -5,22 +5,22 @@
 
     <item 
         android:drawable="@drawable/p8"
-        android:duration="1000" />
+        android:duration="1600" />
     <item 
         android:drawable="@drawable/p7"
-        android:duration="1000" />
+        android:duration="1400" />
     <item 
         android:drawable="@drawable/p6"
-        android:duration="1000" />
+        android:duration="1200" />
     <item 
         android:drawable="@drawable/p5"
         android:duration="1000" />
     <item 
         android:drawable="@drawable/p4"
-        android:duration="1000" />
+        android:duration="800" />
     <item 
         android:drawable="@drawable/p3"
-        android:duration="1000" />
+        android:duration="600" />
     <item 
         android:drawable="@drawable/haha"
         android:duration="1000" />
