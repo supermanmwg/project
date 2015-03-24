@@ -1,0 +1,27 @@
+2015-3-24 15:11
+1 Override activity life cycle method
+	(1) onCreate();
+	(2) onStart();
+	(3) OnResume();
+	(4) onPause();
+	(5) onStop();
+	(6) onDestroy();
+	(7) onRestart();
+  NOTE: protected void onCreate(Bundle saved);
+	protected void onStart();
+	...
+
+2 Intent
+ (1) Hidden intent should add <actiton> & <category> tag in AndroidMainifest.xml
+ (2) startActivityForResult(Intent intent, int requestCode) && onActivityResult(int requestCode, int resultCode, Intent data)  is a couple of methods 
+     should use together. 
+ (3) When the activity is back to the original activity ,the setResult(int resultCode, Intent data) should be called.
+
+3 On Configuration Changed
+ (1) In AndroidManifest.xml <activity> tag ,we should add  android:configChanges="orientation|screensize" in cope with screen orientation.
+ (2) When configuration changes ,activity's  onConfigurationChanged(Configuration newConfig) is called.
+  NOTE:In cope with screen orientation ,we should add both orientation|screensize. If not, it will doesn't work.
+  Problem:
+	ActivityInfo.SCREEN_ORIENTATION_PORTRAIT is used when screen is changed to portrait.
+	ActivityInfo.SCREEN_ORIENTATION_USER is used when screen is changed to landscape.
+	why?

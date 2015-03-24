@@ -1,0 +1,9 @@
+<resources>
+
+    <string name="app_name">ActivityTest</string>
+
+    <string name="second_activity">Go to Second Activity</string>
+    <string name="vertical_text">"haha, I'm vertical!"</string>
+    <string name="land_text">"haha,I'm land!"</string>
+
+</resources>
