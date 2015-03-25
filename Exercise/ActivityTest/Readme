@@ -25,3 +25,7 @@
 	ActivityInfo.SCREEN_ORIENTATION_PORTRAIT is used when screen is changed to portrait.
 	ActivityInfo.SCREEN_ORIENTATION_USER is used when screen is changed to landscape.
 	why?
+
+2015-3-25
+1 Add permission
+  <permission android:name="com.example.activitytest.BOOM"></permission> 
