@@ -1,0 +1,17 @@
+<resources>
+
+    <string name="app_name">FragmentTest</string>
+    <string name="change_to_quote">Change</string>
+    <string-array name="title_string">
+        <item>android</item>
+        <item>apple</item>
+        <item>linux</item>
+    </string-array>
+	
+    <string-array name="quote_string">
+	   <item >a open system</item>
+	   <item >a closed system</item>
+	   <item >open source model</item>
+    </string-array>
+    
+</resources>
