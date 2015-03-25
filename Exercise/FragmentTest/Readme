@@ -1,0 +1,55 @@
+2015-3-25
+1 Fragment 
+ * onAttach() : Fragment is first to attached to its activity
+ * onCreate() : Initialize the fragment ,not set up the UI(the difference between Activity.onCreate())
+ * onCreateView() : Fragment set up and return its UI
+ * onActivityCreate() : Containing activity has completed onCreate and the fragment has been installed
+ * onStart() onResume() onPause() onStop concurrency with activity (after activity method)
+ * onDestroyView() : View previously created by onCreateView() has been detached from activity
+ * onDestroy() : Fragment is no longer in use.
+ * onDetach() : Fragment no longer attached to its acitivity
+
+2 Activity and fragment life cycle
+ (1) MainActivity onCreate()
+ (2) Fragment onAttach()
+ (3) Fragment onCreate()
+ (4) Fragment onCreateView()
+ (5) Fragment onActivityCreated()
+ (6) MainActivity onStart()
+ (7) Fragment onStart()
+ (8) MainActivity onResume()
+ (9) Fragment onResume()
+ (10) Fragment onPause()
+ (11) MainActivity onPause()
+ (12) Fragment onStop()
+ (13) MainActivity onStop()
+ (14) Fragment onDestroyView()
+ (15) Fragment onDestroy()
+ (16) MainActivity onDestroy()
+
+ 3 in Chinese
+  (1) 只要fragment创建完成，fragment所属的Activity都可以直接使用fragment里面的component，
+      在activity中使用时，可以在onStart()中使用，因为根据2中的life cycle可知，fragment已经初始化完毕，
+      在onCreate()中经测试不能使用，不然会报NullPointerException错误
+  (2) 动态添加fragment时，用fragment.isAdded()来判断fragment是否已经创建，如果没有创建，则动态添加
+
+ 4 Adding fragment dynamically
+  (1) Get reference to the FragmentManager
+  (2) Begin a FragmentTransaction
+  (3) Add the Fragment
+  (4) Commit the FragmentTransaction
+  For example:
+  	mFragmentManager = getFragmentManager();
+	FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+	mFragmentTransaction.add(R.id.title, mTitleFragment);	
+	mFragmentTransaction.commit();
+   NOTE:* Between (3) and (4) ,you should add addToBackStack() method,because fragment changes are not tracked by the backstack.
+   	*After (4),you should add executePendingTransaction() to force the transaction to be executed immediately because commit() method is sheduled work.
+	For example:
+		FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+		mFragmentTransaction.add(R.id.quote,mQuoteFragment);
+		mFragmentTransaction.addToBackStack(null);
+		mFragmentTransaction.commit();
+		mFragmentManager.executePendingTransactions();
+5 onCreateView
+  return inflater.inflate(R.layout.*, container, false) ,the third parameter should be false ,or the container is null and the third parameter is true.
