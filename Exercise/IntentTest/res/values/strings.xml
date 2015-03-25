@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="app_name">IntentTest</string>
+	<string name="press">Go to Second Activity</string>
+	<string name="telephone_num">"tel:+15963708142"</string>
+    
+</resources>
