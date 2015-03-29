@@ -87,6 +87,25 @@ public class MainActivity extends Activity implements OnClickListener{
 		}
 	}
 
+	@Override
+	public void onClick(View v) {
+
+		switch (v.getId()) {
+		case R.id.change_quote:
+			if(!mQuoteFragment.isAdded()) {
+				FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+				mFragmentTransaction.add(R.id.quote,mQuoteFragment);
+				mFragmentTransaction.addToBackStack(null);
+				mFragmentTransaction.commit();
+				mFragmentManager.executePendingTransactions();
+			}
+			mQuoteFragment.changeText();
+			break;
+
+		default:
+			break;
+		}
+	}
 	
 	@Override
 	protected void onStart() {
@@ -126,23 +145,4 @@ public class MainActivity extends Activity implements OnClickListener{
 		super.onDestroy();
 	}
 
-	@Override
-	public void onClick(View v) {
-
-		switch (v.getId()) {
-		case R.id.change_quote:
-			if(!mQuoteFragment.isAdded()) {
-				FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-				mFragmentTransaction.add(R.id.quote,mQuoteFragment);
-				mFragmentTransaction.addToBackStack(null);
-				mFragmentTransaction.commit();
-				mFragmentManager.executePendingTransactions();
-			}
-			mQuoteFragment.changeText();
-			break;
-
-		default:
-			break;
-		}
-	}
 }
