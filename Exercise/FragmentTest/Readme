@@ -25,13 +25,14 @@
  (13) MainActivity onStop()
  (14) Fragment onDestroyView()
  (15) Fragment onDestroy()
- (16) MainActivity onDestroy()
+ (16) Fragment onDetach()
+ (17) MainActivity onDestroy()
 
  3 in Chinese
-  (1) Ö»Òªfragment´´½¨Íê³É£¬fragmentËùÊôµÄActivity¶¼¿ÉÒÔÖ±½ÓÊ¹ÓÃfragmentÀïÃæµÄcomponent£¬
-      ÔÚactivityÖĞÊ¹ÓÃÊ±£¬¿ÉÒÔÔÚonStart()ÖĞÊ¹ÓÃ£¬ÒòÎª¸ù¾İ2ÖĞµÄlife cycle¿ÉÖª£¬fragmentÒÑ¾­³õÊ¼»¯Íê±Ï£¬
-      ÔÚonCreate()ÖĞ¾­²âÊÔ²»ÄÜÊ¹ÓÃ£¬²»È»»á±¨NullPointerException´íÎó
-  (2) ¶¯Ì¬Ìí¼ÓfragmentÊ±£¬ÓÃfragment.isAdded()À´ÅĞ¶ÏfragmentÊÇ·ñÒÑ¾­´´½¨£¬Èç¹ûÃ»ÓĞ´´½¨£¬Ôò¶¯Ì¬Ìí¼Ó
+  (1) åªè¦fragmentåˆ›å»ºå®Œæˆï¼Œfragmentæ‰€å±çš„Activityéƒ½å¯ä»¥ç›´æ¥ä½¿ç”¨fragmenté‡Œé¢çš„componentï¼Œ
+      åœ¨activityä¸­ä½¿ç”¨æ—¶ï¼Œå¯ä»¥åœ¨onStart()ä¸­ä½¿ç”¨ï¼Œå› ä¸ºæ ¹æ®2ä¸­çš„life cycleå¯çŸ¥ï¼Œfragmentå·²ç»åˆå§‹åŒ–å®Œæ¯•ï¼Œ
+      åœ¨onCreate()ä¸­ç»æµ‹è¯•ä¸èƒ½ä½¿ç”¨ï¼Œä¸ç„¶ä¼šæŠ¥NullPointerExceptioné”™è¯¯
+  (2) åŠ¨æ€æ·»åŠ fragmentæ—¶ï¼Œç”¨fragment.isAdded()æ¥åˆ¤æ–­fragmentæ˜¯å¦å·²ç»åˆ›å»ºï¼Œå¦‚æœæ²¡æœ‰åˆ›å»ºï¼Œåˆ™åŠ¨æ€æ·»åŠ 
 
  4 Adding fragment dynamically
   (1) Get reference to the FragmentManager
