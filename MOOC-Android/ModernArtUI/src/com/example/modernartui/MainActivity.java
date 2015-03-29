@@ -191,7 +191,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	// Check all the image views are invisible or not
 	private void checkVisible() {
-		int visible = View.INVISIBLE;
+		int visible = View.INVISIBLE;     // VISIBLE:0   INVISIBLE:4     GONE:8
 		visible &= redView.getVisibility();
 		visible &= blueView.getVisibility();
 		visible &= greenView.getVisibility();
