@@ -23,23 +23,20 @@ public class ImageFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		imageId = getArguments().getInt(GridFragment.IMAGEID);
-		//barStar = getArguments().getFloat(GridFragment.RARTINGBARSTAR);
-		sign = getArguments().getInt(GridFragment.SIGN);
-		position = getArguments().getInt(GridFragment.POSITION);
+		
+		imageId = getArguments().getInt(MainActivity.IMAGEID);
+		position = getArguments().getInt(MainActivity.POSITION);
 		Log.i(TAG, "imageId" + imageId);
-	//	Log.i(TAG, "barStar" + barStar);
-		Log.i(TAG, "sign" + sign);
 		Log.i(TAG, "position" + position);
-		
-		
 	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.imagefragment, container, false);
 		imageView = (ImageView)layout.findViewById(R.id.image_view);
 		ratingBar = (RatingBar)layout.findViewById(R.id.rate_bar);
+		ratingBar.setRating(MainActivity.muPicRate[position]);
 		return layout;
 	}
 	
@@ -47,17 +44,14 @@ public class ImageFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		imageView.setImageResource(imageId);
-		//ratingBar.setRating(barStar);
+
 		ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 			
 			@Override
 			public void onRatingChanged(RatingBar ratingBar, float rating,
 					boolean fromUser) {
-			/*	if(0 == sign) {
+
 					MainActivity.muPicRate[position] = rating;
-				} else {
-					MainActivity.msPicRate[position] = rating;
-				}*/
 			}
 		});
 	}

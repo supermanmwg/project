@@ -3,17 +3,34 @@ package com.example.momphoto;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.example.momphoto.GridFragment.GridListener;
+
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentManager.OnBackStackChangedListener;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements GridListener {
 
+	private final String TAG = "MainActivity";
+	
 	private static final String SELECTED_STRING = "被选图片";
 	private static final String UNSELECTED_STRING = "已选图片";
 	protected static final String SELECTED_SIGN ="选择标记";
 	protected static final String PIC_ID = "Mother ID";
 	protected static final String PIC_RATE = "Mother Rate";
+	
+	protected final static String IMAGEID = "image_id";
+	protected final static String RARTINGBARSTAR = "ratingbarstar"; 
+	protected final static String SIGN = "sign"; 
+	protected final static String POSITION = "position"; 
 
 	protected static ArrayList<Integer> muPicId = new ArrayList<Integer>(Arrays.asList(
 			R.drawable.p1, R.drawable.p2, R.drawable.p3, R.drawable.p4,
@@ -23,41 +40,67 @@ public class MainActivity extends Activity {
 			R.drawable.p17, R.drawable.p18, R.drawable.p19, R.drawable.p20,
 			R.drawable.p21, R.drawable.p22, R.drawable.p23*/));
 	protected static float[] muPicRate = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
-	protected static ArrayList<Integer> msPicId = new ArrayList<Integer>(Arrays.asList(R.drawable.p1));
-	protected static float[] msPicRate = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
+	
+	private GridFragment selectedPicFrag;
+	private ImageFragment imageFragment;
+	
+	private LinearLayout layout1;
+	private LinearLayout layout2;
+	private static final int MATCH_PARENT = LinearLayout.LayoutParams.MATCH_PARENT;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
-		final ActionBar tabBar = getActionBar();
-		tabBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-		GridFragment selectedPicFrag = new GridFragment();
-
+		
+		layout1 = (LinearLayout) findViewById(R.id.fragment_container);
+		layout2 = (LinearLayout) findViewById(R.id.fragment_container_2);
+		selectedPicFrag = new GridFragment();
+		
 		//extend to get mPicID & mPicRate from file or database
 		Bundle args = new Bundle();
 		args.putIntegerArrayList(PIC_ID, muPicId);
-		//args.putFloatArray(PIC_RATE, muPicRate);
-		args.putInt(SELECTED_SIGN, 1);
 		selectedPicFrag.setArguments(args);
+		FragmentManager fragmentManager = getFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		fragmentTransaction.add(R.id.fragment_container, selectedPicFrag);
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
+		fragmentManager.executePendingTransactions();
+		fragmentManager.addOnBackStackChangedListener(new OnBackStackChangedListener() {
+			
+			@Override
+			public void onBackStackChanged() {
+				setLayout();
+			}
 
-		tabBar.addTab(tabBar.newTab().setText(SELECTED_STRING)
-				.setTabListener(new TabActionListener(selectedPicFrag)));
+
+		});
+	}
+	private void setLayout() {
+		if(imageFragment.isAdded()) {
+			layout2.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+			layout1.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, 0));
+		} else {
+			layout1.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+			layout2.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, 0));
+		}
+	}
+	
+	@Override
+	public void onGridListener(int id, int pos) {
+		// TODO Auto-generated method stub
+		Bundle args = new Bundle();
+		args.putInt(POSITION, pos);
+		args.putInt(IMAGEID,  id);
 		
-
-		GridFragment unselectedPicFrag = new GridFragment();
-
-		//extend to get mPicID & mPicRate from file or database
-		args = new Bundle();
-		args.putIntegerArrayList(PIC_ID, msPicId);
-		//args.putFloatArray(PIC_RATE, msPicRate);
-		args.putInt(SELECTED_SIGN, 0);
-		unselectedPicFrag.setArguments(args);
-
-		tabBar.addTab(tabBar.newTab().setText(UNSELECTED_STRING)
-				.setTabListener(new TabActionListener(unselectedPicFrag)));	
+		Log.i(TAG,"position = " + pos + " imageId = " + id);
+		imageFragment = new ImageFragment();
+		imageFragment.setArguments(args);
+		FragmentManager fragmentManager = getFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		fragmentTransaction.add(R.id.fragment_container_2, imageFragment);
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
+		fragmentManager.executePendingTransactions();
 	}
 }

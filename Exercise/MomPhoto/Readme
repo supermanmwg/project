@@ -7,3 +7,11 @@ Probleam:
   Reference:
   http://developer.android.com/training/displaying-bitmaps/index.html
 2 How to communicate with each in Fragments. how to add a fragment in the other fragment.
+
+2015-3-29
+version alpha 0.2
+the album of my deat mother
+
+1 delete the TabAction.It is not useful.
+2 Through interface listener , gridFragment , MainActivity , imageFragment can communicate with each other.
+  Through this, I learn a lot of inferface.

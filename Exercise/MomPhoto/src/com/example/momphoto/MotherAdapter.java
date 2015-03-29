@@ -30,10 +30,8 @@ public class MotherAdapter extends BaseAdapter {
 	
 	private static ImageView imageView;
 	
-	public MotherAdapter(Context c, ArrayList<Integer> ids,float[] rates, int sign) {
+	public MotherAdapter(Context c, ArrayList<Integer> ids) {
 		this.mPicId = ids;
-		this.mPicRate = rates;
-		this.sign = sign;
 		this.mContext = c;
 	}
 	@Override
@@ -68,18 +66,7 @@ public class MotherAdapter extends BaseAdapter {
 		}
 		
 		imageView.setImageResource(mPicId.get(position));
-		/*
-		Bitmap bitmap = ((BitmapDrawable) mContext.getResources().getDrawable(mPicId.get(position))).getBitmap();
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.JPEG, 10, out);
-		Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
-		imageView.setImageBitmap(decoded);
-        if (bitmap != null && !bitmap.isRecycled())
-        bitmap.recycle();
-        */
 
-	//	bitmap.recycle();
-	//	decoded.recycle();
 		return imageView;
 	}
 
