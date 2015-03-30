@@ -1,5 +1,7 @@
 package com.example.fragmenttest;
 
+import com.example.fragmenttest.TitleFragment.TitleListener;
+
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -12,7 +14,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-public class MainActivity extends Activity implements OnClickListener{
+public class MainActivity extends Activity implements TitleListener{
 	
 	private final static String TAG = "MainActivity";
 	private static final int MATCH_PARENT = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -86,32 +88,22 @@ public class MainActivity extends Activity implements OnClickListener{
 					MATCH_PARENT, 2f));
 		}
 	}
-
+	
 	@Override
-	public void onClick(View v) {
-
-		switch (v.getId()) {
-		case R.id.change_quote:
-			if(!mQuoteFragment.isAdded()) {
-				FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-				mFragmentTransaction.add(R.id.quote,mQuoteFragment);
-				mFragmentTransaction.addToBackStack(null);
-				mFragmentTransaction.commit();
-				mFragmentManager.executePendingTransactions();
-			}
-			mQuoteFragment.changeText();
-			break;
-
-		default:
-			break;
+	public void titleOnListener() {
+		if(!mQuoteFragment.isAdded()) {
+			FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+			mFragmentTransaction.add(R.id.quote,mQuoteFragment);
+			mFragmentTransaction.addToBackStack(null);
+			mFragmentTransaction.commit();
+			mFragmentManager.executePendingTransactions();
 		}
+		mQuoteFragment.changeText();
 	}
 	
 	@Override
 	protected void onStart() {
 		Log.i(TAG,getClass().getSimpleName()+" onStart()");
-		changeButton =(Button)findViewById(R.id.change_quote);
-		changeButton.setOnClickListener(this);
 		super.onStart();
 	}
 	
@@ -144,5 +136,7 @@ public class MainActivity extends Activity implements OnClickListener{
 		Log.i(TAG,getClass().getSimpleName()+" onDestroy()");
 		super.onDestroy();
 	}
+
+
 
 }

@@ -13,16 +13,23 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class TitleFragment extends Fragment {
+public class TitleFragment extends Fragment implements OnClickListener {
 	
 	private static final String TAG="MainActivity";
 	
 	private TextView title_text = null;
 	private Button changeButton = null;
 	
+	private TitleListener mTitleListener = null;
+	
+	public interface TitleListener {
+		public void titleOnListener();
+	}
+	
 	@Override
 	public void onAttach(Activity activity) {
 		Log.i(TAG,getClass().getSimpleName()+" onAttach()");
+		mTitleListener = (TitleListener) activity;
 		super.onAttach(activity);
 	}
 	@Override
@@ -47,7 +54,22 @@ public class TitleFragment extends Fragment {
 		title_text = (TextView)getActivity().findViewById(R.id.title_text);
 		title_text.setText("haha");
 		
+		changeButton = (Button)getActivity().findViewById(R.id.change_quote);
+		changeButton.setOnClickListener(this);
+		
 	}
+	
+	@Override
+	public void onClick(View v) {
+		switch(v.getId()) {
+		case R.id.change_quote:
+			mTitleListener.titleOnListener();
+			break;
+		default:
+			break;
+		}
+	}
+	
 	@Override
 	public void onStart() {
 		Log.i(TAG,getClass().getSimpleName()+" onStart()");
@@ -89,4 +111,5 @@ public class TitleFragment extends Fragment {
 		Log.i(TAG,getClass().getSimpleName()+" onDetach()");
 		super.onDetach();
 	}
+
 }

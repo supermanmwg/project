@@ -54,3 +54,7 @@
 		mFragmentManager.executePendingTransactions();
 5 onCreateView
   return inflater.inflate(R.layout.*, container, false) ,the third parameter should be false ,or the container is null and the third parameter is true.
+
+2015-3-30
+1 Delete the changebutton of the fragment in MainActivity, realize the fragment seperate from activity by interface.
+ Realize TitleListener interface.
