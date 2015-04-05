@@ -1,0 +1,4 @@
+2015-4-5
+1 Using two methods to implemnet the multi-thread.
+ (1) AysnckTask
+ (2) Handler
