@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="app_name">BroadcastTest</string>
+    <string name="broadcast_button_string">BroadCast</string>
+    <string name="dynamic_broadcast_button_string">dynamic broadcast button</string>
+
+</resources>
