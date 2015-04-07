@@ -1,0 +1,12 @@
+
+	2015-4-7
+	workflow to implement an alarm
+	 (1) create an AlarmManger;
+	    mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+	 (2) create an PendingIntent
+	    * PendingIntent.getActivity();
+	    * PendingIntent.getBroadcast();
+	    * PendingIntent.getService();
+	 (3) set the alarm
+	    mAlarmManger.set();
+	   
