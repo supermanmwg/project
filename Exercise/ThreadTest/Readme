@@ -2,3 +2,20 @@
 1 Using two methods to implemnet the multi-thread.
  (1) AysnckTask
  (2) Handler
+
+2015-4-8
+class AsyncTask<Params, Progress, Result> {
+}
+ Params: Type used in background work
+ Progress: Type used when indicating progress
+ Result: Type of result
+
+ workflow
+  (1) void onPreExecute()  (In UI thread)
+      Runs in UI thread before doInBackground();
+  (2) Result doInBackground(Params... params) (Not in UI thread)
+      Performs work in background thread ,may call void publishProgress(Progress... values);
+  (3) void onProgressUpdate(Progress... values) (In UI thread)
+      Invoke in response to publishProgress();
+  (4) void onPostExecute(Result result)   (In UI thread)
+      run after doInBackground().
