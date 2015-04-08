@@ -1,0 +1,11 @@
+2015-4-8
+HealthAlam
+ objective :  To help  elder people to control themselves in playing games.
+ 				when I start the app ,an 20 minutes alarm is created. when the alarm is active.
+ 				a music will plays until the elder people shake the phone off.
+ 				It will alarm elder people to have a rest when they play game 20 minutes long.
+ Process: (1) First we create MainActivity , and create an alarm in it. when the alarm is active ,it will active SecondActivity.
+ 		  (2) Second we create SecondActivity, it will play an music until elder people shake it off.
+ 		      when the elder people shake the phone off,it will turn to MainActivity.
+ 
+Current condition: this app doesn't add music.  This is a basic version. There are more function to be added in the future.
