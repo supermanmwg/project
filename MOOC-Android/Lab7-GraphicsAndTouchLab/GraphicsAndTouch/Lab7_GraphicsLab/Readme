@@ -1,0 +1,15 @@
+2015-4-15
+
+the view's coordinate 
+ the view is left down in positon. like below:
+        ———————————
+       |           |
+       |           |
+       |  (cx,cy)  |
+       |           |  
+       |___________|
+   （x,y）
+   cx = x + mxRadius;
+   cy = y + myRadius;
+   canvas.rotate((float)mRotate, cx, cy);
+   
