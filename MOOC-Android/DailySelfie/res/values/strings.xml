@@ -1,0 +1,5 @@
+<resources>
+
+    <string name="app_name">DailySelfie</string>
+	<string name="action_photo">Photo Button</string>
+</resources>
