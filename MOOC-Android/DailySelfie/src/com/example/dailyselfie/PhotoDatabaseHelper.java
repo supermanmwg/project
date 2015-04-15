@@ -10,8 +10,8 @@ import android.util.Log;
 public class PhotoDatabaseHelper extends SQLiteOpenHelper {
 
 	private static final String TAG = "PhotoDatabaseHelper";
-	private static final String CREATE_PHOTO = "Create table Category ("
-														+ "id integer primary key autoincrement"
+	private static final String CREATE_PHOTO = "Create table Photo ("
+														+ "id integer primary key autoincrement,"
 														+ "photo_name text)";
 	private Context mContext;
 	public PhotoDatabaseHelper(Context context, String name,

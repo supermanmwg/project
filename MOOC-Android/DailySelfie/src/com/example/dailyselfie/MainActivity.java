@@ -11,25 +11,46 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.ListActivity;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
 
 	private static final String TAG = "MainActivity";
+	private static final long INITIAL_ALARM_DELAY = 2 *1000* 1000L;
+	public static final String PHOTO_NAME = "photo_name";
+	private static final String PHOTO_TABLE = "Photo";
+	private static final int TAKE_PHOTO = 1;
+
+	// for alarm
 	private AlarmManager mAlarmManager;
 	private Intent mNotificationIntent;
 	private PendingIntent mNotificationReceivePendingIntent;
-	private static final long INITIAL_ALARM_DELAY = 2 * 1000L;
 
 	private List<Photo> photoList = new ArrayList<Photo>();
+	private PhotoAdapter adapter;
+
+	// for sql
+	private PhotoDatabaseHelper dbHelper;
+	
+	//for update new photo
+	private String mCurrentImageFileName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +60,25 @@ public class MainActivity extends Activity {
 
 		// for list
 		initPhoto();
-		PhotoAdapter adapter = new PhotoAdapter(getApplicationContext(),
+		adapter = new PhotoAdapter(getApplicationContext(),
 				R.layout.photo_item, photoList);
 		ListView mListView = (ListView) findViewById(R.id.list_view);
 		mListView.setAdapter(adapter);
-		
+		mListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Photo mPhoto = photoList.get(position);
+				Intent intent = new Intent(MainActivity.this, PhotoActivity.class);
+				intent.putExtra(PHOTO_NAME, mPhoto.getName());
+				startActivity(intent);
+			}
+		});
+
+		// initPhoto();
+		adapter.notifyDataSetChanged();
+
 		// for alarm
 		mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 		mNotificationIntent = new Intent(this, PhotoReceiver.class);
@@ -54,11 +89,32 @@ public class MainActivity extends Activity {
 
 	// Test
 	private void initPhoto() {
-		Photo haha = new Photo("haha");
-		photoList.add(haha);
-		photoList.add(haha);
+		dbHelper = new PhotoDatabaseHelper(this, "PhotoStore.db", null, 1, null);
+		photoList = queryPhoto();
+	}
+	
+	private void addPhotoToSql(Photo mPhoto) {
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(PHOTO_NAME,mPhoto.getName());
+		db.insert(PHOTO_TABLE, null, values);
 	}
 
+	private List<Photo> queryPhoto() {
+		List mPhotoList = new ArrayList<Photo>();
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		Cursor mCursor = db.query(PHOTO_TABLE,null, null, null, null, null, null);
+		if(mCursor.moveToFirst()) {
+			do {
+				String photo_name = mCursor.getString(mCursor.getColumnIndex(PHOTO_NAME));
+				Photo mPhoto = new Photo(photo_name);
+				mPhotoList.add(mPhoto);
+			}while (mCursor.moveToNext());
+		}
+		mCursor.close();
+		return mPhotoList;
+		
+	}
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -81,18 +137,29 @@ public class MainActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.photo_button:
 			Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-			File f = null;
-
+			mCurrentImageFileName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+			String mAbsoluteName = mCurrentImageFileName + ".jpg";
+			File f = new File(Environment.getExternalStorageDirectory(),mAbsoluteName);
 			try {
-
+				takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-			startActivityForResult(takePhotoIntent, 0);
+			startActivityForResult(takePhotoIntent, TAKE_PHOTO);
 			return true;
 
 		default:
 			return false;
+		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (RESULT_OK == resultCode && TAKE_PHOTO == requestCode) {
+			Photo mPhoto = new Photo(mCurrentImageFileName);
+			addPhotoToSql(mPhoto);
+			photoList.add(mPhoto);
+			adapter.notifyDataSetChanged();
 		}
 	}
 
