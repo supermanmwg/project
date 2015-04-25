@@ -1,0 +1,10 @@
+2015-4-25
+problems:
+(1)In Fragment ,how can I get the UI element directly
+   for example:
+   	ImageView mImageVie = (ImageView) getActivity.findViewById(R.id.image);
+
+(2)onActivityCreated(Bundle savedInstance)
+  the first line should be 
+  	super.onActivityCreated(Bundle savedInstance);
+  It shouldn't be ommited.
