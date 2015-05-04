@@ -1,0 +1,35 @@
+2015-5-4
+Create the framework and layout.
+
+//Bitmap static method
+ Bitmap.createBitmap(w, h, model); //return Bitmap; model:Bitmap.Config.ARGB_8888
+
+ //canvas sample
+ Canvas canvas = new Canvas(Bitmap mBitmap); //mBitmap is the dest bitmap
+ Paint paint = new Paint();
+ paint.set...
+ ...
+ canvas.drawBitmap(Bitmap bitmap, top , bottom, paint); //bitmap is the source bitmap
+
+
+ //Color matrix
+ ColorMatrix colorMatrix = new ColorMatrix();
+ /* hue */
+ colorMatrix.setRotate(0, hue); //red
+ colorMatrix.setRotate(1, hue); //green
+ colorMatrix.setRotate(2, hue); //blue
+
+/*saturation*/
+ colorMatrix.setSaturation()
+
+/*lum  RGBA*/
+colorMatrix.setScale(float rScale, float gScale, float bScale, float aScale)
+
+
+//concat the colorMatrix
+imageMatrix.postConcat(color1Matrix);
+imageMatrix.postConcat(color2Matrix);
+imageMatrix.postConcat(color3Matrix);
+
+//get Bitmap from drawable file
+mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.haha);
