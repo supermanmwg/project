@@ -1,5 +1,5 @@
 2015-5-5
-Strategy Pattern
+I. Strategy Pattern
 
 	Person
 	WalkBehavior walkBehavior---------------------> <<interface>> WalkBehavior {walk()}
@@ -29,6 +29,17 @@ Strategy Pattern
        Color    --------->BlackMan
        		--------->WhiteMan
 
-Principles
-Use more compositions!
-Use few inherits!
+II. Principles
+	Use more compositions!  (interface)
+	Use few inherits!  
+
+III. The differnce between abstract class and interface
+
+ 1 main difference :
+  abstract class is "is a"    // single
+  interface is "like a"  // many
+ 
+ 2 Others 
+  (1) abstract class may contains non-abstract data elements,but interface does not.
+      The interface only contains static final data elements
+  (2) abstract class may contains non-abstract method,but interface does not.
