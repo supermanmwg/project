@@ -1,0 +1,34 @@
+2015-5-5
+Strategy Pattern
+
+	Person
+	WalkBehavior walkBehavior---------------------> <<interface>> WalkBehavior {walk()}
+	TalkBehavior talkBehavior---------------------> <<interface>> TalkBehavior {talk()}
+     	Color color ----------------------------------> <<interface>> Color{getColor()}
+
+                                   
+                       ------------------>OldBlack
+                    --------------------->YoungBlack
+                ------------------------->OldWhite
+        Person -------------------------->YoundWhite
+		------------------------->OldYellow
+		    --------------------->YoungYellow
+
+
+                     --------->Fast
+       WalkBehavior
+        	     --------->Slow
+
+
+                     --------->Louder
+       TalkBehavior  
+                     --------->Lower
+
+
+		--------->YellowMan
+       Color    --------->BlackMan
+       		--------->WhiteMan
+
+Principles
+Use more compositions!
+Use few inherits!
