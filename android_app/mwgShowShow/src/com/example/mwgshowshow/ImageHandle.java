@@ -46,6 +46,7 @@ public class ImageHandle {
 		imageMatrix.postConcat(saturationMatrix);
 		imageMatrix.postConcat(lumMatrix);
 		
+		
 		painter.setColorFilter(new ColorMatrixColorFilter(imageMatrix));
 		
 		canvas.drawBitmap(bm, 0, 0, painter);

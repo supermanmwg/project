@@ -17,4 +17,8 @@ public class MainActivity extends ActionBarActivity {
     public void btPrimaryColor(View v) {
     	startActivity(new Intent(this, PrimaryColor.class));
     }
+    
+    public void btColorMatrix(View v) {
+    	startActivity(new Intent(this, ColorMatrix.class));
+    }
 }

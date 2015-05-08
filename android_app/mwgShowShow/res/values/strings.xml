@@ -8,5 +8,8 @@
     <string name="hue">色调</string>
     <string name="saturation">饱和度</string>
     <string name="lum">明亮度</string>
+    
+    <string name="change">改变</string>
+    <string name="reset">重置</string>
 
 </resources>

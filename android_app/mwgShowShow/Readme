@@ -33,3 +33,19 @@ imageMatrix.postConcat(color3Matrix);
 
 //get Bitmap from drawable file
 mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.haha);
+
+2015-5-6
+Color matrix
+     
+    | a  b  c  d  e | 	        | R |                 | R1 |
+    | f  g  h  i  j |           | G |                 | G1 |
+A = | k  l  m  n  o |       C = | B |       A * C  =  | B1 |
+    | p  q  r  s  t |           | A |                 | A1 |
+    				| 1 |
+
+For example:
+    | 1 0 0 0 0 |        | R |            |   R   |
+    | 0 2 0 0 0 |        | G |            | 2 * G |
+A = | 0 0 1 0 0 |    C = | B |    A * C = |   B   |
+    | 0 0 0 1 0 |        | A |            |   A   |
+                         | 1 |
