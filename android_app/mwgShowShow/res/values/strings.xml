@@ -11,5 +11,9 @@
     
     <string name="change">改变</string>
     <string name="reset">重置</string>
+    
+    <string name="PrimaryColor">基本操作</string>
+    <string name="ColorMatrix">颜色矩阵</string>
+    <string name="PixelEffect">像素变化</string>
 
 </resources>

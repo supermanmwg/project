@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:onClick="btPrimaryColor"
         android:layout_marginBottom="5dp"
-        android:text="PrimaryColor" />
+        android:text="@string/PrimaryColor" />
 
     <Button
         android:id="@+id/button2"
@@ -29,7 +29,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:onClick="btColorMatrix"
-        android:text="ColorMatrix" />
+        android:text="@string/ColorMatrix" />
 
     <Button
         android:id="@+id/button3"
@@ -37,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:text="Button" />
+        android:onClick="btPixEffect"
+        android:text="@string/PixelEffect" />
 
 </LinearLayout>

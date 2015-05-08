@@ -21,4 +21,8 @@ public class MainActivity extends ActionBarActivity {
     public void btColorMatrix(View v) {
     	startActivity(new Intent(this, ColorMatrix.class));
     }
+    
+    public void btPixEffect(View v) {
+    	startActivity(new Intent(this, PixelEffect.class));
+    }
 }

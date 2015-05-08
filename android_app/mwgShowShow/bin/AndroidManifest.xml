@@ -25,6 +25,7 @@
         
         <activity android:name=".PrimaryColor" />
         <activity android:name=".ColorMatrix" />
+        <activity android:name=".PixelEffect" />
     </application>
 
 </manifest>

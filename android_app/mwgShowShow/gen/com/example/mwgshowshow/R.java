@@ -1664,7 +1664,7 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f09002e;
         public static final int action_mode_bar_stub=0x7f09002d;
         public static final int action_mode_close_button=0x7f090020;
-        public static final int action_settings=0x7f090048;
+        public static final int action_settings=0x7f09004c;
         public static final int activity_chooser_view_content=0x7f090021;
         public static final int always=0x7f090014;
         public static final int beginning=0x7f09001b;
@@ -1686,13 +1686,17 @@ containing a value of this type.
         public static final int grid=0x7f090042;
         public static final int home=0x7f090000;
         public static final int homeAsUp=0x7f09000e;
-        public static final int hue=0x7f090045;
+        public static final int hue=0x7f090049;
         public static final int icon=0x7f090026;
         public static final int ifRoom=0x7f090016;
         public static final int image=0x7f090023;
+        public static final int image1=0x7f090045;
+        public static final int image2=0x7f090046;
+        public static final int image3=0x7f090047;
+        public static final int image4=0x7f090048;
         public static final int listMode=0x7f09000a;
         public static final int list_item=0x7f090025;
-        public static final int lum=0x7f090047;
+        public static final int lum=0x7f09004b;
         public static final int middle=0x7f09001d;
         public static final int never=0x7f090017;
         public static final int none=0x7f09000f;
@@ -1701,7 +1705,7 @@ containing a value of this type.
         public static final int progress_horizontal=0x7f090008;
         public static final int radio=0x7f09002b;
         public static final int reset=0x7f090044;
-        public static final int saturation=0x7f090046;
+        public static final int saturation=0x7f09004a;
         public static final int search_badge=0x7f090035;
         public static final int search_bar=0x7f090034;
         public static final int search_button=0x7f090036;
@@ -1779,13 +1783,17 @@ containing a value of this type.
         public static final int abc_simple_dropdown_hint=0x7f030015;
         public static final int activity_main=0x7f030016;
         public static final int colormatrix=0x7f030017;
-        public static final int primary=0x7f030018;
-        public static final int support_simple_spinner_dropdown_item=0x7f030019;
+        public static final int pixel=0x7f030018;
+        public static final int primary=0x7f030019;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001a;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;
     }
     public static final class string {
+        public static final int ColorMatrix=0x7f0a001a;
+        public static final int PixelEffect=0x7f0a001b;
+        public static final int PrimaryColor=0x7f0a0019;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
         public static final int abc_action_bar_home_description=0x7f0a0001;
