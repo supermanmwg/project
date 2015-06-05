@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="app_name">WeatherService</string>
+    <string name="syncWeather">Get Weather Sync</string>
+    <string name="asyncWeather">Get Weather Async</string>
+    <string name="city">City Name</string>
+</resources>

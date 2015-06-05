@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <LinearLayout 
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+       	android:gravity="center|top"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    	<ImageView 
+        	android:id="@+id/image"
+        	android:layout_height="200dp"
+			android:layout_width="200dp"
+       	 	android:src="@drawable/weather" />
+    	<EditText 
+    	    android:id="@+id/cityName"
+    	    android:gravity="center"
+    	    android:layout_width="match_parent"
+    	    android:layout_height="wrap_content"
+    	    android:hint="@string/city"/>
+    	
+   </LinearLayout>
+    
+    <LinearLayout 
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <Button android:id="@+id/syncService"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/syncWeather" 
+            android:background="#90CAF9"
+            android:onClick="expandWeatherSync"/>
+        
+        <ImageView 
+            android:id="@+id/line"
+            android:background="#FFFFFF"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"/>
+        
+         <Button android:id="@+id/asyncService"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/asyncWeather"
+            android:background="#90CAF9"
+            android:onClick="expandWeatherAsync" />
+    </LinearLayout>
+
+</LinearLayout>
