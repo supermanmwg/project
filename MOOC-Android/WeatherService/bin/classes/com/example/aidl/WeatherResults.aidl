@@ -14,6 +14,6 @@ interface WeatherResults {
      * to return the List of WeatherData results associated with a
      * one-way WeatherRequest.getCurrentWeather() call.
      */
-    oneway void sendResults(in List<WeatherData> results);
+    oneway void sendResults(in WeatherData results);
     oneway void sendErrors();
 }

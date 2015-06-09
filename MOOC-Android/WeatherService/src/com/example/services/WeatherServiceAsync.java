@@ -62,12 +62,23 @@ public class WeatherServiceAsync extends LifecycleLoggingService {
 						throws RemoteException {
 					// Call the Weather Web service to get the list of
 					// possible expansions of the designated weather
-					final List<WeatherData> weatherResults = 
-							UtilsNet.getResults(cityName);
 					
+					WeatherData weatherResults = 
+							dataTimeCache.getData(cityName);
+					if (null == weatherResults) {
+						weatherResults = UtilsNet.getResults(cityName);
+						if(null != weatherResults) {
+							final String iconPath = getIconPath(ICON_URL + weatherResults.getmIconID() + ".png");
+							weatherResults.setmIconID(iconPath);
+							dataTimeCache.cacheData(cityName, weatherResults);
+						}
+						Log.d(TAG, "Data from the update Internet");
+					} else {
+						Log.d(TAG, "Data from the cache");
+					}
+
 					if(null != weatherResults) {
 						Log.d(TAG, ""
-								+ weatherResults.size()
 								+ "results for weather: "
 								+ cityName);
 						//Invoke a one-way callback to send list of 
@@ -79,5 +90,8 @@ public class WeatherServiceAsync extends LifecycleLoggingService {
 					
 				}
 			};
+			protected String getIconPath(String url) {
+				return UtilsGUI.downloadImage(this, url);
+			}
 
 }

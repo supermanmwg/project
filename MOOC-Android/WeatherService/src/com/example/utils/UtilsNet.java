@@ -29,11 +29,10 @@ public class UtilsNet {
 	 * 
 	 * @return The information that responds to your current weather search.
 	 */
-	public static List<WeatherData> getResults(String cityName) {
+	public static WeatherData getResults(String cityName) {
 		// Create a List that will return the WeatherData obtaioned
 		// from the Weather Service web service.
-		final List<WeatherData> returnList = 
-				new ArrayList<WeatherData>();
+		WeatherData returnWeather = null;
 		
 		// A List of JsonWeather objects.
 		List<JsonWeather> jsonWeathers = null;
@@ -69,18 +68,21 @@ public class UtilsNet {
 		if(null !=jsonWeathers && jsonWeathers.size() > 0) {
 			//Convert the JsonWeather data objects to our weatherData ojbect,
 			//which can be passed between processes.
-			for(JsonWeather jsonWeather: jsonWeathers) {
-				returnList.add(new WeatherData(
-						jsonWeather.getName(), 
-						jsonWeather.getWind().getSpeed(),
-						jsonWeather.getWind().getDeg(), jsonWeather.getMain().getTemp(), jsonWeather.getMain().getHumidity(),
-						jsonWeather.getSys().getSunrise(), jsonWeather.getSys().getSunset()));
-			}
 			Log.d(TAG, "json weather is not null");
-			return returnList;
+			for(JsonWeather jsonWeather: jsonWeathers) {
+
+				Log.d(TAG, "**Country name :" + jsonWeather.getSys().getCountry() + "Pressure :" + jsonWeather.getMain().getPressure());
+				return new WeatherData(jsonWeather.getName(),jsonWeather.getWind().getSpeed(),
+						jsonWeather.getWind().getDeg(), jsonWeather.getMain().getTemp(), jsonWeather.getMain().getHumidity(),
+						jsonWeather.getSys().getSunrise(), jsonWeather.getSys().getSunset(), 
+						jsonWeather.getMain().getPressure(), jsonWeather.getDt(), jsonWeather.getSys().getCountry(), 
+						jsonWeather.getWeather().get(0).getIcon());
+			}
+
 		} else{
 			Log.d(TAG, "json weather is null");
 			return null;
 		}
+		return null;
 	}
 }

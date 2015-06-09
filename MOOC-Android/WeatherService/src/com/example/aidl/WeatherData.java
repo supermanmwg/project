@@ -100,8 +100,61 @@ public class WeatherData implements Parcelable {
     private long mHumidity;
     private long mSunrise;
     private long mSunset;
+    private double mPressure;
+    private long mDate;
+    private String mCountry;
+    private String mIconID;
 
-    /**
+    public WeatherData(String mName, double mSpeed, double mDeg, double mTemp,
+			long mHumidity, long mSunrise, long mSunset, double mPressure,
+			long mDate, String mCountry, String mIconID) {
+		super();
+		this.mName = mName;
+		this.mSpeed = mSpeed;
+		this.mDeg = mDeg;
+		this.mTemp = mTemp;
+		this.mHumidity = mHumidity;
+		this.mSunrise = mSunrise;
+		this.mSunset = mSunset;
+		this.mPressure = mPressure;
+		this.mDate = mDate;
+		this.mCountry = mCountry;
+		this.mIconID = mIconID;
+	}
+
+	public double getmPressure() {
+		return mPressure;
+	}
+
+	public void setmPressure(double mPressure) {
+		this.mPressure = mPressure;
+	}
+
+	public long getmDate() {
+		return mDate;
+	}
+
+	public void setmDate(long mDate) {
+		this.mDate = mDate;
+	}
+
+	public String getmCountry() {
+		return mCountry;
+	}
+
+	public void setmCountry(String mCountry) {
+		this.mCountry = mCountry;
+	}
+
+	public String getmIconID() {
+		return mIconID;
+	}
+
+	public void setmIconID(String mIconID) {
+		this.mIconID = mIconID;
+	}
+
+	/**
      * Constructor
      * 
      * @param name
@@ -112,21 +165,6 @@ public class WeatherData implements Parcelable {
      * @param sunrise
      * @param sunset
      */
-    public WeatherData(String name,
-                       double speed,
-                       double deg,
-                       double temp,
-                       long humidity,
-                       long sunrise,
-                       long sunset) {
-        mName = name;
-        mSpeed = speed;
-        mDeg = deg;
-        mTemp = temp;
-        mHumidity = humidity;
-        mSunrise = sunrise;
-        mSunset = sunset;
-    }
 
     /**
      * Provides a printable representation of this object.
@@ -167,6 +205,11 @@ public class WeatherData implements Parcelable {
         dest.writeLong(mHumidity);
         dest.writeLong(mSunrise);
         dest.writeLong(mSunset);
+        dest.writeDouble(mPressure);
+        dest.writeLong(mDate);
+        dest.writeString(mCountry);
+        dest.writeString(mIconID);
+
     }
 
     /**
@@ -186,9 +229,17 @@ public class WeatherData implements Parcelable {
         mHumidity = in.readLong();
         mSunrise = in.readLong();
         mSunset = in.readLong();
+        mPressure = in.readDouble();
+        mDate = in.readLong();
+        mCountry = in.readString();
+        mIconID = in.readString();
     }
 
-    /**
+    public WeatherData() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
      * public Parcelable.Creator for WeatherData, which is an
      * interface that must be implemented and provided as a public
      * CREATOR field that generates instances of your Parcelable class

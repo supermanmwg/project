@@ -13,6 +13,7 @@ import com.example.aidl.WeatherResults;
 import com.example.services.WeatherServiceAsync;
 import com.example.services.WeatherServiceSync;
 import com.example.utils.GenericServiceConnection;
+import com.example.utils.UtilsGUI;
 
 import android.app.Activity;
 import android.content.Context;
@@ -78,7 +79,7 @@ public class WeatherOpsImpl implements WeatherOps {
 		 * back to the MainActivity
 		 */
 		@Override
-		public void sendResults(final List<WeatherData> results)
+		public void sendResults(final WeatherData results)
 				throws RemoteException {
 			// Since the Android Binder framework dispathces ths method
 			// int a background Thread we need to explicitly post a runnable
@@ -94,8 +95,7 @@ public class WeatherOpsImpl implements WeatherOps {
 				public void run() {
 					Intent intent = new Intent(mActivity.get(),
 							DisplayWeatherActivity.class);
-					intent.putParcelableArrayListExtra(WEATHRE_DATA,
-							(ArrayList<? extends Parcelable>) results);
+					intent.putExtra(WEATHRE_DATA, results);
 					mActivity.get().startActivity(intent);
 				}
 			});
@@ -103,8 +103,16 @@ public class WeatherOpsImpl implements WeatherOps {
 
 		@Override
 		public void sendErrors() throws RemoteException {
-			Toast.makeText(mActivity.get(), "The city wasn't found!", Toast.LENGTH_SHORT).show();
-			
+			mDisHandler.post(new Runnable() {
+
+				@Override
+				public void run() {
+					Toast.makeText(mActivity.get(), "The city wasn't found!",
+							Toast.LENGTH_SHORT).show();
+
+				}
+			});
+
 		}
 	};
 
@@ -138,41 +146,44 @@ public class WeatherOpsImpl implements WeatherOps {
 		// activity to the WeatherService if they aren't already
 		// bound.
 		if (null == mServiceConnectionSync.getInterface())
-			mActivity.get().getApplicationContext().bindService(
+			mActivity
+					.get()
+					.getApplicationContext()
+					.bindService(
 							WeatherServiceSync.makeIntent(mActivity.get()),
-							mServiceConnectionSync, 
-							Context.BIND_AUTO_CREATE);
-		
+							mServiceConnectionSync, Context.BIND_AUTO_CREATE);
+
 		if (null == mServiceConnectionAsync.getInterface())
-			mActivity.get().getApplicationContext().bindService(
+			mActivity
+					.get()
+					.getApplicationContext()
+					.bindService(
 							WeatherServiceAsync.makeIntent(mActivity.get()),
-							mServiceConnectionAsync, 
-							Context.BIND_AUTO_CREATE);
+							mServiceConnectionAsync, Context.BIND_AUTO_CREATE);
 
 	}
-	
+
 	/**
 	 * Initiate the service unbinding protocol.
 	 */
 	@Override
 	public void unbindService() {
-        if (mActivity.get().isChangingConfigurations()) 
-            Log.d(TAG,
-                  "just a configuration change - unbindService() not called");
-        else {
-            Log.d(TAG,
-                  "calling unbindService()");
+		if (mActivity.get().isChangingConfigurations())
+			Log.d(TAG,
+					"just a configuration change - unbindService() not called");
+		else {
+			Log.d(TAG, "calling unbindService()");
 
-            // Unbind the Async Service if it is connected.
-            if (mServiceConnectionAsync.getInterface() != null)
-                mActivity.get().getApplicationContext().unbindService
-                    (mServiceConnectionAsync);
+			// Unbind the Async Service if it is connected.
+			if (mServiceConnectionAsync.getInterface() != null)
+				mActivity.get().getApplicationContext()
+						.unbindService(mServiceConnectionAsync);
 
-            // Unbind the Sync Service if it is connected.
-            if (mServiceConnectionSync.getInterface() != null)
-                mActivity.get().getApplicationContext().unbindService
-                    (mServiceConnectionSync);
-        }
+			// Unbind the Sync Service if it is connected.
+			if (mServiceConnectionSync.getInterface() != null)
+				mActivity.get().getApplicationContext()
+						.unbindService(mServiceConnectionSync);
+		}
 	}
 
 	/**
@@ -181,15 +192,15 @@ public class WeatherOpsImpl implements WeatherOps {
 	 */
 	@Override
 	public void expandWeatherSync(String cityName) {
-		final WeatherCall weatherCall = 
-				mServiceConnectionSync.getInterface();
-		
-		if(null != weatherCall) {
-			new AsyncTask<String, Void, List<WeatherData>>() {
+		final WeatherCall weatherCall = mServiceConnectionSync.getInterface();
+
+		if (null != weatherCall) {
+			new AsyncTask<String, Void, WeatherData>() {
 
 				private String cityName;
+
 				@Override
-				protected List<WeatherData> doInBackground(String... params) {
+				protected WeatherData doInBackground(String... params) {
 					// TODO Auto-generated method stub
 					cityName = params[0];
 					try {
@@ -199,15 +210,18 @@ public class WeatherOpsImpl implements WeatherOps {
 					}
 					return null;
 				}
-				
+
 				@Override
-				protected void onPostExecute(List<WeatherData> result) {
-					if(null != result && result.size() > 0) {
-						Intent intent = new Intent(mActivity.get(), DisplayWeatherActivity.class);
-						intent.putParcelableArrayListExtra(WEATHRE_DATA, (ArrayList<? extends Parcelable>) result);
+				protected void onPostExecute(WeatherData result) {
+					if (null != result) {
+						Intent intent = new Intent(mActivity.get(),
+								DisplayWeatherActivity.class);
+						intent.putExtra(WEATHRE_DATA, result);
 						mActivity.get().startActivity(intent);
 					} else {
-						Toast.makeText(mActivity.get(), "The city wasn't found!", Toast.LENGTH_SHORT).show();
+						Toast.makeText(mActivity.get(),
+								"The city wasn't found!", Toast.LENGTH_SHORT)
+								.show();
 					}
 				}
 			}.execute(cityName);
@@ -219,19 +233,19 @@ public class WeatherOpsImpl implements WeatherOps {
 
 	@Override
 	public void expandWeatherAsync(String cityName) {
-		final WeatherRequest mWeatherRequest =
-				mServiceConnectionAsync.getInterface();
-		
-		if(null != mWeatherRequest) {
+		final WeatherRequest mWeatherRequest = mServiceConnectionAsync
+				.getInterface();
+
+		if (null != mWeatherRequest) {
 			try {
 				mWeatherRequest.getCurrentWeather(cityName, mWeatherResults);
-			} catch(RemoteException e){
-                Log.e(TAG,
-                        "RemoteException:" 
-                        + e.getMessage());
+			} catch (RemoteException e) {
+				Log.e(TAG, "RemoteException:" + e.getMessage());
 			}
 		} else {
 			Log.d(TAG, "mWeatherRequest was null");
 		}
 	}
+	
+
 }

@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: E:\\work\\git\\POSA-14\\ex\\WeatherService\\src\\com\\example\\aidl\\WeatherResults.aidl
+ * Original file: E:\\work\\git\\project\\MOOC-Android\\WeatherService\\src\\com\\example\\aidl\\WeatherResults.aidl
  */
 package com.example.aidl;
 /**
@@ -50,8 +50,13 @@ return true;
 case TRANSACTION_sendResults:
 {
 data.enforceInterface(DESCRIPTOR);
-java.util.List<com.example.aidl.WeatherData> _arg0;
-_arg0 = data.createTypedArrayList(com.example.aidl.WeatherData.CREATOR);
+com.example.aidl.WeatherData _arg0;
+if ((0!=data.readInt())) {
+_arg0 = com.example.aidl.WeatherData.CREATOR.createFromParcel(data);
+}
+else {
+_arg0 = null;
+}
 this.sendResults(_arg0);
 return true;
 }
@@ -84,12 +89,18 @@ return DESCRIPTOR;
      * to return the List of WeatherData results associated with a
      * one-way WeatherRequest.getCurrentWeather() call.
      */
-@Override public void sendResults(java.util.List<com.example.aidl.WeatherData> results) throws android.os.RemoteException
+@Override public void sendResults(com.example.aidl.WeatherData results) throws android.os.RemoteException
 {
 android.os.Parcel _data = android.os.Parcel.obtain();
 try {
 _data.writeInterfaceToken(DESCRIPTOR);
-_data.writeTypedList(results);
+if ((results!=null)) {
+_data.writeInt(1);
+results.writeToParcel(_data, 0);
+}
+else {
+_data.writeInt(0);
+}
 mRemote.transact(Stub.TRANSACTION_sendResults, _data, null, android.os.IBinder.FLAG_ONEWAY);
 }
 finally {
@@ -116,6 +127,6 @@ static final int TRANSACTION_sendErrors = (android.os.IBinder.FIRST_CALL_TRANSAC
      * to return the List of WeatherData results associated with a
      * one-way WeatherRequest.getCurrentWeather() call.
      */
-public void sendResults(java.util.List<com.example.aidl.WeatherData> results) throws android.os.RemoteException;
+public void sendResults(com.example.aidl.WeatherData results) throws android.os.RemoteException;
 public void sendErrors() throws android.os.RemoteException;
 }

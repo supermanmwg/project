@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: E:\\work\\git\\POSA-14\\ex\\WeatherService\\src\\com\\example\\aidl\\WeatherRequest.aidl
+ * Original file: E:\\work\\git\\project\\MOOC-Android\\WeatherService\\src\\com\\example\\aidl\\WeatherRequest.aidl
  */
 package com.example.aidl;
 /**

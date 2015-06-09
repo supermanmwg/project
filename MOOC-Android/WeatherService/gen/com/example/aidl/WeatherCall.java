@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: E:\\work\\git\\POSA-14\\ex\\WeatherService\\src\\com\\example\\aidl\\WeatherCall.aidl
+ * Original file: E:\\work\\git\\project\\MOOC-Android\\WeatherService\\src\\com\\example\\aidl\\WeatherCall.aidl
  */
 package com.example.aidl;
 /**
@@ -52,9 +52,15 @@ case TRANSACTION_getCurrentWeather:
 data.enforceInterface(DESCRIPTOR);
 java.lang.String _arg0;
 _arg0 = data.readString();
-java.util.List<com.example.aidl.WeatherData> _result = this.getCurrentWeather(_arg0);
+com.example.aidl.WeatherData _result = this.getCurrentWeather(_arg0);
 reply.writeNoException();
-reply.writeTypedList(_result);
+if ((_result!=null)) {
+reply.writeInt(1);
+_result.writeToParcel(reply, android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE);
+}
+else {
+reply.writeInt(0);
+}
 return true;
 }
 }
@@ -81,17 +87,22 @@ return DESCRIPTOR;
     * a list of WeatherData objects containing the results from the
     * Weather Service web service back to the WeatherActivity.
     */
-@Override public java.util.List<com.example.aidl.WeatherData> getCurrentWeather(java.lang.String Weather) throws android.os.RemoteException
+@Override public com.example.aidl.WeatherData getCurrentWeather(java.lang.String Weather) throws android.os.RemoteException
 {
 android.os.Parcel _data = android.os.Parcel.obtain();
 android.os.Parcel _reply = android.os.Parcel.obtain();
-java.util.List<com.example.aidl.WeatherData> _result;
+com.example.aidl.WeatherData _result;
 try {
 _data.writeInterfaceToken(DESCRIPTOR);
 _data.writeString(Weather);
 mRemote.transact(Stub.TRANSACTION_getCurrentWeather, _data, _reply, 0);
 _reply.readException();
-_result = _reply.createTypedArrayList(com.example.aidl.WeatherData.CREATOR);
+if ((0!=_reply.readInt())) {
+_result = com.example.aidl.WeatherData.CREATOR.createFromParcel(_reply);
+}
+else {
+_result = null;
+}
 }
 finally {
 _reply.recycle();
@@ -108,5 +119,5 @@ static final int TRANSACTION_getCurrentWeather = (android.os.IBinder.FIRST_CALL_
     * a list of WeatherData objects containing the results from the
     * Weather Service web service back to the WeatherActivity.
     */
-public java.util.List<com.example.aidl.WeatherData> getCurrentWeather(java.lang.String Weather) throws android.os.RemoteException;
+public com.example.aidl.WeatherData getCurrentWeather(java.lang.String Weather) throws android.os.RemoteException;
 }

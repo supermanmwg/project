@@ -43,14 +43,18 @@ public class WeatherJSONParser {
      */
     public List<JsonWeather> parseJsonWeatherArray(JsonReader reader)
         throws IOException {	
-    	 List<JsonWeather> weather = new ArrayList<JsonWeather>();
+    	 List<JsonWeather> weathers = new ArrayList<JsonWeather>();
     	 
     	//Create a JsonWeather object for each element in the
     	//Json array
 		Log.d(TAG, "paserJson start");
-    	weather.add(parseJsonWeather(reader));
+		JsonWeather weather = parseJsonWeather(reader);
+		if(null != weather)
+			weathers.add(weather);
+		else 
+			return new ArrayList<JsonWeather>();
     		
-    	return weather;	
+		return weathers;
     }
 
     /**
@@ -90,6 +94,13 @@ public class WeatherJSONParser {
 				break;
 			case JsonWeather.wind_JSON:
 				mWeather.setWind(parseWind(reader));
+				break;
+			case JsonWeather.cod_JSON:
+				String cod = reader.nextString();
+				if(cod.equals("404")) {
+					Log.d(TAG, "code returns 404");
+					return null;
+				}
 				break;
 			default:
 				Log.d(TAG, "skip name is " + name);
