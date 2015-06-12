@@ -33,7 +33,7 @@ import android.widget.ListView;
 public class MainActivity extends Activity {
 
 	private static final String TAG = "MainActivity";
-	private static final long INITIAL_ALARM_DELAY = 2 *1000* 1000L;
+	private static final long INITIAL_ALARM_DELAY = 2 *60* 1000L;
 	public static final String PHOTO_NAME = "photo_name";
 	private static final String PHOTO_TABLE = "Photo";
 	private static final int TAKE_PHOTO = 1;
@@ -75,7 +75,6 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 		});
-
 		// initPhoto();
 		adapter.notifyDataSetChanged();
 

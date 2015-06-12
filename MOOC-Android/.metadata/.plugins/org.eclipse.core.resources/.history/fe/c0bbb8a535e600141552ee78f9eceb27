@@ -1,0 +1,17 @@
+package com.factory.example;
+
+public class PizzaStore {
+	
+	public Pizza orderPizza(String type) {
+		Pizza pizza;
+		
+		pizza = createPizza(type);
+		
+		pizza.prepare();
+		pizza.bake();
+		pizza.cut();
+		pizza.box();
+	}
+
+	abstract Pizza createPizza(String type);
+}

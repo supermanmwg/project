@@ -24,6 +24,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 	             mImageView = imageViewReference.get();
 		 } 	 
 	}
+
 	@Override
 	protected Bitmap doInBackground(String... params) {
 		currentFileName = params[0];

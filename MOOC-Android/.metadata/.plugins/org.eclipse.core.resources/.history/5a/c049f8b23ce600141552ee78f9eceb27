@@ -1,0 +1,12 @@
+package com.factory.example.pizza;
+
+public class NYStyleCheesePizza extends Pizza {
+
+	public NYStyleCheesePizza () {
+		name = "";
+		dough = "";
+		sauce = "";
+		
+		toppings.add("Grated Raggiano Cheese");
+	}
+}

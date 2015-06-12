@@ -1,0 +1,95 @@
+package com.example;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
+public class ThreadJoinTest {
+
+	public static boolean diagnosticsEnabled = true;
+
+	/*
+	 * This input array is used by the ThreadJoinTest to search for the words
+	 * concurrently in multiple threads.
+	 */
+	private final static String[] mOneShotInputStrings = { "xreo", "xfao",
+			"xmiomio", "xlao", "xtiotio", "xsoosoo", "xdoo", "xdoodoo" };
+	
+	//List of words to search for.
+	private static String[] mWordList = { "do",
+										  "re",
+										  "mi",
+										  "fa",
+										  "so",
+										  "la",
+										  "ti",
+										  "do"};
+
+	/*
+	 * Starts a Thread for each element in the List of input Strings and 
+	 * uses Thread.join() to wait for all the thread to finish. This implementation
+	 * doesn't require any Java synchronization mechanisms other than what's provided 
+	 * by Thread.
+	 */
+	static public class SearchOneShotThreadJoin{
+		
+		private volatile List<String> mInput = null;
+		
+		final String[] mWordsToFind;
+		
+		private List<Thread> mWoThreads;
+		
+		public SearchOneShotThreadJoin(String[] wordsToFind, String[] inputStrings) {
+			mWordsToFind = wordsToFind;
+			mInput = Arrays.asList(inputStrings);
+			
+			mWoThreads = new LinkedList<Thread>();
+			for(int i = 0; i< mInput.size(); i++) {
+				Thread t = new Thread();
+				mWoThreads.add(t);
+				t.start();
+			}
+			
+			for(Thread thread: mWoThreads) {
+				try {
+					thread.join();
+				} catch (InterruptedException e) {
+					printDebugging("join() interrupted");
+				}
+			}
+		}
+		
+		private Runnable makeTask(final int index) {
+			return new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			}
+		}
+	}
+	
+
+	static void printDebugging(String output) {
+		if(diagnosticsEnabled)
+			System.out.println(output);
+	}
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+}

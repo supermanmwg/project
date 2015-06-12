@@ -1,0 +1,12 @@
+package com.factory.example;
+
+public class NYStylePizzaStore extends PizzaStore {
+
+	@Override
+	Pizza createPizza(String type) {
+		if(type.equals("cheese")) {
+			pizza = new NYStyleCheesePizza();
+		}
+	}
+
+}

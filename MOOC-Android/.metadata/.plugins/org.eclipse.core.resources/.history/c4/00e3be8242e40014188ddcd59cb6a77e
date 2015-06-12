@@ -1,0 +1,25 @@
+package com.example;
+
+public class ThreadJoinTest {
+
+	public static boolean diagnosticsEnabled = true;
+
+	/*
+	 * This input array is used by the ThreadJoinTest to search for the words
+	 * concurrently in multiple threads.
+	 */
+	private final static String[] mOneShotInputStrings = { "xreo", "xfao",
+			"xmiomio", "xlao", "xtiotio", "xsoosoo", "xdoo", "xdoodoo" };
+	
+	//List of words to search for.
+	private static String[] mWordList = { "do",
+										  "re",
+										  "mi",
+										  "fa",
+										  "so",
+										  "la",
+										  "ti",
+										  "do"};
+	}
+
+}
