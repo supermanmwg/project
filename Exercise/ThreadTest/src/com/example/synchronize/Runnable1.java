@@ -14,7 +14,7 @@ public class Runnable1 implements Runnable {
 		while (true) {
 			if (null != mq) {
 				try {
-					Thread.sleep(100);
+					Thread.sleep(1000);
 					mq.put((++i).toString());
 				} catch (InterruptedException e) {
 					e.printStackTrace();

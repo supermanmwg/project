@@ -14,6 +14,7 @@ public class DemoTest3 {
 
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
 		
+		
 		ExecutorService executorService = Executors.newFixedThreadPool(4);
 		
 		//execute method
@@ -54,7 +55,7 @@ public class DemoTest3 {
 		Set<Callable<String>> callables = new HashSet<Callable<String>>();
 		DemoTest3 demo = new DemoTest3();
 		MyCallable task1 = demo.new MyCallable("task 1");
-		MyCallable task2 = demo.new MyCallable("task 5");
+		MyCallable task2 = demo.new MyCallable("task 2");
 		MyCallable task3 = demo.new MyCallable("task 3");
 		MyCallable task4 = demo.new MyCallable("task 4");
 		callables.add(task1);

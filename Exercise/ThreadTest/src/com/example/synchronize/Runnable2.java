@@ -13,7 +13,7 @@ public class Runnable2 implements Runnable {
 		while (true) {
 			if (null != mq) {
 				try {
-					Thread.sleep(50);
+					Thread.sleep(2000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
