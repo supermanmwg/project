@@ -5,68 +5,71 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DataTimeCache<KeyType, DataType> {
+import android.util.Log;
 
+public class DataTimeCache<KeyType, DataType> {
+	
+	private final String TAG = getClass().getSimpleName(); 
 	/**
 	 * Holds information (the entry) for a cache data element
 	 */
-	private class Entry{
-		
-		//The cache data
+	private class Entry {
+		// The Cache data
 		private final DataType data;
-		
-		//The time at which the data was cached
-		private  final long cacheTime;
 
-		
+		// The time at which the data was cached
+		private final long cacheTime;
+
+		// Entry constructor
 		public Entry(DataType data) {
 			this.data = data;
 			this.cacheTime = System.currentTimeMillis();
 		}
-		
-		// Check if the data is expired
+
+		// check if the data is expired
 		public boolean hasExpired() {
-			
+			Log.e(TAG, "!!!!!Expired time is "
+					+ (System.currentTimeMillis() - cacheTime));
 			return (System.currentTimeMillis() - cacheTime) > cachePeriod;
 		}
 	}
-	
+
 	// The period for which cached data remains valid
 	private final long cachePeriod;
-	
+
 	public DataTimeCache(long cachePeriod) {
 		this.cachePeriod = cachePeriod;
 	}
-	
+
 	// The cache entry map
-	private Map<KeyType, Entry> keyToEntryMap = new HashMap<KeyType,Entry>();
-	
+	private Map<KeyType, Entry> keyToEntryMap = new HashMap<KeyType, Entry>();
+
 	// Cache data
 	public synchronized void cacheData(KeyType key, DataType data) {
-		
 		removeExpiredEntries();
-		
+
 		Entry entry = new Entry(data);
 		keyToEntryMap.put(key, entry);
 	}
-	
-	//remove expired entry from map
+
+	// remove expired entry from map
 	private synchronized void removeExpiredEntries() {
-		
-		Collection<KeyType> keySet = new ArrayList<KeyType>(keyToEntryMap.keySet());
-		for(KeyType key : keySet) {
+		Collection<KeyType> keySet = new ArrayList<KeyType>(
+				keyToEntryMap.keySet());
+		for (KeyType key : keySet) {
 			Entry entry = keyToEntryMap.get(key);
-			
-			if(entry.hasExpired()) {
+
+			if (entry.hasExpired()) {
 				keyToEntryMap.remove(key);
 			}
 		}
 	}
-	
-	//Retrieve cache data, if available/valid
+
+	// Retrieve cache data, if available/valid
 	public synchronized DataType getData(KeyType key) {
+		removeExpiredEntries();
 		Entry entry = keyToEntryMap.get(key);
 		return (null != entry) ? entry.data : null;
 	}
-	
+
 }
