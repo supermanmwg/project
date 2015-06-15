@@ -91,25 +91,11 @@ public class MainActivity extends LifecycleLoggingActivity {
 			}
 		}
 	}
-
-	/**
-	 * Initiate the synchronous weather service when the user presses the
-	 * "Get Weather Sync" button
-	 */
-	public void expandWeatherSync(View v) {
+	
+	public void expandWeather(View v) {
 		final String cityName = mCityEditText.getText().toString();
-		Log.d(TAG, "Sync button pressed  " + cityName);
-		mWeatherOps.expandWeatherSync(cityName);
-	}
-
-	/**
-	 * Initiate the synchronous weather service when the user presses the
-	 * "Get Weather Async" button
-	 */
-	public void expandWeatherAsync(View v) {
-		final String cityName = mCityEditText.getText().toString();
-		Log.d(TAG, "Async button pressed  " + cityName);
-		mWeatherOps.expandWeatherAsync(cityName);
+		mWeatherOps.expandWeahter(cityName, v);
+		
 	}
 
 	@Override

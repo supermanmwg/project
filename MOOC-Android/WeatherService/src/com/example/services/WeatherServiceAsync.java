@@ -24,7 +24,7 @@ public class WeatherServiceAsync extends LifecycleLoggingService {
 	 * @param context
 	 *            The context of the calling component.
 	 */
-	public static Intent makeIntent(Context context) {
+	public Intent makeIntent(Context context) {
 		return new Intent(context, WeatherServiceAsync.class);
 	}
 	

@@ -20,18 +20,8 @@ public interface WeatherOps {
 	 * Initiate the service unbinding protocol.
 	 */
 	public void unbindService();
-
-	/**
-	 * Initiate the synchronous weather service lookup when the user presses the
-	 * "Get Weather Sync" button
-	 */
-	public void expandWeatherSync(String cityName);
-
-	/**
-	 * Initiate the synchronous weather service lookup when the user presses the
-	 * "Get Weather Async" button
-	 */
-	public void expandWeatherAsync(String cityName);
+	
+	public void expandWeahter(String cityName, View v);
 
 	/**
 	 * Called after a runtime configuration change occurs to finish the

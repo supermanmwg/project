@@ -35,7 +35,7 @@
             android:layout_weight="1"
             android:text="@string/syncWeather" 
             android:background="#90CAF9"
-            android:onClick="expandWeatherSync"/>
+            android:onClick="expandWeather"/>
         
         <ImageView 
             android:id="@+id/line"
@@ -49,7 +49,7 @@
             android:layout_weight="1"
             android:text="@string/asyncWeather"
             android:background="#90CAF9"
-            android:onClick="expandWeatherAsync" />
+            android:onClick="expandWeather" />
     </LinearLayout>
 
 </LinearLayout>

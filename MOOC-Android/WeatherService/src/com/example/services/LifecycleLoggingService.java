@@ -36,7 +36,7 @@ public abstract class LifecycleLoggingService extends Service {
 		super.onCreate();
 
 		// Service is being created anew.
-		Log.d(TAG, "onCreate() - service created anew");
+		Log.d(TAG, "onCreate() - service created a new one");
 	}
 
 	/**
@@ -75,5 +75,7 @@ public abstract class LifecycleLoggingService extends Service {
 		super.onDestroy();
 		Log.d(TAG, "onDestroy() - service is being shut down");
 	}
+	
+	public abstract  Intent makeIntent(Context context);
 			
 }

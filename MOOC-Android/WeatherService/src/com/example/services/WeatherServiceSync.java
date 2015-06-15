@@ -19,7 +19,7 @@ import com.example.utils.UtilsNet;
 
 public class WeatherServiceSync extends LifecycleLoggingService{
 
-	public static Intent makeIntent(Context context) {
+	public Intent makeIntent(Context context) {
 		return new Intent(context, WeatherServiceSync.class);
 	}
 	

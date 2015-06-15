@@ -106,6 +106,7 @@ public class GenericServiceConnection<AIDLInterface1 extends android.os.IInterfa
 	 */
 	@Override
 	public void onServiceDisconnected(ComponentName name) {
+		Log.d("GenericServiceConnection", "Disconnected to ComponentName " + name);
 		mInterface = null;
 	}
 }

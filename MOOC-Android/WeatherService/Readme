@@ -1,0 +1,16 @@
+2015-6-15
+version-2
+1 Add com.example.clientStrategy
+2 Use Strategy Pattern
+3 Add the MainActivity Context in the Abstract class by WeatherContext.class;
+4 create the abstract class -->WeatherClient
+  in this class :
+	public	GenericServiceConnection<T> mServiceConnection;
+	public  LifecycleLoggingService mService;
+	public  abstract void expandWeather(String cityName);
+	protected WeatherContext mWeatherContext;           //why use protected? because mWeatherContext only used in subclass
+
+ 	
+	
+
+ 
