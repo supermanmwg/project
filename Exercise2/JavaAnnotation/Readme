@@ -1,0 +1,4 @@
+2015-6-20
+fix a bug
+not the "user" == role.role() in Java , It is the C language statement;
+It should be modified to "user".equals(role.role())
