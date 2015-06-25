@@ -1,0 +1,3 @@
+1 此例子是吧Turkey通过适配器转成Duck；
+2 适配器是实现了Duck的接口，并在其构造函数传入Turkey实例，在Duck接口中调用Tukery的方法；
+
