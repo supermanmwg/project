@@ -1,0 +1,109 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal" 
+        android:gravity="center_vertical|center"
+        android:background="#3971AD">
+        <ImageView android:id="@+id/change_city"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:gravity="center_vertical|center"
+            android:background="@drawable/home" />"
+        <TextView
+            android:id="@+id/city_name"
+            android:layout_width="0dp" 
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:gravity="center_vertical|center"
+            android:textColor="#ffffff"
+            android:textSize="25sp"
+            android:text="@string/cityname" />
+            />
+        <ImageView android:id="@+id/setting"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:gravity="center_vertical|center"
+            android:background="@drawable/set"/>"
+    </LinearLayout>
+    
+    <View
+   		android:layout_width="match_parent"
+    	android:layout_height="0.5dp"
+    	android:background="#447EA5"/>
+   <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal" 
+        android:background="#3971AD">
+
+        <TextView
+            android:id="@+id/one"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center"
+            android:padding="2dp"
+            android:text="@string/Today"
+            android:textSize="18sp"
+            android:textColor="#ffffff" />
+        
+       <TextView
+            android:id="@+id/two"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+             android:gravity="center_vertical|center"
+            android:padding="2dp"
+            android:text="@string/Tuesday"
+            android:textSize="18sp"
+            android:textColor="#ffffff" />
+       
+      <TextView
+            android:id="@+id/three"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center"
+            android:padding="2dp"
+            android:text="@string/Wednesday"
+            android:textSize="18sp"
+            android:textColor="#ffffff" />
+      
+      <TextView
+            android:id="@+id/four"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+             android:gravity="center_vertical|center"
+            android:padding="2dp"
+            android:text="@string/Thursday"
+            android:textSize="18sp"
+            android:textColor="#ffffff" />
+      <TextView
+            android:id="@+id/five"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center"
+            android:padding="2dp"
+            android:text="@string/Friday"
+            android:textSize="18sp"
+            android:textColor="#ffffff" />
+
+    </LinearLayout>
+    
+   <android.support.v4.view.ViewPager
+        android:id="@+id/id_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+    </android.support.v4.view.ViewPager>
+    
+
+</LinearLayout>

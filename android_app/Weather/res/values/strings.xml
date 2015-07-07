@@ -1,0 +1,23 @@
+<resources>
+
+    <string name="app_name">Fool Weather</string>
+    <string name="temperature">20°/31°</string>
+    <string name="description">cloudy</string>
+    <string name="details">Details</string>
+    <string name="winddefault">Wind:3 level</string>
+    <string name="sunriseset">Sunrise: 4:52 \n\nSunset: 19:46</string>
+    
+    <string name="Today">Today</string>
+    <string name="Monday">Mon</string>
+    <string name="Tuesday">Tuey</string>
+    <string name="Wednesday">Wed</string>
+    <string name="Thursday">Thur</string>
+    <string name="Friday">Fri</string>
+    <string name="Saturday">Sat</string>
+    <string name="Sunday">Sun</string>
+    
+    <string name="cityname">Beijing</string>
+    
+    <string name="date">6,July</string>
+
+</resources>
