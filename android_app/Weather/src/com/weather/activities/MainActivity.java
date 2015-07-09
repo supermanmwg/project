@@ -2,17 +2,23 @@ package com.weather.activities;
 
 import com.weather.R;
 import com.weather.operation.ImageOps;
+import com.weather.operation.WeatherOps;
+import com.weather.operation.WeatherOpsImpl;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Toast;
 
 public class MainActivity  extends FragmentActivity implements OnClickListener,
 OnPageChangeListener{
 	
-	private ImageOps mImageOps;
+	private final String TAG = getClass().getSimpleName();
+	private WeatherOps mWeatherOps;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +29,15 @@ OnPageChangeListener{
 		
 		setContentView(R.layout.main);
 		
-		mImageOps = new ImageOps(this);
+		mWeatherOps =  new WeatherOpsImpl(this);
+		mWeatherOps.bindService();
+		
+	}
+	
+	@Override
+	protected void onDestroy() {
+		mWeatherOps.unbindService();
+		super.onDestroy();
 	}
 	
 	@Override
@@ -33,14 +47,12 @@ OnPageChangeListener{
 
 	@Override
 	public void onPageScrolled(int position, float positionOffset,
-			int positionOffsetPixels)
-	{
-		if (positionOffset >= 0.9 || positionOffset < 0.3)
-		{
-			 mImageOps.changeTab(position);
+			int positionOffsetPixels) {
+		if (positionOffset >= 0.9 || positionOffset < 0.3){
+			mWeatherOps.changeTab(position);
 		}
-
 	}
+	
 	@Override
 	public void onPageSelected(int arg0) {
 		
@@ -48,8 +60,12 @@ OnPageChangeListener{
 
 	@Override
 	public void onClick(View v) {
-		mImageOps.clickTab(v);
-		
+		mWeatherOps.clickTab(v);
+	}
+	
+	public void onLocation(View v){
+		Log.d(TAG, "onLoaction is beginning...");
+		mWeatherOps.onLocation("Beijing");
 	}
 
 }

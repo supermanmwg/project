@@ -6,6 +6,7 @@
     <string name="details">Details</string>
     <string name="winddefault">Wind:3 level</string>
     <string name="sunriseset">Sunrise: 4:52 \n\nSunset: 19:46</string>
+    <string name="humidity">Humidity:70%</string>
     
     <string name="Today">Today</string>
     <string name="Monday">Mon</string>

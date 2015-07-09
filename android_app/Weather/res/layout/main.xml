@@ -26,10 +26,11 @@
             android:text="@string/cityname" />
             />
         <ImageView android:id="@+id/setting"
-            android:layout_width="30dp"
+            android:layout_width="40dp"
             android:layout_height="30dp"
             android:gravity="center_vertical|center"
-            android:background="@drawable/set"/>"
+            android:background="@drawable/set"
+            android:onClick="onLocation"/>
     </LinearLayout>
     
     <View

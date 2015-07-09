@@ -92,12 +92,12 @@
     			android:background="#447EA5"/>
          	
          	 <TextView
-         	    android:id="@+id/SunRiseSet"
+         	    android:id="@+id/humidity"
          	    android:layout_height="match_parent"
          	    android:layout_width="0dp"
          	    android:layout_weight="1"
          	    android:gravity="center_vertical|center"
-         	    android:text="@string/sunriseset"
+         	    android:text="@string/humidity"
          	    android:textSize="20sp"
          	    android:textColor="#FFFFFF"/>
          </LinearLayout>

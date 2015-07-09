@@ -7,6 +7,7 @@ import java.util.List;
 import com.weather.R;
 import com.weather.activities.AddCityActivity;
 import com.weather.activities.MainActivity;
+import com.weather.aidl.WeatherData;
 import com.weather.customview.WeatherFragment;
 
 import android.content.Intent;
@@ -34,7 +35,9 @@ public class ImageOps {
 	private FragmentPagerAdapter mAdapter;
 	
 	//for home 
-	private ImageView mHomeView;
+	private ImageView mAlterCity;
+	
+
 	
 	public ImageOps(MainActivity activity) {
 		mActivity = new WeakReference<MainActivity>(activity);
@@ -70,8 +73,8 @@ public class ImageOps {
 		four.setAlpha(0.5f);
 		five.setAlpha(0.5f);
 		
-		mHomeView = (ImageView) mActivity.get().findViewById(R.id.change_city);
-		mHomeView.setOnClickListener(mActivity.get());
+		mAlterCity = (ImageView) mActivity.get().findViewById(R.id.change_city);
+		mAlterCity.setOnClickListener(mActivity.get());
 
 	}
 	
@@ -116,7 +119,6 @@ public class ImageOps {
 			Intent intent = new Intent(mActivity.get(), AddCityActivity.class);
 			mActivity.get().startActivity(intent);
 			break;
-			
 		}
 	}
 	
@@ -170,6 +172,26 @@ public class ImageOps {
 		TextView t = mTabIndicators.get(position);
 		t.setAlpha(1);
 	}
+
+	public void updateData(List<WeatherData> weatherList) {
+		
+		if(null != weatherList && 5 == weatherList.size())  {
+			mTabs.clear();
+			for (int i= 0; i< weatherList.size(); i++)
+			{
+				WeatherFragment tabFragment = new WeatherFragment();
+				Bundle data = new Bundle();
+				data.putParcelable(WeatherOps.WEATHRE_DATA, weatherList.get(i));
+				tabFragment.setArguments(data);
+				mTabs.add(tabFragment);
+			}
+			Log.d(TAG, "mTabs size is " + mTabs.size());
+		} else {
+			Log.d(TAG, "weather list is null !");
+		}
+		
+	}
 	
+
 
 }

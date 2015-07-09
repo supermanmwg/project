@@ -187,6 +187,7 @@ public class WeatherData implements Parcelable{
         dest.writeLong(mDate);
         dest.writeString(mCountry);
         dest.writeString(mIconID);
+        dest.writeString(mDescription);
 
     }
 
@@ -211,6 +212,7 @@ public class WeatherData implements Parcelable{
         mDate = in.readLong();
         mCountry = in.readString();
         mIconID = in.readString();
+        mDescription = in.readString();
     }
 
     public WeatherData() {

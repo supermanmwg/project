@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.weather.R;
+import com.weather.aidl.WeatherData;
 import com.weather.customview.AddCityAdapter;
-import com.weather.customview.City;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +16,7 @@ import android.widget.ListView;
 
 public class AddCityActivity extends Activity{
 	
-	private List<City> cityList = new ArrayList<City>();
+	private List<WeatherData> cityList = new ArrayList<>();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -41,9 +40,11 @@ public class AddCityActivity extends Activity{
 	}
 	
 	public void initCity() {
-		City zoucheng = new City("×Þ³Ç", "17¡ã/30¡ã", null);
+		WeatherData zoucheng = new WeatherData();
+		zoucheng.setmName("zoucheng");
 		cityList.add(zoucheng);
-		City jining = new City("¼ÃÄþ", "17¡ã/32¡ã", null);
+		WeatherData jining = new WeatherData();
+		jining.setmName("jining");
 		cityList.add(jining);
 	}
 

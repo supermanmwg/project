@@ -2,6 +2,9 @@ package com.weather.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import android.util.Log;
+
 import com.weather.aidl.WeatherData;
 import com.weather.retrofit.WeatherDataCurrent;
 import com.weather.retrofit.WeatherDataForeCast;
@@ -16,8 +19,11 @@ public class Utils {
 	 *  @Description 
 	 * 	 	get a Weather data list from today and forecast
 	 */
+	
+	public final static String TAG = "Utils";
+	
 	public static List<WeatherData> genList(WeatherDataCurrent mCurrent,
-			WeatherDataForeCast mForeCast,int cnt) {
+			WeatherDataForeCast mForeCast,long cnt) {
 		List<WeatherData> list = new ArrayList<WeatherData>();
 		WeatherData mData = getWeatherFromCurrent( mCurrent);
 		if(null != mData)
@@ -56,6 +62,8 @@ public class Utils {
 		mData.setmTempMin(mCurrent.getMain().getmTempMin());
 		mData.setmDescription(mCurrent.getWeathers().get(0).getDescription());
 		
+		
+		
 		return mData;
 	}
 	
@@ -82,6 +90,8 @@ public class Utils {
 		mData.setmTemp(mForCast.getList().get(cnt).getTemp().getDay());
 		mData.setmTempMax(mForCast.getList().get(cnt).getTemp().getMax());
 		mData.setmTempMin(mForCast.getList().get(cnt).getTemp().getMin());
+		mData.setmDescription(mForCast.getList().get(cnt).getWeather().get(0).getDescription());
+		Log.d(TAG, "121desc" + mData.getmDescription());
 		
 		return mData;
 		

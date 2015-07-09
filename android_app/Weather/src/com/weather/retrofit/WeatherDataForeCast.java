@@ -1,18 +1,7 @@
 package com.weather.retrofit;
 
-
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.transform.Templates;
-
-import android.R.integer;
-import android.R.string;
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import com.google.gson.annotations.SerializedName;
-import com.weather.customview.City;
 
 /**
  * This class is a Plain Old Java Object (POJO) used for data transport within
