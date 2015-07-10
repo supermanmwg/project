@@ -9,13 +9,12 @@ import com.weather.activities.AddCityActivity;
 import com.weather.activities.MainActivity;
 import com.weather.aidl.WeatherData;
 import com.weather.customview.WeatherFragment;
+import com.weather.provider.cache.WeatherTimeoutCache;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.style.TtsSpan.ElectronicBuilder;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,56 +33,46 @@ public class ImageOps {
 	
 	private FragmentPagerAdapter mAdapter;
 	
-	private List<WeatherData> weatherList;
-	
 	//for home 
 	private ImageView mAlterCity;
 	
+	private WeatherTimeoutCache mCache;
+	private UniqueOps mUniqueOps;
+	
 	public ImageOps(MainActivity activity) {
 		mActivity = new WeakReference<MainActivity>(activity);
+		mCache = new WeatherTimeoutCache(activity);
+		mUniqueOps = new UniqueOps(activity);
 		initView();
 		initDatas();
 		mViewPager.setAdapter(mAdapter);
 		initEvent();
-
 	}
 
 	private void initView()
 	{
 		mViewPager = (ViewPager)mActivity.get().findViewById(R.id.id_viewpager);
-		TextView one = (TextView)mActivity.get().findViewById(R.id.one);
-		mTabIndicators.add(one);
-		TextView two = (TextView)mActivity.get().findViewById(R.id.two);
-		mTabIndicators.add(two);
-		TextView three = (TextView)mActivity.get().findViewById(R.id.three);
-		mTabIndicators.add(three);
-		TextView four = (TextView)mActivity.get().findViewById(R.id.four);
-		mTabIndicators.add(four);
-		TextView five = (TextView)mActivity.get().findViewById(R.id.five);
-		mTabIndicators.add(five);
-		
-		
-		one.setOnClickListener(mActivity.get());
-		two.setOnClickListener(mActivity.get());
-		three.setOnClickListener(mActivity.get());
-		four.setOnClickListener(mActivity.get());
-		five.setOnClickListener(mActivity.get());
-		one.setAlpha(1f);
-		two.setAlpha(0.5f);
-		three.setAlpha(0.5f);
-		four.setAlpha(0.5f);
-		five.setAlpha(0.5f);
 		
 		mAlterCity = (ImageView) mActivity.get().findViewById(R.id.change_city);
 		mAlterCity.setOnClickListener(mActivity.get());
-
+		
+		TextView one = (TextView)mActivity.get().findViewById(R.id.one);
+		one.setOnClickListener(mActivity.get());
+		one.setAlpha(1f);
+		
+		TextView two = (TextView)mActivity.get().findViewById(R.id.two);
+		two.setOnClickListener(mActivity.get());
+		two.setAlpha(0.5f);
+		
+		TextView three = (TextView)mActivity.get().findViewById(R.id.three);
+		three.setOnClickListener(mActivity.get());
+		three.setAlpha(0.5f);
+		
+		mTabIndicators.add(one);
+		mTabIndicators.add(two);
+		mTabIndicators.add(three);	
 	}
 	
-	/**
-	 * 点击Tab按钮
-	 * 
-	 * @param v
-	 */
 	public void clickTab(View v)
 	{
 
@@ -103,16 +92,6 @@ public class ImageOps {
 			resetOtherTabs();
 			mTabIndicators.get(2).setAlpha(1.0f);
 			mViewPager.setCurrentItem(2, false);
-			break;
-		case R.id.four:
-			resetOtherTabs();
-			mTabIndicators.get(3).setAlpha(1.0f);
-			mViewPager.setCurrentItem(3, false);
-			break;
-		case R.id.five:
-			resetOtherTabs();
-			mTabIndicators.get(4).setAlpha(1.0f);
-			mViewPager.setCurrentItem(4, false);
 			break;
 		case R.id.change_city:
 			Log.d(TAG, "change city");
@@ -140,26 +119,19 @@ public class ImageOps {
 			@Override
 			public int getCount()
 			{
-				return 5;
+				return 3;
 			}
 
 			@Override
 			public Fragment getItem(int pos)
 			{
-				if(weatherList != null) {
-					Log.d(TAG, "pos is " + pos);
-				   switch(pos) {
-		            case 0: return WeatherFragment.newInstance(weatherList.get(0));
-		            case 1: return WeatherFragment.newInstance(weatherList.get(1));
-		            case 2: return WeatherFragment.newInstance(weatherList.get(2));
-		            case 3: return WeatherFragment.newInstance(weatherList.get(3));
-		            case 4: return WeatherFragment.newInstance(weatherList.get(4));
-		            default: return WeatherFragment.newInstance(null);
-				   }
-				} else {
-					Log.d(TAG, "get Default fragment");
-					return WeatherFragment.newInstance(null);
-				}
+				Log.d(TAG, "pos is " + pos);
+				 switch(pos) {
+		            case 0: return WeatherFragment.newInstance(pos);
+		            case 1: return WeatherFragment.newInstance(pos);
+		            case 2: return WeatherFragment.newInstance(pos);
+		            default: return WeatherFragment.newInstance(-1);
+				 }
 			}
 		};
 	}
@@ -180,28 +152,23 @@ public class ImageOps {
 	}
 
 	public void updateData(final List<WeatherData> mWeatherList) {
-		
-		if(null != mWeatherList && 5 == mWeatherList.size())  {
+		if(null != mWeatherList && 3 == mWeatherList.size()) {
+			mCache.remove(mWeatherList.get(0).getmName());
+			mCache.put(mWeatherList);
 			
-
+			mUniqueOps.SetDisplayName(mWeatherList.get(0).getmName());
+			Log.w(TAG, "get display name is " + mUniqueOps.getDisplayName());
 			mActivity.get().runOnUiThread(new Runnable() {
 				
 				@Override
 				public void run() {
-					Log.d(TAG, "update weather list  !");
-					weatherList = mWeatherList;
-					mAdapter.notifyDataSetChanged();
+					initDatas();
 					mViewPager.setAdapter(mAdapter);
 					initEvent();
 				}
 			});
 			
-		} else {
-	//		Log.d(TAG, "update weather list is null !");
+
 		}
-		
 	}
-	
-
-
 }

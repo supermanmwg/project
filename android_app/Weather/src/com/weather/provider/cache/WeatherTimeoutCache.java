@@ -159,11 +159,12 @@ public class WeatherTimeoutCache implements
 			// Check that the cursor isn't null and contains an item.
 			if (wdCursor != null && wdCursor.moveToFirst()) {
 				Log.d(TAG, "Cursor not null and has first item");
-				if (wdCursor
+		/*		if (wdCursor
 						.getLong(wdCursor
 								.getColumnIndex(WeatherContract.WeatherValuesEntry.COLUMN_EXPIRATION_TIME)) < System
 						.currentTimeMillis()) {
-
+					Log.d(TAG, "remove the city , name is " +wdCursor
+							.getColumnIndex(WeatherContract.WeatherValuesEntry.COLUMN_NAME));
 					// Concurrently delete the stale data from the db
 					// in a new thread.
 					new Thread(new Runnable() {
@@ -173,7 +174,7 @@ public class WeatherTimeoutCache implements
 					}).start();
 
 					return null;
-				} else
+				} else*/
 					// Convert the contents of the cursor into a
 					// WeatherData object.
 					return getWeatherDataFromCursor(wdCursor);
@@ -218,7 +219,7 @@ public class WeatherTimeoutCache implements
 				final String icon = data.getString(data
 						.getColumnIndex(WeatherValuesEntry.COLUMN_ICON));
 				final String description = data.getString(data
-								.getColumnIndex(WeatherValuesEntry.COLUMN_EXPIRATION_TIME));
+								.getColumnIndex(WeatherValuesEntry.COLUMN_DESCRIPTION));
 				WeatherData weatherData =new  WeatherData(
 									speed,
 									degree, 

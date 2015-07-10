@@ -50,6 +50,7 @@
     	    	android:layout_height="match_parent"
     	    	android:layout_weight="1"
     	    	android:gravity="center_vertical"
+    	    	android:text="@string/details"
     	    	android:textSize="18sp"
     	    	android:textColor="#FFFFFF"
     	    	android:alpha="0.6"/>

@@ -26,7 +26,7 @@ public class WeatherProvider extends ContentProvider {
 	
 	@Override
 	public boolean onCreate() {
-		mDataBaseHelper = new WeatherDatabaseHelper(getContext());
+		mDataBaseHelper = new WeatherDatabaseHelper(getContext(),"WeatherData.db", null, 1);
 		return true;
 	}
 	

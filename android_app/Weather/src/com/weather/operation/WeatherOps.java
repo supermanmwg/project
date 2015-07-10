@@ -14,15 +14,7 @@ public interface WeatherOps {
 	 */
 	public static final String WEATHRE_DATA = "Weather Data";
 	
-	/**
-	 * String for display name
-	 */
-	public static final String DISPLAY_NAME = "Display_Name";
-	
-	/**
-	 * String for list name
-	 */
-	public static final String SET_NAME = "Set_Name";
+
 	
 	/**
 	 * Initiate the service binding protocol.
@@ -47,11 +39,4 @@ public interface WeatherOps {
 
 	public void onLocation(String string);
 	
-	public String getDisplayName();
-	
-	public void SetDisplayName(String name);
-	
-	public Set<String> getListName();
-	
-	public void setListName(Set<String> nameSet);
 }

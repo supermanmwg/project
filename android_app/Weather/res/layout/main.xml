@@ -53,49 +53,26 @@
             android:textSize="18sp"
             android:textColor="#ffffff" />
         
-       <TextView
+        <TextView
             android:id="@+id/two"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
              android:gravity="center_vertical|center"
             android:padding="2dp"
-            android:text="@string/Tuesday"
+            android:text="@string/Tomorrow"
             android:textSize="18sp"
             android:textColor="#ffffff" />
        
-      <TextView
+        <TextView
             android:id="@+id/three"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center_vertical|center"
-            android:padding="2dp"
-            android:text="@string/Wednesday"
+            android:text="@string/Thedayaftertomorrow"
             android:textSize="18sp"
             android:textColor="#ffffff" />
-      
-      <TextView
-            android:id="@+id/four"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-             android:gravity="center_vertical|center"
-            android:padding="2dp"
-            android:text="@string/Thursday"
-            android:textSize="18sp"
-            android:textColor="#ffffff" />
-      <TextView
-            android:id="@+id/five"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical|center"
-            android:padding="2dp"
-            android:text="@string/Friday"
-            android:textSize="18sp"
-            android:textColor="#ffffff" />
-
     </LinearLayout>
     
    <android.support.v4.view.ViewPager

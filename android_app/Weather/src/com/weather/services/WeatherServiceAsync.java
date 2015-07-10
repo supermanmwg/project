@@ -42,10 +42,10 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 			new WeatherRequest.Stub() {
 
 				@Override
-				public void getCurrentWeather(String location,String metric, long cnt,
+				public void getCurrentWeather(String location,String metric, long cnt,String lang,
 						WeatherResults results) throws RemoteException {
-					WeatherDataCurrent mWeatherDataCurrent = mWeatherWebServiceProxy.getWeatherData(location, metric);
-					WeatherDataForeCast mForCastList = mWeatherWebServiceProxy.getWeatherData(location, metric, 5);
+					WeatherDataCurrent mWeatherDataCurrent = mWeatherWebServiceProxy.getWeatherData(location, metric,lang);
+					WeatherDataForeCast mForCastList = mWeatherWebServiceProxy.getWeatherData(location, metric, cnt,lang);
 					List<WeatherData> mList;
 					if(null != mWeatherDataCurrent && null != mForCastList) {
 						mList = Utils.genList(mWeatherDataCurrent, mForCastList, cnt);

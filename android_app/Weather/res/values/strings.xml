@@ -9,13 +9,9 @@
     <string name="humidity">Humidity:70%</string>
     
     <string name="Today">Today</string>
-    <string name="Monday">Mon</string>
-    <string name="Tuesday">Tuey</string>
-    <string name="Wednesday">Wed</string>
-    <string name="Thursday">Thur</string>
-    <string name="Friday">Fri</string>
-    <string name="Saturday">Sat</string>
-    <string name="Sunday">Sun</string>
+    <string name="Tomorrow">Tomorrow</string>
+    <string name="Thedayaftertomorrow">The day after\ntomorrow</string>
+
     
     <string name="cityname">Beijing</string>
     

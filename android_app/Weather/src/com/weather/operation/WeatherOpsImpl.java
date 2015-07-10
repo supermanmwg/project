@@ -32,7 +32,7 @@ public class WeatherOpsImpl implements WeatherOps {
 	private ImageOps mImageOps;
 	private GenericServiceConnection<WeatherRequest> mServiceConnection;
 	private LifecycleLoggingService mService;
-	private WeatherTimeoutCache mCache;
+
 
 	public WeatherOpsImpl(MainActivity activity) {
 		mActivity = new WeakReference<MainActivity>(activity);
@@ -40,8 +40,6 @@ public class WeatherOpsImpl implements WeatherOps {
 		mServiceConnection = new GenericServiceConnection<>(
 				WeatherRequest.class);
 		mService = new WeatherServiceAsync();
-		mCache = new WeatherTimeoutCache(mActivity.get()
-				.getApplicationContext());
 	}
 
 	@Override
@@ -83,14 +81,12 @@ public class WeatherOpsImpl implements WeatherOps {
 
 		final WeatherRequest mWeatherRequest = mServiceConnection
 				.getInterface();
-		// Log.d(TAG, "2 weather  client connection is " +
-		// mServiceConnection.getInterface().getClass());
 
 		if (null != mWeatherRequest) {
 			try {
 				Log.d(TAG, "before haha");
 				mWeatherRequest.getCurrentWeather(name,
-						WeatherWebServiceProxy.Celsius, 4, mWeatherResults);
+						WeatherWebServiceProxy.Celsius, 3,"zh_cn" ,mWeatherResults);
 				Log.d(TAG, "after haha");
 			} catch (RemoteException e) {
 				Log.e(TAG, "RemoteException:" + e.getMessage());
@@ -98,43 +94,6 @@ public class WeatherOpsImpl implements WeatherOps {
 		} else {
 			Log.d(TAG, "mWeatherRequest was null");
 		}
-	}
-
-	@Override
-	public String getDisplayName() {
-		SharedPreferences pref = PreferenceManager
-				.getDefaultSharedPreferences(mActivity.get());
-		String name = pref.getString(DISPLAY_NAME, null);
-
-		return name;
-	}
-
-	@Override
-	public void SetDisplayName(String name) {
-		SharedPreferences pref = PreferenceManager
-				.getDefaultSharedPreferences(mActivity.get());
-		SharedPreferences.Editor mEditor;
-		mEditor = pref.edit();
-		mEditor.putString(DISPLAY_NAME, name);
-	}
-
-	@Override
-	public Set<String> getListName() {
-		SharedPreferences pref = PreferenceManager
-				.getDefaultSharedPreferences(mActivity.get());
-		Set<String> mSet = pref.getStringSet(SET_NAME, null);
-
-		return mSet;
-	}
-
-	@Override
-	public void setListName(Set<String> nameSet) {
-		SharedPreferences pref = PreferenceManager
-				.getDefaultSharedPreferences(mActivity.get());
-		SharedPreferences.Editor mEditor;
-		mEditor = pref.edit();
-		mEditor.putStringSet(SET_NAME, nameSet);
-
 	}
 
 	private final Handler mDisHandler = new Handler();
@@ -161,7 +120,6 @@ public class WeatherOpsImpl implements WeatherOps {
 		@Override
 		public void sendResult(List<WeatherData> results)
 				throws RemoteException {
-			mCache.put(results);
 			mImageOps.updateData(results);
 
 		}
