@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.style.TtsSpan.ElectronicBuilder;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,13 +32,12 @@ public class ImageOps {
 
 	private List<TextView> mTabIndicators = new ArrayList<TextView>();
 	
-	private List<Fragment> mTabs = new ArrayList<Fragment>();
 	private FragmentPagerAdapter mAdapter;
+	
+	private List<WeatherData> weatherList;
 	
 	//for home 
 	private ImageView mAlterCity;
-	
-
 	
 	public ImageOps(MainActivity activity) {
 		mActivity = new WeakReference<MainActivity>(activity);
@@ -45,6 +45,7 @@ public class ImageOps {
 		initDatas();
 		mViewPager.setAdapter(mAdapter);
 		initEvent();
+
 	}
 
 	private void initView()
@@ -110,7 +111,6 @@ public class ImageOps {
 			break;
 		case R.id.five:
 			resetOtherTabs();
-			Log.d(TAG, "get 4");
 			mTabIndicators.get(4).setAlpha(1.0f);
 			mViewPager.setCurrentItem(4, false);
 			break;
@@ -133,33 +133,39 @@ public class ImageOps {
 	
 	private void initDatas()
 	{
-		for (int i= 0; i< 5; i++)
-		{
-			WeatherFragment tabFragment = new WeatherFragment();
-			Bundle bundle = new Bundle();
-			bundle.putInt(ID, i);
-			tabFragment.setArguments(bundle);
-			mTabs.add(tabFragment);
-		}
-
+		
 		mAdapter = new FragmentPagerAdapter(mActivity.get().getSupportFragmentManager())
 		{
 
 			@Override
 			public int getCount()
 			{
-				return mTabs.size();
+				return 5;
 			}
 
 			@Override
-			public Fragment getItem(int position)
+			public Fragment getItem(int pos)
 			{
-				return mTabs.get(position);
+				if(weatherList != null) {
+					Log.d(TAG, "pos is " + pos);
+				   switch(pos) {
+		            case 0: return WeatherFragment.newInstance(weatherList.get(0));
+		            case 1: return WeatherFragment.newInstance(weatherList.get(1));
+		            case 2: return WeatherFragment.newInstance(weatherList.get(2));
+		            case 3: return WeatherFragment.newInstance(weatherList.get(3));
+		            case 4: return WeatherFragment.newInstance(weatherList.get(4));
+		            default: return WeatherFragment.newInstance(null);
+				   }
+				} else {
+					Log.d(TAG, "get Default fragment");
+					return WeatherFragment.newInstance(null);
+				}
 			}
 		};
 	}
 	
 
+	@SuppressWarnings("deprecation")
 	private void initEvent()
 	{
 
@@ -173,21 +179,25 @@ public class ImageOps {
 		t.setAlpha(1);
 	}
 
-	public void updateData(List<WeatherData> weatherList) {
+	public void updateData(final List<WeatherData> mWeatherList) {
 		
-		if(null != weatherList && 5 == weatherList.size())  {
-			mTabs.clear();
-			for (int i= 0; i< weatherList.size(); i++)
-			{
-				WeatherFragment tabFragment = new WeatherFragment();
-				Bundle data = new Bundle();
-				data.putParcelable(WeatherOps.WEATHRE_DATA, weatherList.get(i));
-				tabFragment.setArguments(data);
-				mTabs.add(tabFragment);
-			}
-			Log.d(TAG, "mTabs size is " + mTabs.size());
+		if(null != mWeatherList && 5 == mWeatherList.size())  {
+			
+
+			mActivity.get().runOnUiThread(new Runnable() {
+				
+				@Override
+				public void run() {
+					Log.d(TAG, "update weather list  !");
+					weatherList = mWeatherList;
+					mAdapter.notifyDataSetChanged();
+					mViewPager.setAdapter(mAdapter);
+					initEvent();
+				}
+			});
+			
 		} else {
-			Log.d(TAG, "weather list is null !");
+	//		Log.d(TAG, "update weather list is null !");
 		}
 		
 	}

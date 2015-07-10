@@ -1,0 +1,31 @@
+			cvs.put(WeatherContract.WeatherValuesEntry.COLUMN_NAME,
+                wd.get(i).getmName());
+    		cvs.put(WeatherContract.WeatherValuesEntry.COLUMN_DATE,
+                wd.get(i).getmDate());
+    		cvs.put(WeatherContract.WeatherValuesEntry.COLUMN_COUNTRY,
+                wd.get(i).getmCountry());
+    		cvs.put(WeatherContract.WeatherValuesEntry.COLUMN_TEMP,
+                wd.get(i).getmTemp());
+    		cvs.put(WeatherContract.WeatherValuesEntry.COLUMN_TEMP_MAX,
+                    wd.get(i).getmTempMax());
+    		cvs.put(WeatherContract.WeatherValuesEntry.COLUMN_TEMP_MIN,
+                    wd.get(i).getmTempMin());
+    		cvs.put(WeatherContract.WeatherValuesEntry.COLUMN_HUMIDITY,
+                wd.get(i).getmHumidity());
+    		cvs.put(WeatherContract.WeatherValuesEntry.COLUMN_PRESSURE,
+                wd.get(i).getmPressure());
+    		cvs.put(WeatherContract.WeatherValuesEntry.COLUMN_SPEED,
+                wd.get(i).getmSpeed());
+    		cvs.put(WeatherContract.WeatherValuesEntry.COLUMN_DEG,
+                wd.get(i).getmDeg());
+    		cvs.put(WeatherContract.WeatherValuesEntry.COLUMN_ICON,
+                    wd.get(i).getmIconID());
+    		cvs.put(WeatherContract.WeatherValuesEntry.COLUMN_DESCRIPTION,
+                    wd.get(i).getmDescription());
+    		cvs.put(WeatherContract.WeatherValuesEntry.COLUMN_EXPIRATION_TIME,
+    				System.currentTimeMillis() 
+    				+ timeout);
+    				public WeatherData(double mSpeed, double mDeg, double mTemp,
+						double mTempMax, double mTempMin, long mHumidity, double mPressure,
+						long mDate, String mCountry, String mName, String mIconID,
+						String mDescription)

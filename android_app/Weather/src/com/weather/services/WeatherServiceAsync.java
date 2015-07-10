@@ -49,20 +49,20 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 					List<WeatherData> mList;
 					if(null != mWeatherDataCurrent && null != mForCastList) {
 						mList = Utils.genList(mWeatherDataCurrent, mForCastList, cnt);
-						Log.d(TAG, "current and forcast is ok");
-						Log.d(TAG, "mlist is " + mList.size());
+						Log.v(TAG, "current and forcast is ok");
+						Log.v(TAG, "mlist is " + mList.size());
 					} else {
-						Log.d(TAG, "current or forcast is null");
+						Log.v(TAG, "current or forcast is null");
 						results.sendErrors();
 						return;
 					}
 					for ( int i = 0; i < mList.size(); i++) {
 						WeatherData mWeatherData = mList.get(i);
-						Log.d(TAG, "name is " + mWeatherData.getmName());
-						Log.d(TAG, "max temp is " + mWeatherData.getmTempMax());
-						Log.d(TAG, "min temp is " + mWeatherData.getmTempMin());
-						Log.d(TAG, "data is " + mWeatherData.getmDate());
-						Log.d(TAG, "description is " + mWeatherData.getmDescription());
+						Log.v(TAG, "name is " + mWeatherData.getmName());
+						Log.v(TAG, "max temp is " + mWeatherData.getmTempMax());
+						Log.v(TAG, "min temp is " + mWeatherData.getmTempMin());
+						Log.v(TAG, "data is " + mWeatherData.getmDate());
+						Log.v(TAG, "description is " + mWeatherData.getmDescription());
 					}
 					results.sendResult(mList);
 				}

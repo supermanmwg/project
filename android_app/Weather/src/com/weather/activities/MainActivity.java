@@ -63,9 +63,18 @@ OnPageChangeListener{
 		mWeatherOps.clickTab(v);
 	}
 	
+	public static int i = 0;
 	public void onLocation(View v){
 		Log.d(TAG, "onLoaction is beginning...");
-		mWeatherOps.onLocation("Beijing");
+		String name;
+		if(i%2 == 0) {
+			 name = "Beijing";
+			 i++;
+		} else {
+			 name = "Shanghai";
+			 i++;
+		}
+		mWeatherOps.onLocation(name);
 	}
 
 }

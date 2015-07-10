@@ -48,12 +48,26 @@ public class WeatherFragment  extends Fragment{
 		super.onCreate(savedInstanceState);
 		
 		if(null != getArguments()) {
+			
 			mWeatherData = getArguments().getParcelable(WeatherOps.WEATHRE_DATA);
-			if(mWeatherData != null) {
-
-			}
-		} 
+			Log.d(TAG, "Create City name is " +  mWeatherData.getmName());
+			Log.d(TAG, "Create Data is " + mWeatherData.getmDate());
+		} else {
+			Log.d(TAG, "getArgument is null");
+		}
 	}
+	
+	  public static WeatherFragment newInstance(WeatherData mData) {
+
+		  WeatherFragment f = new WeatherFragment();
+		  	if(null != mData) {
+		  		Bundle b = new Bundle();
+		  		b.putParcelable(WeatherOps.WEATHRE_DATA, mData);
+		  		f.setArguments(b);
+		  	}
+
+	        return f;
+	    }
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -64,14 +78,9 @@ public class WeatherFragment  extends Fragment{
 	public void onStart() {
 		super.onStart();
 		if(mWeatherData != null) {
-			Log.d(TAG, "getArgument is not null");
-			Log.d(TAG, "description is " + mWeatherData.getmDescription());
-		/*		Log.d(TAG, "name is " + mWeatherData.getmName());
-			Log.d(TAG, "max temp is " + mWeatherData.getmTempMax());
-			Log.d(TAG, "min temp is " + mWeatherData.getmTempMin());
-			Log.d(TAG, "data is " + mWeatherData.getmDate());
-			Log.d(TAG, "description is " + mWeatherData.getmDescription());*/
 			updateDisplayFragment(mWeatherData);	
+			Log.d(TAG, "Start City name is " +  mWeatherData.getmName());
+			Log.d(TAG, "Start Data is " + mWeatherData.getmDate());
 		} else {
 			Log.d(TAG, "getArguments is null");
 		}
@@ -85,8 +94,6 @@ public class WeatherFragment  extends Fragment{
 	private void setFragmentData(WeatherData mData) {
 		cityNameTView.setText(mData.getmName());
 		tempTextView.setText("" + (long)mData.getmTempMin() + "бу/" + (long)mData.getmTempMax() + "бу");
-		Log.d(TAG, "1 description is " + mWeatherData.getmDescription());
-		Log.d(TAG, "2 description is " + mData.getmDescription());
 		desTextView.setText(mData.getmDescription());
 		datTextView.setText("" + mData.getmDate());
 		windTextView.setText("" + mData.getmSpeed()); 
@@ -96,11 +103,11 @@ public class WeatherFragment  extends Fragment{
 
 	private void initFragmentUI() {
 		cityNameTView = (TextView)mActivity.get().findViewById(R.id.city_name);
-		tempTextView = (TextView)mActivity.get().findViewById(R.id.temperature);
-		desTextView = (TextView)mActivity.get().findViewById(R.id.description);
-		datTextView = (TextView)mActivity.get().findViewById(R.id.date);
-		windTextView = (TextView)mActivity.get().findViewById(R.id.wind);
-		humTextView = (TextView)mActivity.get().findViewById(R.id.humidity);
+		tempTextView = (TextView)v.findViewById(R.id.temperature);
+		desTextView = (TextView)v.findViewById(R.id.description);
+		datTextView = (TextView)v.findViewById(R.id.date);
+		windTextView = (TextView)v.findViewById(R.id.wind);
+		humTextView = (TextView)v.findViewById(R.id.humidity);
 	}
 	
 }

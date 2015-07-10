@@ -1,10 +1,8 @@
 package com.weather.provider;
 
 import java.io.File;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class WeatherDatabaseHelper extends SQLiteOpenHelper{
@@ -24,20 +22,37 @@ public class WeatherDatabaseHelper extends SQLiteOpenHelper{
     /**
      * SQL statement used to create the weather values table.
      */
-	public static final String CREATE_WEATHER = "create table Weather ("
-			+ "id integer, "
-			+ "name text, "
-			+ "speed real, "
-			+ "degree real, "
-			+ "temp real, "
-			+ "tempmax real, "
-			+ "tempmin real, "
-			+ "humidity integer, "
-			+ "pressure real, "
-			+ "date integer, "
-			+ "country text, "
-			+ "icon text,"
-			+ "description text)";
+	public static final String CREATE_WEATHER = "create table "
+			+ WeatherContract.WeatherValuesEntry.WEATHER_VALUES_TABLE_NAME
+			+ "("
+			+ WeatherContract.WeatherValuesEntry._ID
+			+ " integer primary key, "
+			+ WeatherContract.WeatherValuesEntry.COLUMN_NAME
+			+ " text, "
+			+ WeatherContract.WeatherValuesEntry.COLUMN_SPEED
+			+ " real, "
+			+ WeatherContract.WeatherValuesEntry.COLUMN_DEG
+			+ " real, "
+			+ WeatherContract.WeatherValuesEntry.COLUMN_TEMP
+			+ " real, "
+			+ WeatherContract.WeatherValuesEntry.COLUMN_TEMP_MAX
+			+ " real, "
+			+ WeatherContract.WeatherValuesEntry.COLUMN_TEMP_MIN
+			+ " real, "
+			+ WeatherContract.WeatherValuesEntry.COLUMN_HUMIDITY
+			+ " integer, "
+			+ WeatherContract.WeatherValuesEntry.COLUMN_PRESSURE
+			+ " real, "
+			+ WeatherContract.WeatherValuesEntry.COLUMN_DATE
+			+ " integer, "
+			+ WeatherContract.WeatherValuesEntry.COLUMN_COUNTRY
+			+ " text, "
+			+ WeatherContract.WeatherValuesEntry.COLUMN_ICON
+			+ " text, "
+			+ WeatherContract.WeatherValuesEntry.COLUMN_DESCRIPTION
+			+ " text, "
+			+ WeatherContract.WeatherValuesEntry.COLUMN_EXPIRATION_TIME
+			+ " integer)";
 	
     /**
     * Constructor - initialize database name and version, but don't
@@ -48,8 +63,7 @@ public class WeatherDatabaseHelper extends SQLiteOpenHelper{
     * 
     * @param context
     */
-	public WeatherDatabaseHelper(Context context, String name,
-			CursorFactory factory, int version) {
+	public WeatherDatabaseHelper(Context context) {
 		 super(context, 
 	              context.getCacheDir()
 	              + File.separator 

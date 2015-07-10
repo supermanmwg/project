@@ -1,11 +1,15 @@
 package com.weather.operation;
 
 import java.lang.ref.WeakReference;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -14,77 +18,79 @@ import com.weather.activities.MainActivity;
 import com.weather.aidl.WeatherData;
 import com.weather.aidl.WeatherRequest;
 import com.weather.aidl.WeatherResults;
+import com.weather.provider.cache.WeatherTimeoutCache;
 import com.weather.retrofit.WeatherWebServiceProxy;
 import com.weather.services.LifecycleLoggingService;
 import com.weather.services.WeatherServiceAsync;
 import com.weather.utils.GenericServiceConnection;
 
-
 public class WeatherOpsImpl implements WeatherOps {
-	
+
 	private final String TAG = getClass().getSimpleName();
-	
+
 	private WeakReference<MainActivity> mActivity;
 	private ImageOps mImageOps;
-	private	GenericServiceConnection<WeatherRequest> mServiceConnection;
-	private  LifecycleLoggingService mService;
-	
-	
-	public WeatherOpsImpl(MainActivity activity){
+	private GenericServiceConnection<WeatherRequest> mServiceConnection;
+	private LifecycleLoggingService mService;
+	private WeatherTimeoutCache mCache;
+
+	public WeatherOpsImpl(MainActivity activity) {
 		mActivity = new WeakReference<MainActivity>(activity);
 		mImageOps = new ImageOps(mActivity.get());
 		mServiceConnection = new GenericServiceConnection<>(
 				WeatherRequest.class);
 		mService = new WeatherServiceAsync();
+		mCache = new WeatherTimeoutCache(mActivity.get()
+				.getApplicationContext());
 	}
-	
+
 	@Override
 	public void bindService() {
 
 		if (null == mServiceConnection.getInterface()) {
-			mActivity.get()
+			mActivity
+					.get()
 					.getApplicationContext()
-					.bindService(
-							mService.makeIntent(mActivity.get()),
-							mServiceConnection,
-							Context.BIND_AUTO_CREATE);
+					.bindService(mService.makeIntent(mActivity.get()),
+							mServiceConnection, Context.BIND_AUTO_CREATE);
 			Log.d(TAG, "bind Service!");
 		} else {
 			Log.d(TAG, "mServiceConnection is not null!");
 		}
 	}
-		
 
 	@Override
 	public void unbindService() {
 		if (null != mServiceConnection.getInterface()) {
-			mActivity.get()
-					.getApplicationContext()
+			mActivity.get().getApplicationContext()
 					.unbindService(mServiceConnection);
 			Log.d(TAG, "unbind Service!");
 		}
-		
+
 	}
+
 	public void changeTab(int position) {
-		 mImageOps.changeTab(position);
+		mImageOps.changeTab(position);
 	}
 
 	public void clickTab(View v) {
 		mImageOps.clickTab(v);
-		
+
 	}
-	
+
 	@Override
 	public void onLocation(String name) {
-		
+
 		final WeatherRequest mWeatherRequest = mServiceConnection
 				.getInterface();
-	//	Log.d(TAG, "2 weather  client connection is " + mServiceConnection.getInterface().getClass());
+		// Log.d(TAG, "2 weather  client connection is " +
+		// mServiceConnection.getInterface().getClass());
 
 		if (null != mWeatherRequest) {
 			try {
 				Log.d(TAG, "before haha");
-				mWeatherRequest.getCurrentWeather(name, WeatherWebServiceProxy.Celsius, 4, mWeatherResults);
+				mWeatherRequest.getCurrentWeather(name,
+						WeatherWebServiceProxy.Celsius, 4, mWeatherResults);
 				Log.d(TAG, "after haha");
 			} catch (RemoteException e) {
 				Log.e(TAG, "RemoteException:" + e.getMessage());
@@ -94,9 +100,45 @@ public class WeatherOpsImpl implements WeatherOps {
 		}
 	}
 
-	
+	@Override
+	public String getDisplayName() {
+		SharedPreferences pref = PreferenceManager
+				.getDefaultSharedPreferences(mActivity.get());
+		String name = pref.getString(DISPLAY_NAME, null);
+
+		return name;
+	}
+
+	@Override
+	public void SetDisplayName(String name) {
+		SharedPreferences pref = PreferenceManager
+				.getDefaultSharedPreferences(mActivity.get());
+		SharedPreferences.Editor mEditor;
+		mEditor = pref.edit();
+		mEditor.putString(DISPLAY_NAME, name);
+	}
+
+	@Override
+	public Set<String> getListName() {
+		SharedPreferences pref = PreferenceManager
+				.getDefaultSharedPreferences(mActivity.get());
+		Set<String> mSet = pref.getStringSet(SET_NAME, null);
+
+		return mSet;
+	}
+
+	@Override
+	public void setListName(Set<String> nameSet) {
+		SharedPreferences pref = PreferenceManager
+				.getDefaultSharedPreferences(mActivity.get());
+		SharedPreferences.Editor mEditor;
+		mEditor = pref.edit();
+		mEditor.putStringSet(SET_NAME, nameSet);
+
+	}
+
 	private final Handler mDisHandler = new Handler();
-	
+
 	private final WeatherResults.Stub mWeatherResults = new WeatherResults.Stub() {
 
 		/**
@@ -109,7 +151,8 @@ public class WeatherOpsImpl implements WeatherOps {
 
 				@Override
 				public void run() {
-					Toast.makeText(mActivity.get(), "the city is not found", Toast.LENGTH_SHORT).show();
+					Toast.makeText(mActivity.get(), "the city is not found",
+							Toast.LENGTH_SHORT).show();
 				}
 			});
 
@@ -118,18 +161,16 @@ public class WeatherOpsImpl implements WeatherOps {
 		@Override
 		public void sendResult(List<WeatherData> results)
 				throws RemoteException {
-				mImageOps.updateData(results);
-			
+			mCache.put(results);
+			mImageOps.updateData(results);
+
 		}
 	};
-
-
 
 	@Override
 	public void onConfigurationChange(MainActivity activity) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 }
