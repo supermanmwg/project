@@ -23,6 +23,7 @@ import com.weather.retrofit.WeatherWebServiceProxy;
 import com.weather.services.LifecycleLoggingService;
 import com.weather.services.WeatherServiceAsync;
 import com.weather.utils.GenericServiceConnection;
+import com.weather.utils.Utils;
 
 public class WeatherOpsImpl implements WeatherOps {
 
@@ -85,6 +86,7 @@ public class WeatherOpsImpl implements WeatherOps {
 		if (null != mWeatherRequest) {
 			try {
 				Log.d(TAG, "before haha");
+				Log.d(TAG, "city name is " + name);
 				mWeatherRequest.getCurrentWeather(name,
 						WeatherWebServiceProxy.Celsius, 3,"zh_cn" ,mWeatherResults);
 				Log.d(TAG, "after haha");
@@ -105,12 +107,12 @@ public class WeatherOpsImpl implements WeatherOps {
 		 * back to the MainActivity
 		 */
 		@Override
-		public void sendErrors() throws RemoteException {
+		public void sendErrors(final String error) throws RemoteException {
 			mDisHandler.post(new Runnable() {
 
 				@Override
 				public void run() {
-					Toast.makeText(mActivity.get(), "the city is not found",
+					Toast.makeText(mActivity.get(), error,
 							Toast.LENGTH_SHORT).show();
 				}
 			});

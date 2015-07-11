@@ -52,7 +52,7 @@ public class WeatherDataCurrent {
     private Main mMain;
     @SerializedName("wind")
     private Wind mWind;
-    private String haha;
+
 
     /**
      * Constructor that initializes the POJO.

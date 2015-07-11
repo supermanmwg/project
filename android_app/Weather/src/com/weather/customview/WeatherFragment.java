@@ -18,28 +18,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class WeatherFragment  extends BaseFragment{
+public class WeatherFragment extends BaseFragment {
 
 	public final String TAG = getClass().getSimpleName();
-	
+
 	private static final String POS = "position";
 	private WeakReference<Activity> mActivity;
 	private WeatherTimeoutCache mCache;
 	private UniqueOps mUniqueOps;
-	
+
 	private WeatherData mWeatherData;
 	private View v;
-	
-	//for fragment ui
+
+	// for fragment ui
 	private TextView cityNameTView;
 	private TextView tempTextView;
 	private TextView desTextView;
 	private TextView datTextView;
 	private TextView windTextView;
 	private TextView humTextView;
-	
+
 	private String cityName;
-	
+
 	private int pos;
 
 	@Override
@@ -51,47 +51,49 @@ public class WeatherFragment  extends BaseFragment{
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		v =  inflater.inflate(R.layout.fragment,container, false);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		v = inflater.inflate(R.layout.fragment, container, false);
 		return v;
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(getArguments() != null) {
+		if (getArguments() != null) {
 			pos = getArguments().getInt(POS);
 		}
-		
-	}
-	
-	  public static WeatherFragment newInstance(int pos) {
 
-		  WeatherFragment f = new WeatherFragment();
-		  if(-1 != pos) {
-			  Bundle b = new Bundle();
-			  b.putInt(POS, pos);
-			  f.setArguments(b);
-		  }
-	      return f;
-	    }
-	
+	}
+
+	public static WeatherFragment newInstance(int pos) {
+
+		WeatherFragment f = new WeatherFragment();
+		if (-1 != pos) {
+			Bundle b = new Bundle();
+			b.putInt(POS, pos);
+			f.setArguments(b);
+		}
+		return f;
+	}
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
 	}
-	
+
 	@Override
 	public void onStart() {
 		super.onStart();
 		cityName = mUniqueOps.getDisplayName();
 		Log.d(TAG, "city name is " + cityName);
-		if(null != cityName) {
+		if (null != cityName) {
 			//
 			List<WeatherData> list = mCache.get(cityName);
-			if(null != list) {
-				Log.e(TAG," update list  size is " + list.size() + "pos is " + pos);
+			if (null != list) {
+				Log.e(TAG, " update list  size is " + list.size() + "pos is "
+						+ pos);
 				mWeatherData = mCache.get(cityName).get(pos);
 				updateDisplayFragment(mWeatherData);
 			} else {
@@ -104,24 +106,26 @@ public class WeatherFragment  extends BaseFragment{
 		initFragmentUI();
 		setFragmentData(mData);
 	}
-	
+
 	private void setFragmentData(WeatherData mData) {
 		cityNameTView.setText(mData.getmName());
-		tempTextView.setText("" + (long)mData.getmTempMin() + "°/" + (long)mData.getmTempMax() + "°");
+		tempTextView.setText("" + (long) mData.getmTempMin() + "°/"
+				+ (long) mData.getmTempMax() + "°");
 		desTextView.setText(mData.getmDescription());
-		datTextView.setText("" + Utils.TimeStampToDate(mData.getmDate()+1, null));
-		windTextView.setText("风力：" + mData.getmSpeed()); 
+		datTextView.setText(""
+				+ Utils.TimeStampToDate(mData.getmDate() + 1, null));
+		windTextView.setText(Utils.convertWindDetails(mData.getmSpeed()) + "\n" + Utils.convertSpeed(mData.getmSpeed()) + "级");
 		humTextView.setText("湿度：" + mData.getmHumidity() + "%");
-		
+
 	}
 
 	private void initFragmentUI() {
-		cityNameTView = (TextView)mActivity.get().findViewById(R.id.city_name);
-		tempTextView = (TextView)v.findViewById(R.id.temperature);
-		desTextView = (TextView)v.findViewById(R.id.description);
-		datTextView = (TextView)v.findViewById(R.id.date);
-		windTextView = (TextView)v.findViewById(R.id.wind);
-		humTextView = (TextView)v.findViewById(R.id.humidity);
+		cityNameTView = (TextView) mActivity.get().findViewById(R.id.city_name);
+		tempTextView = (TextView) v.findViewById(R.id.temperature);
+		desTextView = (TextView) v.findViewById(R.id.description);
+		datTextView = (TextView) v.findViewById(R.id.date);
+		windTextView = (TextView) v.findViewById(R.id.wind);
+		humTextView = (TextView) v.findViewById(R.id.humidity);
 	}
-	
+
 }

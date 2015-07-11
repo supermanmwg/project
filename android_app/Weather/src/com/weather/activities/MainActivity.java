@@ -4,6 +4,7 @@ import com.weather.R;
 import com.weather.operation.ImageOps;
 import com.weather.operation.WeatherOps;
 import com.weather.operation.WeatherOpsImpl;
+import com.weather.utils.Utils;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -68,12 +69,13 @@ OnPageChangeListener{
 		Log.d(TAG, "onLoaction is beginning...");
 		String name;
 		if(i%2 == 0) {
-			 name = "Beijing";
+			 name = "北京";
 			 i++;
 		} else {
-			 name = "Shanghai";
+			 name = "上海";
 			 i++;
 		}
+		
 		mWeatherOps.onLocation(name);
 	}
 

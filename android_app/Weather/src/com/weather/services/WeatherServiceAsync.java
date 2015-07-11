@@ -1,13 +1,18 @@
 package com.weather.services;
 import java.util.List;
+
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+
 import com.weather.aidl.WeatherData;
 import com.weather.aidl.WeatherRequest;
 import com.weather.aidl.WeatherResults;
+import com.weather.lang.Chinese;
 import com.weather.retrofit.WeatherDataCurrent;
 import com.weather.retrofit.WeatherDataForeCast;
 import com.weather.retrofit.WeatherWebServiceProxy;
 import com.weather.utils.Utils;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
@@ -44,16 +49,22 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 				@Override
 				public void getCurrentWeather(String location,String metric, long cnt,String lang,
 						WeatherResults results) throws RemoteException {
-					WeatherDataCurrent mWeatherDataCurrent = mWeatherWebServiceProxy.getWeatherData(location, metric,lang);
-					WeatherDataForeCast mForCastList = mWeatherWebServiceProxy.getWeatherData(location, metric, cnt,lang);
+					WeatherDataCurrent mWeatherDataCurrent;
+					WeatherDataForeCast mForCastList;
+					try {
+						mWeatherDataCurrent = mWeatherWebServiceProxy.getWeatherData(location, metric,lang);
+						mForCastList = mWeatherWebServiceProxy.getWeatherData(location, metric, cnt,lang);
+					} catch(RetrofitError e) {
+						results.sendErrors(Chinese.NET_ERROR);
+						return ;
+					}
 					List<WeatherData> mList;
 					if(null != mWeatherDataCurrent && null != mForCastList) {
 						mList = Utils.genList(mWeatherDataCurrent, mForCastList, cnt);
 						Log.v(TAG, "current and forcast is ok");
 						Log.v(TAG, "mlist is " + mList.size());
 					} else {
-						Log.v(TAG, "current or forcast is null");
-						results.sendErrors();
+						results.sendErrors(Chinese.CITY_NOT_FOUND);
 						return;
 					}
 					for ( int i = 0; i < mList.size(); i++) {
