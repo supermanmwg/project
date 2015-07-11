@@ -86,7 +86,7 @@ public class WeatherFragment extends BaseFragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		cityName = mUniqueOps.getDisplayName();
+		cityName = mUniqueOps.getName(UniqueOps.SQL_NAME);
 		Log.d(TAG, "city name is " + cityName);
 		if (null != cityName) {
 			//
@@ -108,7 +108,7 @@ public class WeatherFragment extends BaseFragment {
 	}
 
 	private void setFragmentData(WeatherData mData) {
-		cityNameTView.setText(mData.getmName());
+		cityNameTView.setText(mUniqueOps.getName(UniqueOps.DISPLAY_NAME));
 		tempTextView.setText("" + (long) mData.getmTempMin() + "бу/"
 				+ (long) mData.getmTempMax() + "бу");
 		desTextView.setText(mData.getmDescription());

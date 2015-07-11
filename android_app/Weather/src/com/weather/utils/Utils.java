@@ -129,7 +129,7 @@ public class Utils {
     * 				:Chinese characters
     * @return Pinyin
     */
-    public static String HanyuToPinyin(String name){
+/*    public static String HanyuToPinyin(String name){
     	String pinyinName = "";
         char[] nameChar = name.toCharArray();
         HanyuPinyinOutputFormat defaultFormat = 
@@ -147,7 +147,7 @@ public class Utils {
             } 
         }
         return pinyinName;
-    }
+    }*/
 
     /**
      * Convert wind speed format from m/s to level

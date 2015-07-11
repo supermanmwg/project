@@ -33,6 +33,7 @@ public class WeatherOpsImpl implements WeatherOps {
 	private ImageOps mImageOps;
 	private GenericServiceConnection<WeatherRequest> mServiceConnection;
 	private LifecycleLoggingService mService;
+	private UniqueOps mUniqueOps;
 
 
 	public WeatherOpsImpl(MainActivity activity) {
@@ -41,6 +42,7 @@ public class WeatherOpsImpl implements WeatherOps {
 		mServiceConnection = new GenericServiceConnection<>(
 				WeatherRequest.class);
 		mService = new WeatherServiceAsync();
+		mUniqueOps = new UniqueOps(activity);
 	}
 
 	@Override
@@ -90,6 +92,7 @@ public class WeatherOpsImpl implements WeatherOps {
 				mWeatherRequest.getCurrentWeather(name,
 						WeatherWebServiceProxy.Celsius, 3,"zh_cn" ,mWeatherResults);
 				Log.d(TAG, "after haha");
+				mUniqueOps.SetName(UniqueOps.DISPLAY_NAME, name);
 			} catch (RemoteException e) {
 				Log.e(TAG, "RemoteException:" + e.getMessage());
 			}

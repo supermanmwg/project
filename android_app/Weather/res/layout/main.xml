@@ -10,6 +10,11 @@
         android:orientation="horizontal" 
         android:gravity="center_vertical|center"
         android:background="#3971AD">
+        <View
+   			android:layout_height="match_parent"
+    		android:layout_width="8dp"
+    		android:background="#3971AD"/>
+        
         <ImageView android:id="@+id/change_city"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -30,6 +35,11 @@
             android:gravity="center_vertical|center"
             android:background="@drawable/set"
             android:onClick="onLocation"/>
+        
+        <View
+   			android:layout_height="match_parent"
+    		android:layout_width="8dp"
+    		android:background="#3971AD"/>
     </LinearLayout>
     
     <View

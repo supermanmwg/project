@@ -2,7 +2,9 @@ package com.weather.operation;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.weather.R;
 import com.weather.activities.AddCityActivity;
@@ -156,8 +158,18 @@ public class ImageOps {
 			mCache.remove(mWeatherList.get(0).getmName());
 			mCache.put(mWeatherList);
 			
-			mUniqueOps.SetDisplayName(mWeatherList.get(0).getmName());
-			Log.w(TAG, "get display name is " + mUniqueOps.getDisplayName());
+			mUniqueOps.SetName(UniqueOps.SQL_NAME,mWeatherList.get(0).getmName());
+			Set<String> mSet = mUniqueOps.getList(UniqueOps.SQL_SET_NAME);
+			if(mSet == null) {
+				mSet = new HashSet<String>();
+			}
+			if(!mSet.contains(mWeatherList.get(0).getmName())) {
+				mSet.add(mWeatherList.get(0).getmName());
+			}
+			mUniqueOps.setListName(UniqueOps.SQL_SET_NAME, mSet);
+			Log.e(TAG, "mSet size is " + mSet.size());
+			
+			Log.w(TAG, "get display name is " + mUniqueOps.getName(UniqueOps.SQL_NAME));
 			mActivity.get().runOnUiThread(new Runnable() {
 				
 				@Override

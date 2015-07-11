@@ -8,7 +8,7 @@
         android:layout_height="50dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background='#353535'>
+        android:background='#3971AD'>
        <LinearLayout 
             android:layout_height="match_parent"
             android:layout_width="0dp"
@@ -29,7 +29,7 @@
        <View
    			android:layout_width="30dp"
     		android:layout_height="match_parent"
-    		android:background='#353535'/>
+    		android:background='#3971AD'/>
        <ImageView android:id="@+id/add"
             android:layout_height="30dp"
             android:layout_width="30dp"
@@ -37,7 +37,7 @@
               <View
    			android:layout_width="10dp"
     		android:layout_height="match_parent"
-    		android:background='#353535'/>
+    		android:background='#3971AD'/>
     </LinearLayout>
     
     <ListView

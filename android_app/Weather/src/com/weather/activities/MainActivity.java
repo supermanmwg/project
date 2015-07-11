@@ -69,10 +69,10 @@ OnPageChangeListener{
 		Log.d(TAG, "onLoaction is beginning...");
 		String name;
 		if(i%2 == 0) {
-			 name = "北京";
+			 name = "北";
 			 i++;
 		} else {
-			 name = "上海";
+			 name = "上";
 			 i++;
 		}
 		
