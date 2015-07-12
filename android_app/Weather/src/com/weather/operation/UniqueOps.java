@@ -26,6 +26,8 @@ public class UniqueOps {
 	public static final String SQL_SET_NAME = "Sql_Set_Name";
 	
 	public static final String DISPLAY_SET_NAME = "Display_Set_NAME";
+
+	public static final String AQI = "Aqi_Value";
 	
 	private WeakReference<Activity> mActivity;
 	
@@ -51,6 +53,21 @@ public class UniqueOps {
 		mEditor.commit();
 	}
 
+	public int getValue(String type) {
+		SharedPreferences pref = PreferenceManager
+				.getDefaultSharedPreferences(mActivity.get());
+		int value = pref.getInt(type, 0);
+
+		return value;
+	}
+	public void SetValue(String type, int value) {
+		SharedPreferences pref = PreferenceManager
+				.getDefaultSharedPreferences(mActivity.get());
+		SharedPreferences.Editor mEditor;
+		mEditor = pref.edit();
+		mEditor.putInt(type, value);
+		mEditor.commit();
+	}
 
 	public Set<String> getList(String type) {
 		SharedPreferences pref = PreferenceManager

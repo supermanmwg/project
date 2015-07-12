@@ -97,6 +97,16 @@ public class WeatherOpsImpl implements WeatherOps {
 				mWeatherRequest.getCurrentWeather(name,
 						WeatherWebServiceProxy.Celsius, 3,"zh_cn" ,mWeatherResults);
 				Log.d(TAG, "after haha");
+				String acronyName = null;
+				if(name.contains("ÊÐ")) {
+					
+					String[] arrays  = name.split("ÊÐ");
+					acronyName = arrays[0];
+				} else {
+					acronyName = name;
+				}
+				Log.d(TAG, "acrony name is " + acronyName);
+				mWeatherRequest.getPM2_5(acronyName, mWeatherResults);
 				mUniqueOps.SetName(UniqueOps.DISPLAY_NAME, name);
 			} catch (RemoteException e) {
 				Log.e(TAG, "RemoteException:" + e.getMessage());
@@ -186,6 +196,13 @@ public class WeatherOpsImpl implements WeatherOps {
 			onUpdate(name);
 			Toast(Chinese.LOCATE_SUCCESS);
 			locateSign = 1;
+		}
+
+		@Override
+		public void sendPM2_5(int value) throws RemoteException {
+			Log.d(TAG, "PM2_5 is " + value);
+			mUniqueOps.SetValue(UniqueOps.AQI, value);
+			
 		}
 	};
 

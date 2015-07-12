@@ -20,4 +20,7 @@ interface WeatherResults {
     
    	//for location
    	oneway void sendLocationName(in String name);
+   	
+   	//for PM2.5
+   	oneway void sendPM2_5(in int value);
 }

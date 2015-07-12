@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         
+       <activity android:name=".activities.AlterActivity" />
         <service
             android:name=".services.WeatherServiceAsync"
             android:process=":myprocess1" />

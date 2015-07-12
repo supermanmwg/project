@@ -7,6 +7,7 @@ import com.weather.operation.WeatherOps;
 import com.weather.operation.WeatherOpsImpl;
 import com.weather.utils.Utils;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -20,6 +21,7 @@ public class MainActivity  extends FragmentActivity implements OnClickListener,
 OnPageChangeListener{
 	
 	private final String TAG = getClass().getSimpleName();
+	private final int REQUEST_CODE = 1;
 	private WeatherOps mWeatherOps;
 	
 	@Override
@@ -97,5 +99,25 @@ OnPageChangeListener{
 	public void onLocation(View v) {
 		Log.d(TAG, "onLocations is  start...");
 		mWeatherOps.onLocation();
+	}
+	
+	public void onAlter(View v) {
+		Intent intent = new Intent(this, AlterActivity.class);
+		startActivityForResult(intent, REQUEST_CODE);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case REQUEST_CODE:
+			if(RESULT_OK == resultCode) {
+				String cityName = data.getStringExtra(AlterActivity.DATA);
+				Log.d(TAG, "onActivity return city name is " + cityName);
+				mWeatherOps.onUpdate(cityName);
+			}
+			break;
+		default:
+			break;
+		}
 	}
 }

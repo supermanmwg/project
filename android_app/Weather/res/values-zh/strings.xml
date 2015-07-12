@@ -16,5 +16,8 @@
     
     <string name="date">7月6日</string>
     
+     <string name="default_string">请输入城市名称</string>
+     <string name="ok">确定</string>
+    
 
 </resources>

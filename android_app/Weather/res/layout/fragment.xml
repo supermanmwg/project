@@ -4,13 +4,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
   
+    <TextView       	  	
+         android:id="@+id/pm2_5"
+       	 android:layout_width="match_parent"
+         android:layout_height="wrap_content" 
+         android:textSize="20sp"
+         android:gravity="end"
+         android:background="#4CA4FF"
+         android:textColor="#FFFFFF"/>
+
     <LinearLayout  
-        android:layout_width="match_parent"
+         android:layout_width="match_parent"
     	 android:layout_height="0dp"
     	 android:layout_weight="2"
          android:orientation="vertical" 
          android:background="#4CA4FF"
          android:gravity="center_vertical">
+
    		 <TextView
       	  	android:id="@+id/temperature"
        	 	android:layout_width="match_parent"
@@ -26,8 +36,9 @@
         	android:textSize="30sp"
         	android:gravity="center"
         	android:textColor="#FFFFFF" />
+    	
     </LinearLayout>
-    
+
     <View
    			android:layout_width="match_parent"
     		android:layout_height="0.5dp"

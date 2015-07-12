@@ -9,6 +9,8 @@ import com.weather.aidl.WeatherData;
 import com.weather.aidl.WeatherRequest;
 import com.weather.aidl.WeatherResults;
 import com.weather.lang.Chinese;
+import com.weather.retrofit.PM2_5Item;
+import com.weather.retrofit.PM2_5ServiceProxy;
 import com.weather.retrofit.WeatherDataCurrent;
 import com.weather.retrofit.WeatherDataForeCast;
 import com.weather.retrofit.WeatherDataForeCast.City;
@@ -24,6 +26,7 @@ import android.util.Log;
 public class WeatherServiceAsync extends LifecycleLoggingService{
 	
 	private WeatherWebServiceProxy mWeatherWebServiceProxy;
+	private PM2_5ServiceProxy mPM2_5ServiceProxy;
 
 	@Override
 	public void onCreate() {
@@ -34,6 +37,11 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 	                .setEndpoint(WeatherWebServiceProxy.sWeather_Service_URL_Retro)
 	                .build()
 	                .create(WeatherWebServiceProxy.class);
+		 mPM2_5ServiceProxy = 
+				 	new RestAdapter.Builder()
+		 			.setEndpoint(PM2_5ServiceProxy.sPM2_5_Service_URL_Retro)
+		 			.build()
+		 			.create(PM2_5ServiceProxy.class);
 	}
 	@Override
 	public Intent makeIntent(Context context) {
@@ -91,6 +99,33 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 					} else {
 						results.sendErrors(Chinese.NET_ERROR);
 					}
+				}
+
+				@Override
+				public void getPM2_5(String cityName, WeatherResults results)
+						throws RemoteException {
+					try {
+						List<PM2_5Item> mPm2_5List = mPM2_5ServiceProxy.getPM2_5(cityName, "5j1znBVAsnSf5xQyNQyq");
+						int average = 0;
+						int sum = 0;
+						int count = 0;
+						for(int i = 0; i < mPm2_5List.size(); i++) {
+							Log.d(TAG, "" + i + "PM2.5 si " + mPm2_5List.get(i).getaqi());
+							sum += mPm2_5List.get(i).getaqi();
+							if( mPm2_5List.get(i).getaqi() > 0) {
+								count ++;
+							}
+						}
+						if(count > 0) {
+							average = sum /count;
+						}
+						results.sendPM2_5(average);
+					} catch(RetrofitError e) {
+						Log.d(TAG, e.getMessage());
+						results.sendErrors("PM2.5" + Chinese.NET_ERROR);
+						return ;
+					}
+					
 				}
 	};
 

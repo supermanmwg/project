@@ -37,6 +37,7 @@ public class WeatherFragment extends BaseFragment {
 	private TextView datTextView;
 	private TextView windTextView;
 	private TextView humTextView;
+	private TextView pm2_5;
 
 	private String cityName;
 
@@ -116,6 +117,13 @@ public class WeatherFragment extends BaseFragment {
 				+ Utils.TimeStampToDate(mData.getmDate() + 1, null));
 		windTextView.setText(Utils.convertWindDetails(mData.getmSpeed()) + "\n" + Utils.convertSpeed(mData.getmSpeed()) + "级");
 		humTextView.setText("湿度：" + mData.getmHumidity() + "%");
+		pm2_5.setText("");
+		if( 0 == pos) {
+			int aqi = mUniqueOps.getValue(UniqueOps.AQI);
+			if(0 != aqi) {
+				pm2_5.setText( aqi + Utils.genWeatherConditon(aqi)+ "  ");
+			}	
+		}
 
 	}
 
@@ -126,6 +134,7 @@ public class WeatherFragment extends BaseFragment {
 		datTextView = (TextView) v.findViewById(R.id.date);
 		windTextView = (TextView) v.findViewById(R.id.wind);
 		humTextView = (TextView) v.findViewById(R.id.humidity);
+		pm2_5 = (TextView) v.findViewById(R.id.pm2_5);
 	}
 
 }

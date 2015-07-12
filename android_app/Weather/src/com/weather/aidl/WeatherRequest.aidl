@@ -20,4 +20,6 @@ interface WeatherRequest {
                                   in WeatherResults results); 
                                   
     oneway void getLocation( in String location, in WeatherResults results);
+    
+    oneway void getPM2_5(in String cityName, in WeatherResults results);
 }

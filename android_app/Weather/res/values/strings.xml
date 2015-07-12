@@ -16,5 +16,8 @@
     <string name="cityname">Beijing</string>
     
     <string name="date">6,July</string>
+    
+    <string name="default_string">Please enter the city\'s name</string>
+    <string name="ok">OK</string>
 
 </resources>

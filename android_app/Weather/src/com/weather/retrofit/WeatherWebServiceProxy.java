@@ -28,6 +28,6 @@ public interface WeatherWebServiceProxy {
     WeatherDataForeCast getWeatherData(@Query("q") String location, @Query("units") String metric, @Query("cnt") long cnt,@Query("lang") String lang);
     
     @GET("/weather")
-   WeatherDataCurrent getWeatherData(@Query("q") String location ,@Query("units") String metric,@Query("lang") String lang);
+    WeatherDataCurrent getWeatherData(@Query("q") String location ,@Query("units") String metric,@Query("lang") String lang);
 }
 
