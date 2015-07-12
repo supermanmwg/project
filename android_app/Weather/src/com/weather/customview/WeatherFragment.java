@@ -121,7 +121,7 @@ public class WeatherFragment extends BaseFragment {
 		if( 0 == pos) {
 			int aqi = mUniqueOps.getValue(UniqueOps.AQI);
 			if(0 != aqi) {
-				pm2_5.setText( aqi + Utils.genWeatherConditon(aqi)+ "  ");
+				pm2_5.setText( aqi +" " + Utils.genWeatherConditon(aqi)+ "  ");
 			}	
 		}
 

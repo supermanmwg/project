@@ -173,7 +173,11 @@ public class WeatherOpsImpl implements WeatherOps {
 
 				@Override
 				public void run() {
-					Toast(error);
+					if(error.equals(Chinese.PM2_5_ERROR)) {
+						mUniqueOps.SetValue(UniqueOps.AQI, 0);
+					} else {
+						Toast(error);
+					}
 				}
 			});
 

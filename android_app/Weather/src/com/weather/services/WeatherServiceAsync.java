@@ -122,7 +122,8 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 						results.sendPM2_5(average);
 					} catch(RetrofitError e) {
 						Log.d(TAG, e.getMessage());
-						results.sendErrors("PM2.5" + Chinese.NET_ERROR);
+						
+						results.sendErrors(Chinese.PM2_5_ERROR);
 						return ;
 					}
 					
