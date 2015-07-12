@@ -57,7 +57,7 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 						mWeatherDataCurrent = mWeatherWebServiceProxy.getWeatherData(location, metric,lang);
 						mForCastList = mWeatherWebServiceProxy.getWeatherData(location, metric, cnt,lang);
 					} catch(RetrofitError e) {
-						results.sendErrors(Chinese.CITY_NOT_FOUND + "»ò" + Chinese.NET_ERROR);
+						results.sendErrors("  " +Chinese.CITY_NOT_FOUND + "\n»ò" + Chinese.NET_ERROR);
 						return ;
 					}
 					List<WeatherData> mList;

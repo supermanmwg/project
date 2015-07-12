@@ -60,13 +60,23 @@ public class LocationJSONParser {
 	}
 	
 	private String parseAddr(JsonReader reader) {
+		String cityName = null;
+		String distName = null;
 		try {
 			reader.beginObject();
 			while(reader.hasNext()) {
 				String name = reader.nextName();
 				switch (name) {
 				case "city":
-					return reader.nextString();
+					cityName =  reader.nextString();
+					break;
+				case "district":
+					distName = reader.nextString();
+					if(distName.contains("ÊÐ"))
+						return distName;
+					else {
+						return cityName + distName;
+					}
 				default:
 					reader.skipValue();
 					break;

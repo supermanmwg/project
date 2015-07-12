@@ -64,9 +64,6 @@ public class WeatherTimeoutCache implements
 		// Get the AlarmManager system service.
 		mAlarmManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
-
-		// If Cache Cleanup is not scheduled, then schedule it.
-		scheduleCacheCleanup(context);
 	}
 
 	/**
@@ -304,35 +301,4 @@ public class WeatherTimeoutCache implements
 		}
 	}
 
-	/**
-	 * Helper method that uses AlarmManager to schedule Cache Cleanup at regular
-	 * intervals.
-	 * 
-	 * @param context
-	 */
-	private void scheduleCacheCleanup(Context context) {
-		// Only schedule the Alarm if it's not already scheduled.
-		if (!isAlarmActive(context)) {
-			// Schedule an alarm after a certain timeout to start a
-			// service to delete expired data from Database.
-			mAlarmManager.setInexactRepeating(
-					AlarmManager.ELAPSED_REALTIME_WAKEUP,
-					SystemClock.elapsedRealtime()
-							+ CLEANUP_SCHEDULER_TIME_INTERVAL,
-					CLEANUP_SCHEDULER_TIME_INTERVAL,
-					CacheCleanupReceiver.makeReceiverPendingIntent(context));
-		}
-	}
-	
-    /**
-     * Helper method to check whether the Alarm is already active or not.
-     * 
-     * @param context
-     * @return boolean, whether the Alarm is already active or not
-     */
-    private boolean isAlarmActive(Context context) {
-	// Check whether the Pending Intent already exists or not.
-	return CacheCleanupReceiver.makeCheckAlarmPendingIntent(context) != null;
-    }
 }
-

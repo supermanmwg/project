@@ -108,14 +108,14 @@ public class WeatherFragment extends BaseFragment {
 	}
 
 	private void setFragmentData(WeatherData mData) {
-		cityNameTView.setText(mUniqueOps.getName(UniqueOps.DISPLAY_NAME));
-		tempTextView.setText("" + (long) mData.getmTempMin() + "¡ã/"
-				+ (long) mData.getmTempMax() + "¡ã");
+		cityNameTView.setText(mUniqueOps.getName(UniqueOps.DISPLAY_NAME) );
+		tempTextView.setText("" + (long) mData.getmTempMin() + "Â°/"
+				+ (long) mData.getmTempMax() + "Â°");
 		desTextView.setText(mData.getmDescription());
 		datTextView.setText(""
 				+ Utils.TimeStampToDate(mData.getmDate() + 1, null));
-		windTextView.setText(Utils.convertWindDetails(mData.getmSpeed()) + "\n" + Utils.convertSpeed(mData.getmSpeed()) + "¼¶");
-		humTextView.setText("Êª¶È£º" + mData.getmHumidity() + "%");
+		windTextView.setText(Utils.convertWindDetails(mData.getmSpeed()) + "\n" + Utils.convertSpeed(mData.getmSpeed()) + "çº§");
+		humTextView.setText("æ¹¿åº¦ï¼š" + mData.getmHumidity() + "%");
 
 	}
 

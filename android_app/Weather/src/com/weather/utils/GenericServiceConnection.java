@@ -1,8 +1,12 @@
 package com.weather.utils;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import com.weather.activities.MainActivity;
+
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.ServiceConnection;
 import android.os.IBinder;
@@ -30,6 +34,8 @@ public class GenericServiceConnection<AIDLInterface1 extends android.os.IInterfa
 	private static final String AS_INTERFACE = "asInterface";
 	private static final Class<?>[] AI_PARAMS = { IBinder.class };
 
+	private WeakReference<MainActivity> mActivity;
+	
 	/**
 	 * Reference to the AIDL interface object after the client has finished
 	 * binding to the Bound Service.
@@ -60,7 +66,7 @@ public class GenericServiceConnection<AIDLInterface1 extends android.os.IInterfa
 	 *            the AIDL Interface class object which must match the generic
 	 *            parameter.
 	 */
-	public GenericServiceConnection(final Class<AIDLInterface1> aidl) {
+	public GenericServiceConnection(final Class<AIDLInterface1> aidl,MainActivity activity) {
 		Class<?> stub = null;
 		Method method = null;
 		for (final Class<?> c : aidl.getDeclaredClasses()) {
@@ -77,6 +83,7 @@ public class GenericServiceConnection<AIDLInterface1 extends android.os.IInterfa
 		}
 		mStub = stub;
 		mAsInterface = method;
+		mActivity = new WeakReference<>(activity);
 	}
 
 	/**
@@ -97,6 +104,7 @@ public class GenericServiceConnection<AIDLInterface1 extends android.os.IInterfa
 		} catch (InvocationTargetException e) { // Should not be possible
 			e.printStackTrace();
 		}
+		mActivity.get().initData();
 	}
 
 	/**

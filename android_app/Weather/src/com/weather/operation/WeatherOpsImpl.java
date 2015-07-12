@@ -1,29 +1,32 @@
 package com.weather.operation;
 
 import java.lang.ref.WeakReference;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.RemoteException;
-import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.TextureView;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.weather.R;
 import com.weather.activities.MainActivity;
 import com.weather.aidl.WeatherData;
 import com.weather.aidl.WeatherRequest;
 import com.weather.aidl.WeatherResults;
-import com.weather.provider.cache.WeatherTimeoutCache;
+import com.weather.lang.Chinese;
 import com.weather.retrofit.WeatherWebServiceProxy;
 import com.weather.services.LifecycleLoggingService;
 import com.weather.services.WeatherServiceAsync;
 import com.weather.utils.GenericServiceConnection;
-import com.weather.utils.Utils;
+
 
 public class WeatherOpsImpl implements WeatherOps {
 
@@ -34,15 +37,17 @@ public class WeatherOpsImpl implements WeatherOps {
 	private GenericServiceConnection<WeatherRequest> mServiceConnection;
 	private LifecycleLoggingService mService;
 	private UniqueOps mUniqueOps;
+	private LocationOps mLocationOps;
 
 
 	public WeatherOpsImpl(MainActivity activity) {
 		mActivity = new WeakReference<MainActivity>(activity);
 		mImageOps = new ImageOps(mActivity.get());
 		mServiceConnection = new GenericServiceConnection<>(
-				WeatherRequest.class);
+				WeatherRequest.class, activity);
 		mService = new WeatherServiceAsync();
 		mUniqueOps = new UniqueOps(activity);
+		mLocationOps = new LocationOps(activity);
 	}
 
 	@Override
@@ -97,7 +102,7 @@ public class WeatherOpsImpl implements WeatherOps {
 				Log.e(TAG, "RemoteException:" + e.getMessage());
 			}
 		} else {
-			Log.d(TAG, "mWeatherRequest was null");
+			Log.d(TAG, "on update :mWeatherRequest was null");
 		}
 	}
 
@@ -109,13 +114,15 @@ public class WeatherOpsImpl implements WeatherOps {
 		if(null != mWeatherRequest) {
 			try {
 				Log.d(TAG, "weather request start to locate");
-				String location = "36.41709826,116.945041";
+				//String location = "36.41709826,116.945041";
+				String location = mLocationOps.onLocation();
+				Log.d(TAG, "get location is " + location);
 				mWeatherRequest.getLocation(location, mWeatherResults);
 			} catch (RemoteException e) {
 				Log.e(TAG, "RemoteException:" + e.getMessage());
 			}
 		} else {
-			Log.d(TAG, "mWeatherRequest was null");
+			Log.d(TAG, "on loacate :mWeatherRequest was null");
 		}
 		
 	}
@@ -156,8 +163,7 @@ public class WeatherOpsImpl implements WeatherOps {
 
 				@Override
 				public void run() {
-					Toast.makeText(mActivity.get(), error,
-							Toast.LENGTH_SHORT).show();
+					Toast(error);
 				}
 			});
 
@@ -167,12 +173,19 @@ public class WeatherOpsImpl implements WeatherOps {
 		public void sendResult(List<WeatherData> results)
 				throws RemoteException {
 			mImageOps.updateData(results);
-
+			if(1 == locateSign) {
+				locateSign = 0;
+			} else {
+				Toast(Chinese.REFRESH_SUCCESS);
+			}
 		}
 
+		private int locateSign = 0;
 		@Override
 		public void sendLocationName(String name) throws RemoteException {
 			onUpdate(name);
+			Toast(Chinese.LOCATE_SUCCESS);
+			locateSign = 1;
 		}
 	};
 
@@ -182,5 +195,27 @@ public class WeatherOpsImpl implements WeatherOps {
 
 	}
 
+	
+	public void Toast(final String message) {
+		mDisHandler.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				  Toast toast = new Toast(mActivity.get());
+
+			        toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER, 0, 100);
+			        toast.setDuration(Toast.LENGTH_SHORT);
+			        TextView t =new TextView(mActivity.get());
+			        t.setBackgroundColor(Color.parseColor("#3971AD"));
+			        t.setTextColor(Color.parseColor("#ffffff"));
+			        t.setTextSize(20);
+			        t.setText(message);
+			        toast.setView(t);
+			        toast.show();
+				
+			}
+		});
+		
+	}
 
 }

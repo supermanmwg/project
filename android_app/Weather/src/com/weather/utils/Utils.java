@@ -6,14 +6,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.sourceforge.pinyin4j.PinyinHelper;
-import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
-import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
-import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
-import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+import android.annotation.SuppressLint;
 import android.util.Log;
-
 import com.weather.aidl.WeatherData;
 import com.weather.jsonlocation.LocationJSONParser;
 import com.weather.retrofit.WeatherDataCurrent;
@@ -38,12 +32,14 @@ public class Utils {
 	public static List<WeatherData> genList(WeatherDataCurrent mCurrent,
 			WeatherDataForeCast mForeCast, long cnt) {
 		List<WeatherData> list = new ArrayList<WeatherData>();
+		/*
 		WeatherData mData = getWeatherFromCurrent(mCurrent);
 		if (null != mData)
 			list.add(mData);
+			*/
 		String name = mForeCast.getCity().getName();
 		String country = mForeCast.getCity().getCountry();
-		for (int i = 1; i < cnt; i++) {
+		for (int i = 0; i < cnt; i++) {
 			WeatherData mForCast = genWeatherDataFromForeCast(name, country, i,
 					mForeCast);
 			if (null != mForCast)
@@ -129,31 +125,6 @@ public class Utils {
 		return date;
 	}
 	
-    /**
-    * Chinese characters convert to Pinyin
-    * @param name  
-    * 				:Chinese characters
-    * @return Pinyin
-    */
-/*    public static String HanyuToPinyin(String name){
-    	String pinyinName = "";
-        char[] nameChar = name.toCharArray();
-        HanyuPinyinOutputFormat defaultFormat = 
-                                           new HanyuPinyinOutputFormat();
-        defaultFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
-        defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
-        for (int i = 0; i < nameChar.length; i++) {
-            if (nameChar[i] > 128) {
-                try {
-                    pinyinName += PinyinHelper.toHanyuPinyinStringArray
-                                           (nameChar[i], defaultFormat)[0];
-                } catch (BadHanyuPinyinOutputFormatCombination e) {
-                    e.printStackTrace();
-                }
-            } 
-        }
-        return pinyinName;
-    }*/
 
     /**
      * Convert wind speed format from m/s to level
@@ -162,7 +133,8 @@ public class Utils {
      * @return level 
      * 				: wind level (int)
      */
-    public static int convertSpeed(double speed) {
+    @SuppressLint("SimpleDateFormat")
+	public static int convertSpeed(double speed) {
     	if(0 <= speed && speed < 0.3) {
     		return 0;
     	}  else if (0.3 <= speed && speed < 1.5) {

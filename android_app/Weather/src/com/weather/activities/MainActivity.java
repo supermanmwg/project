@@ -26,14 +26,26 @@ OnPageChangeListener{
 	protected void onCreate(Bundle savedInstanceState) {
 	
 		super.onCreate(savedInstanceState);
-		
+		Log.d(TAG, "onCreate Start");
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		setContentView(R.layout.main);
 		
 		mWeatherOps =  new WeatherOpsImpl(this);
 		mWeatherOps.bindService();
-		
+		//initData();
+	}
+
+	
+	public void initData(){
+		String displayName = mWeatherOps.getName(UniqueOps.DISPLAY_NAME);
+		if(null == displayName) {
+			Log.d(TAG, "display name is null");
+			mWeatherOps.onLocation();
+		} else {
+			Log.d(TAG, "display name is not null");
+			mWeatherOps.onUpdate(displayName);
+		}
 	}
 	
 	@Override
@@ -72,23 +84,11 @@ OnPageChangeListener{
 	 * Refresh the city weather info 
 	 */
 	public void onUpdate(View v){
-		Log.d(TAG, "onUpdate is beginning...");
-		String name;
-		if(i%2 == 0) {
-			 name = "北京";
-			 i++;
-		} else {
-			 name = "上海";
-			 i++;
-		}
-		/*
-		if(null == mWeatherOps.getName(UniqueOps.SQL_NAME)) {
+		if(null == mWeatherOps.getName(UniqueOps.DISPLAY_NAME)) {
 			mWeatherOps.onLocation();
 		} else {
-			mWeatherOps.onUpdate(mWeatherOps.getName(UniqueOps.SQL_NAME));
+			mWeatherOps.onUpdate(mWeatherOps.getName(UniqueOps.DISPLAY_NAME));
 		}
-		*/
-		mWeatherOps.onUpdate(name);
 	}
 
 	/**
