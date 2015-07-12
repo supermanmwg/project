@@ -80,7 +80,7 @@ public class WeatherOpsImpl implements WeatherOps {
 	}
 
 	@Override
-	public void onLocation(String name) {
+	public void onUpdate(String name) {
 
 		final WeatherRequest mWeatherRequest = mServiceConnection
 				.getInterface();
@@ -101,6 +101,47 @@ public class WeatherOpsImpl implements WeatherOps {
 		}
 	}
 
+	@Override
+	public void onLocation() {
+		final WeatherRequest mWeatherRequest = mServiceConnection
+				.getInterface();
+		
+		if(null != mWeatherRequest) {
+			try {
+				Log.d(TAG, "weather request start to locate");
+				String location = "36.41709826,116.945041";
+				mWeatherRequest.getLocation(location, mWeatherResults);
+			} catch (RemoteException e) {
+				Log.e(TAG, "RemoteException:" + e.getMessage());
+			}
+		} else {
+			Log.d(TAG, "mWeatherRequest was null");
+		}
+		
+	}
+	
+	@Override
+	public String getName(String type) {
+		return mUniqueOps.getName(type);
+	}
+
+	@Override
+	public void SetName(String type, String name) {
+		mUniqueOps.SetName(type, name);
+	}
+
+	@Override
+	public Set<String> getList(String type) {
+		return mUniqueOps.getList(type);
+	}
+	
+	@Override
+	public void setListName(String type, Set<String> nameSet) {
+		mUniqueOps.setListName(type, nameSet);
+	}
+
+
+	
 	private final Handler mDisHandler = new Handler();
 
 	private final WeatherResults.Stub mWeatherResults = new WeatherResults.Stub() {
@@ -128,6 +169,11 @@ public class WeatherOpsImpl implements WeatherOps {
 			mImageOps.updateData(results);
 
 		}
+
+		@Override
+		public void sendLocationName(String name) throws RemoteException {
+			onUpdate(name);
+		}
 	};
 
 	@Override
@@ -135,5 +181,6 @@ public class WeatherOpsImpl implements WeatherOps {
 		// TODO Auto-generated method stub
 
 	}
+
 
 }

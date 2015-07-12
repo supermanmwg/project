@@ -1,5 +1,9 @@
 package com.weather.utils;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +15,7 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
 import android.util.Log;
 
 import com.weather.aidl.WeatherData;
+import com.weather.jsonlocation.LocationJSONParser;
 import com.weather.retrofit.WeatherDataCurrent;
 import com.weather.retrofit.WeatherDataForeCast;
 
@@ -28,6 +33,7 @@ public class Utils {
 	 */
 
 	public final static String TAG = "Utils";
+	public final static String sLocation_Service_URL = "http://api.map.baidu.com/geocoder?output=json&location=";
 
 	public static List<WeatherData> genList(WeatherDataCurrent mCurrent,
 			WeatherDataForeCast mForeCast, long cnt) {
@@ -219,4 +225,44 @@ public class Utils {
     		return null;
     	}
     }
+    
+	/**
+	 * Obtain the location city name.
+	 * 
+	 * @return The information that responds to your current location search.
+	 */
+    
+	public static String getLocationName(String location) {
+		String cityName;
+		
+		try {
+			// Append the location to create the full URL.
+			final URL url = 
+					new URL(sLocation_Service_URL 
+							+ location);
+			Log.d(TAG, "location URL is " + url.toString());
+			//Open a connection to the Weather Service.
+			HttpURLConnection urlConnection = 
+					(HttpURLConnection) url.openConnection();
+			urlConnection.setRequestMethod("GET");
+			
+			try (InputStream in = 
+				new BufferedInputStream(urlConnection.getInputStream())) {
+				//Create the parse.
+				Log.d(TAG, "Utils reader input stream");
+				final LocationJSONParser parser = 
+						new LocationJSONParser();
+				
+				cityName = parser.parseJsonStream(in);
+				Log.d(TAG, "Utils return city name is " + cityName);
+			} finally {
+				urlConnection.disconnect();
+			}
+		} catch (Exception e) {
+			Log.d(TAG,e.getMessage());
+			return null;
+		}
+		
+		return cityName;
+	}
 }

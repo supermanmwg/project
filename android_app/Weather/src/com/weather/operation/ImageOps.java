@@ -5,15 +5,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import com.weather.R;
-import com.weather.activities.AddCityActivity;
 import com.weather.activities.MainActivity;
 import com.weather.aidl.WeatherData;
 import com.weather.customview.WeatherFragment;
 import com.weather.provider.cache.WeatherTimeoutCache;
-
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -28,18 +24,12 @@ public class ImageOps {
 	private final String TAG = getClass().getSimpleName();
 
 	private WeakReference<MainActivity> mActivity;
-	
+	private FragmentPagerAdapter mAdapter;
+	private WeatherTimeoutCache mCache;
+	private UniqueOps mUniqueOps;
 	private ViewPager mViewPager;
 
 	private List<TextView> mTabIndicators = new ArrayList<TextView>();
-	
-	private FragmentPagerAdapter mAdapter;
-	
-	//for home 
-	private ImageView mAlterCity;
-	
-	private WeatherTimeoutCache mCache;
-	private UniqueOps mUniqueOps;
 	
 	public ImageOps(MainActivity activity) {
 		mActivity = new WeakReference<MainActivity>(activity);
@@ -54,9 +44,6 @@ public class ImageOps {
 	private void initView()
 	{
 		mViewPager = (ViewPager)mActivity.get().findViewById(R.id.id_viewpager);
-		
-		mAlterCity = (ImageView) mActivity.get().findViewById(R.id.change_city);
-		mAlterCity.setOnClickListener(mActivity.get());
 		
 		TextView one = (TextView)mActivity.get().findViewById(R.id.one);
 		one.setOnClickListener(mActivity.get());
@@ -94,11 +81,6 @@ public class ImageOps {
 			resetOtherTabs();
 			mTabIndicators.get(2).setAlpha(1.0f);
 			mViewPager.setCurrentItem(2, false);
-			break;
-		case R.id.change_city:
-			Log.d(TAG, "change city");
-			Intent intent = new Intent(mActivity.get(), AddCityActivity.class);
-			mActivity.get().startActivity(intent);
 			break;
 		}
 	}

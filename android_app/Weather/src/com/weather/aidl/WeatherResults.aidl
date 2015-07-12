@@ -14,6 +14,10 @@ interface WeatherResults {
      * to return the List of WeatherData results associated with a
      * one-way WeatherRequest.getCurrentWeather() call.
      */
+     //for weather info
     oneway void sendResult(in List<WeatherData> results);
     oneway void sendErrors(String error);
+    
+   	//for location
+   	oneway void sendLocationName(in String name);
 }

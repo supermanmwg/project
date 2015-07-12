@@ -37,6 +37,16 @@ public interface WeatherOps {
 
 	public void clickTab(View v);
 
-	public void onLocation(String string);
+	public void onLocation();
+	
+	public void onUpdate(String string);
+	
+	public String getName(String type);
+
+	public void SetName(String type, String name);
+
+	public Set<String> getList(String type);
+	
+	public void setListName(String type, Set<String> nameSet);
 	
 }

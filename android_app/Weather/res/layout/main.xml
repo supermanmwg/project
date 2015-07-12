@@ -15,11 +15,12 @@
     		android:layout_width="8dp"
     		android:background="#3971AD"/>
         
-        <ImageView android:id="@+id/change_city"
+        <ImageView android:id="@+id/location"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:gravity="center_vertical|center"
-            android:background="@drawable/home" />"
+            android:background="@drawable/location"
+            android:onClick="onLocation" />
         <TextView
             android:id="@+id/city_name"
             android:layout_width="0dp" 
@@ -29,12 +30,12 @@
             android:textColor="#ffffff"
             android:textSize="25sp" />
         
-        <ImageView android:id="@+id/setting"
+        <ImageView android:id="@+id/update"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:gravity="center_vertical|center"
             android:background="@drawable/set"
-            android:onClick="onLocation"/>
+            android:onClick="onUpdate"/>
         
         <View
    			android:layout_height="match_parent"

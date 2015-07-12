@@ -2,6 +2,7 @@ package com.weather.activities;
 
 import com.weather.R;
 import com.weather.operation.ImageOps;
+import com.weather.operation.UniqueOps;
 import com.weather.operation.WeatherOps;
 import com.weather.operation.WeatherOpsImpl;
 import com.weather.utils.Utils;
@@ -64,19 +65,37 @@ OnPageChangeListener{
 		mWeatherOps.clickTab(v);
 	}
 	
+	
+	//just for test
 	public static int i = 0;
-	public void onLocation(View v){
-		Log.d(TAG, "onLoaction is beginning...");
+	/**
+	 * Refresh the city weather info 
+	 */
+	public void onUpdate(View v){
+		Log.d(TAG, "onUpdate is beginning...");
 		String name;
 		if(i%2 == 0) {
-			 name = "北";
+			 name = "北京";
 			 i++;
 		} else {
-			 name = "上";
+			 name = "上海";
 			 i++;
 		}
-		
-		mWeatherOps.onLocation(name);
+		/*
+		if(null == mWeatherOps.getName(UniqueOps.SQL_NAME)) {
+			mWeatherOps.onLocation();
+		} else {
+			mWeatherOps.onUpdate(mWeatherOps.getName(UniqueOps.SQL_NAME));
+		}
+		*/
+		mWeatherOps.onUpdate(name);
 	}
 
+	/**
+	 * Locate your city and refresh the weather info of your city
+	 */
+	public void onLocation(View v) {
+		Log.d(TAG, "onLocations is  start...");
+		mWeatherOps.onLocation();
+	}
 }

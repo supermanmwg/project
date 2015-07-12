@@ -1,4 +1,5 @@
 package com.weather.services;
+
 import java.util.List;
 
 import retrofit.RestAdapter;
@@ -10,6 +11,7 @@ import com.weather.aidl.WeatherResults;
 import com.weather.lang.Chinese;
 import com.weather.retrofit.WeatherDataCurrent;
 import com.weather.retrofit.WeatherDataForeCast;
+import com.weather.retrofit.WeatherDataForeCast.City;
 import com.weather.retrofit.WeatherWebServiceProxy;
 import com.weather.utils.Utils;
 
@@ -55,7 +57,7 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 						mWeatherDataCurrent = mWeatherWebServiceProxy.getWeatherData(location, metric,lang);
 						mForCastList = mWeatherWebServiceProxy.getWeatherData(location, metric, cnt,lang);
 					} catch(RetrofitError e) {
-						results.sendErrors(Chinese.NET_ERROR);
+						results.sendErrors(Chinese.CITY_NOT_FOUND + "»ò" + Chinese.NET_ERROR);
 						return ;
 					}
 					List<WeatherData> mList;
@@ -77,9 +79,23 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 					}
 					results.sendResult(mList);
 				}
+
+				@Override
+				public void getLocation(String location,
+						WeatherResults results) throws RemoteException {
+					Log.d(TAG, "Weather Serive start to locate");
+	
+					String cityName = Utils.getLocationName(location);
+					if(null != cityName) {
+						results.sendLocationName(cityName);
+					} else {
+						results.sendErrors(Chinese.NET_ERROR);
+					}
+				}
 	};
 
 	public void onDestroy() {
 		mWeatherWebServiceProxy = null;
+
 	};
 }

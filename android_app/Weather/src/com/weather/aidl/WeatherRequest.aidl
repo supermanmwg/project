@@ -18,4 +18,6 @@ interface WeatherRequest {
     */
     oneway void getCurrentWeather(in String Weather,in String metric,in long cnt,String lang,
                                   in WeatherResults results); 
+                                  
+    oneway void getLocation( in String location, in WeatherResults results);
 }
