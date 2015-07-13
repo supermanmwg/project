@@ -4,7 +4,11 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import com.weather.R;
+import com.weather.activities.MainActivity;
 import com.weather.aidl.WeatherData;
+import com.weather.operation.CnLangOpsImpl;
+import com.weather.operation.EnLangOpsImpl;
+import com.weather.operation.LangOps;
 import com.weather.operation.UniqueOps;
 import com.weather.operation.WeatherOps;
 import com.weather.provider.cache.WeatherTimeoutCache;
@@ -23,9 +27,10 @@ public class WeatherFragment extends BaseFragment {
 	public final String TAG = getClass().getSimpleName();
 
 	private static final String POS = "position";
-	private WeakReference<Activity> mActivity;
+	private WeakReference<MainActivity> mActivity;
 	private WeatherTimeoutCache mCache;
 	private UniqueOps mUniqueOps;
+	private LangOps mLangOps;
 
 	private WeatherData mWeatherData;
 	private View v;
@@ -46,9 +51,14 @@ public class WeatherFragment extends BaseFragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		mActivity = new WeakReference<Activity>(activity);
+		mActivity = new WeakReference<MainActivity>((MainActivity)activity);
 		mUniqueOps = new UniqueOps(activity);
 		mCache = new WeatherTimeoutCache(activity);
+		if(MainActivity.CN == mActivity.get().getLanguage()) {
+			mLangOps = new CnLangOpsImpl();
+		} else {
+			mLangOps = new EnLangOpsImpl();
+		}
 	}
 
 	@Override
@@ -109,19 +119,20 @@ public class WeatherFragment extends BaseFragment {
 	}
 
 	private void setFragmentData(WeatherData mData) {
-		cityNameTView.setText(mUniqueOps.getName(UniqueOps.DISPLAY_NAME) );
+		cityNameTView.setText(mLangOps.getCityName(mUniqueOps.getName(UniqueOps.DISPLAY_NAME)));
 		tempTextView.setText("" + (long) mData.getmTempMin() + "°/"
 				+ (long) mData.getmTempMax() + "°");
 		desTextView.setText(mData.getmDescription());
 		datTextView.setText(""
-				+ Utils.TimeStampToDate(mData.getmDate() + 1, null));
-		windTextView.setText(Utils.convertWindDetails(mData.getmSpeed()) + "\n" + Utils.convertSpeed(mData.getmSpeed()) + "级");
-		humTextView.setText("湿度：" + mData.getmHumidity() + "%");
+				+ Utils.TimeStampToDate(mData.getmDate() + 1, mLangOps.getDateFormat()));
+		windTextView.setText(mLangOps.convertWindDetails(mData.getmSpeed()) + "\n" + mLangOps.convertSpeed(mData.getmSpeed()) + mLangOps.getWindLevelString());
+		humTextView.setText(mLangOps.getHumidString() + mData.getmHumidity() + "%");
 		pm2_5.setText("");
+		Log.d(TAG, "fragment Aqi is " + mUniqueOps.getValue(UniqueOps.AQI));
 		if( 0 == pos) {
 			int aqi = mUniqueOps.getValue(UniqueOps.AQI);
 			if(0 != aqi) {
-				pm2_5.setText( aqi +" " + Utils.genWeatherConditon(aqi)+ "  ");
+				pm2_5.setText( aqi +" " + mLangOps.genWeatherConditon(aqi)+ "  ");
 			}	
 		}
 

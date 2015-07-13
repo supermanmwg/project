@@ -16,7 +16,7 @@ interface WeatherResults {
      */
      //for weather info
     oneway void sendResult(in List<WeatherData> results);
-    oneway void sendErrors(String error);
+    oneway void sendErrors(int error);
     
    	//for location
    	oneway void sendLocationName(in String name);

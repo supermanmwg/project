@@ -4,9 +4,11 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Set;
 
+import android.R.array;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.nfc.cardemulation.OffHostApduService;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.util.Log;
@@ -21,7 +23,6 @@ import com.weather.activities.MainActivity;
 import com.weather.aidl.WeatherData;
 import com.weather.aidl.WeatherRequest;
 import com.weather.aidl.WeatherResults;
-import com.weather.lang.Chinese;
 import com.weather.retrofit.WeatherWebServiceProxy;
 import com.weather.services.LifecycleLoggingService;
 import com.weather.services.WeatherServiceAsync;
@@ -38,6 +39,7 @@ public class WeatherOpsImpl implements WeatherOps {
 	private LifecycleLoggingService mService;
 	private UniqueOps mUniqueOps;
 	private LocationOps mLocationOps;
+	private LangOps mLangOps;
 
 
 	public WeatherOpsImpl(MainActivity activity) {
@@ -48,6 +50,11 @@ public class WeatherOpsImpl implements WeatherOps {
 		mService = new WeatherServiceAsync();
 		mUniqueOps = new UniqueOps(activity);
 		mLocationOps = new LocationOps(activity);
+		if(MainActivity.CN == activity.getLanguage()) {
+			mLangOps = new CnLangOpsImpl();
+		} else {
+			mLangOps = new EnLangOpsImpl();
+		}
 	}
 
 	@Override
@@ -85,7 +92,7 @@ public class WeatherOpsImpl implements WeatherOps {
 	}
 
 	@Override
-	public void onUpdate(String name) {
+	public void onUpdate(String name,int tag) {
 
 		final WeatherRequest mWeatherRequest = mServiceConnection
 				.getInterface();
@@ -94,20 +101,29 @@ public class WeatherOpsImpl implements WeatherOps {
 			try {
 				Log.d(TAG, "before haha");
 				Log.d(TAG, "city name is " + name);
-				mWeatherRequest.getCurrentWeather(name,
-						WeatherWebServiceProxy.Celsius, 3,"zh_cn" ,mWeatherResults);
-				Log.d(TAG, "after haha");
 				String acronyName = null;
 				if(name.contains("ÊÐ")) {
 					
 					String[] arrays  = name.split("ÊÐ");
 					acronyName = arrays[0];
+					if(arrays.length >= 2)
+						name = arrays[1].split(",")[0];
 				} else {
 					acronyName = name;
 				}
 				Log.d(TAG, "acrony name is " + acronyName);
+				mUniqueOps.SetName(UniqueOps.PM25, acronyName);
 				mWeatherRequest.getPM2_5(acronyName, mWeatherResults);
-				mUniqueOps.SetName(UniqueOps.DISPLAY_NAME, name);
+				String[] arrays = name.split("ÊÐ");
+				for (int i = 0; i < arrays.length; i++) {
+					Log.d(TAG, "arrays " + i + arrays[i]);
+				}
+				if(WeatherOps.ADD == tag || WeatherOps.LOCATE == tag)
+					mUniqueOps.SetName(UniqueOps.DISPLAY_NAME, name);
+				mWeatherRequest.getCurrentWeather(mUniqueOps.getName(UniqueOps.DISPLAY_NAME),
+						WeatherWebServiceProxy.Celsius, 3, mLangOps.getWeatherLang() ,mWeatherResults);
+				Log.d(TAG, "after haha");
+
 			} catch (RemoteException e) {
 				Log.e(TAG, "RemoteException:" + e.getMessage());
 			}
@@ -127,7 +143,7 @@ public class WeatherOpsImpl implements WeatherOps {
 				//String location = "36.41709826,116.945041";
 				String location = mLocationOps.onLocation();
 				Log.d(TAG, "get location is " + location);
-				mWeatherRequest.getLocation(location, mWeatherResults);
+				mWeatherRequest.getLocation(location,mWeatherResults);
 			} catch (RemoteException e) {
 				Log.e(TAG, "RemoteException:" + e.getMessage());
 			}
@@ -168,15 +184,26 @@ public class WeatherOpsImpl implements WeatherOps {
 		 * back to the MainActivity
 		 */
 		@Override
-		public void sendErrors(final String error) throws RemoteException {
+		public void sendErrors(final int error) throws RemoteException {
 			mDisHandler.post(new Runnable() {
 
 				@Override
 				public void run() {
-					if(error.equals(Chinese.PM2_5_ERROR)) {
+					switch (error) {
+					case WeatherServiceAsync.PM2_5_ERROR:
 						mUniqueOps.SetValue(UniqueOps.AQI, 0);
-					} else {
-						Toast(error);
+						break;
+					case WeatherServiceAsync.CITY_NOT_FOUND:
+						Toast(mLangOps.getCityNotFound());
+						break;
+					case WeatherServiceAsync.NET_ERROR:
+						Toast(mLangOps.getNetError());
+						break;
+					case WeatherServiceAsync.CITY_NOT_FOUND_NET_ERROR:
+						Toast("  " + mLangOps.getCityNotFound() + "\n" + mLangOps.getOr() + mLangOps.getNetError());
+						break;
+					default:
+						break;
 					}
 				}
 			});
@@ -190,15 +217,15 @@ public class WeatherOpsImpl implements WeatherOps {
 			if(1 == locateSign) {
 				locateSign = 0;
 			} else {
-				Toast(Chinese.REFRESH_SUCCESS);
+				Toast(mLangOps.getRefreshSuccess());
 			}
 		}
 
 		private int locateSign = 0;
 		@Override
 		public void sendLocationName(String name) throws RemoteException {
-			onUpdate(name);
-			Toast(Chinese.LOCATE_SUCCESS);
+			onUpdate(name,WeatherOps.LOCATE);
+			Toast(mLangOps.getLocateSuccess());
 			locateSign = 1;
 		}
 
@@ -224,16 +251,15 @@ public class WeatherOpsImpl implements WeatherOps {
 			public void run() {
 				  Toast toast = new Toast(mActivity.get());
 
-			        toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER, 0, 100);
-			        toast.setDuration(Toast.LENGTH_SHORT);
-			        TextView t =new TextView(mActivity.get());
-			        t.setBackgroundColor(Color.parseColor("#3971AD"));
-			        t.setTextColor(Color.parseColor("#ffffff"));
-			        t.setTextSize(20);
-			        t.setText(message);
-			        toast.setView(t);
-			        toast.show();
-				
+			      toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER, 0, 100);
+			      toast.setDuration(Toast.LENGTH_SHORT);
+			      TextView t =new TextView(mActivity.get());
+			      t.setBackgroundColor(Color.parseColor("#3971AD"));
+			      t.setTextColor(Color.parseColor("#ffffff"));
+			      t.setTextSize(20);
+			      t.setText(message);
+			      toast.setView(t);
+			      toast.show();
 			}
 		});
 		

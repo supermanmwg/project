@@ -8,12 +8,10 @@ import retrofit.RetrofitError;
 import com.weather.aidl.WeatherData;
 import com.weather.aidl.WeatherRequest;
 import com.weather.aidl.WeatherResults;
-import com.weather.lang.Chinese;
 import com.weather.retrofit.PM2_5Item;
 import com.weather.retrofit.PM2_5ServiceProxy;
 import com.weather.retrofit.WeatherDataCurrent;
 import com.weather.retrofit.WeatherDataForeCast;
-import com.weather.retrofit.WeatherDataForeCast.City;
 import com.weather.retrofit.WeatherWebServiceProxy;
 import com.weather.utils.Utils;
 
@@ -24,6 +22,10 @@ import android.os.RemoteException;
 import android.util.Log;
 
 public class WeatherServiceAsync extends LifecycleLoggingService{
+	public static final int CITY_NOT_FOUND = 0;
+	public static final int NET_ERROR = 1;
+	public static final int CITY_NOT_FOUND_NET_ERROR = 2;
+	public static final int PM2_5_ERROR = 3;
 	
 	private WeatherWebServiceProxy mWeatherWebServiceProxy;
 	private PM2_5ServiceProxy mPM2_5ServiceProxy;
@@ -65,7 +67,7 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 						mWeatherDataCurrent = mWeatherWebServiceProxy.getWeatherData(location, metric,lang);
 						mForCastList = mWeatherWebServiceProxy.getWeatherData(location, metric, cnt,lang);
 					} catch(RetrofitError e) {
-						results.sendErrors("  " +Chinese.CITY_NOT_FOUND + "\n»ò" + Chinese.NET_ERROR);
+						results.sendErrors(CITY_NOT_FOUND_NET_ERROR);
 						return ;
 					}
 					List<WeatherData> mList;
@@ -74,7 +76,7 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 						Log.v(TAG, "current and forcast is ok");
 						Log.v(TAG, "mlist is " + mList.size());
 					} else {
-						results.sendErrors(Chinese.CITY_NOT_FOUND);
+						results.sendErrors(CITY_NOT_FOUND);
 						return;
 					}
 					for ( int i = 0; i < mList.size(); i++) {
@@ -97,7 +99,7 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 					if(null != cityName) {
 						results.sendLocationName(cityName);
 					} else {
-						results.sendErrors(Chinese.NET_ERROR);
+						results.sendErrors(NET_ERROR);
 					}
 				}
 
@@ -105,6 +107,7 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 				public void getPM2_5(String cityName, WeatherResults results)
 						throws RemoteException {
 					try {
+						Log.d(TAG, "PM2.5 city name is " + cityName);
 						List<PM2_5Item> mPm2_5List = mPM2_5ServiceProxy.getPM2_5(cityName, "5j1znBVAsnSf5xQyNQyq");
 						int average = 0;
 						int sum = 0;
@@ -123,7 +126,7 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 					} catch(RetrofitError e) {
 						Log.d(TAG, e.getMessage());
 						
-						results.sendErrors(Chinese.PM2_5_ERROR);
+						results.sendErrors(PM2_5_ERROR);
 						return ;
 					}
 					

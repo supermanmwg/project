@@ -29,6 +29,8 @@ public class UniqueOps {
 
 	public static final String AQI = "Aqi_Value";
 	
+	public static final String PM25= "pm2_5";
+	
 	private WeakReference<Activity> mActivity;
 	
 	public UniqueOps(Activity activity) {

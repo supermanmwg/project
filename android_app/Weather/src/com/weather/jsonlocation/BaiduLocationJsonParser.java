@@ -7,10 +7,12 @@ import java.io.InputStreamReader;
 import android.util.JsonReader;
 import android.util.Log;
 
-public class LocationJSONParser {
+public class BaiduLocationJsonParser implements LocationJsonParser {
 
 	public final String TAG = getClass().getSimpleName();
+	
 	@SuppressWarnings("resource")
+	@Override
 	public String parseJsonStream(InputStream in) {
 		JsonReader reader;
 		try {
@@ -73,7 +75,7 @@ public class LocationJSONParser {
 				case "district":
 					distName = reader.nextString();
 					if(distName.contains("ÊÐ"))
-						return distName;
+						return cityName + distName + ",";
 					else {
 						return cityName + distName;
 					}

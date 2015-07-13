@@ -17,7 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Toast;
 
-public class MainActivity  extends FragmentActivity implements OnClickListener,
+public class MainActivity  extends BaseActivity implements OnClickListener,
 OnPageChangeListener{
 	
 	private final String TAG = getClass().getSimpleName();
@@ -35,7 +35,8 @@ OnPageChangeListener{
 		
 		mWeatherOps =  new WeatherOpsImpl(this);
 		mWeatherOps.bindService();
-		//initData();
+		
+		Log.d(TAG, "language is " + getLanguage());
 	}
 
 	
@@ -46,7 +47,7 @@ OnPageChangeListener{
 			mWeatherOps.onLocation();
 		} else {
 			Log.d(TAG, "display name is not null");
-			mWeatherOps.onUpdate(displayName);
+			mWeatherOps.onUpdate(mWeatherOps.getName(UniqueOps.PM25),WeatherOps.UPDATE);
 		}
 	}
 	
@@ -89,7 +90,7 @@ OnPageChangeListener{
 		if(null == mWeatherOps.getName(UniqueOps.DISPLAY_NAME)) {
 			mWeatherOps.onLocation();
 		} else {
-			mWeatherOps.onUpdate(mWeatherOps.getName(UniqueOps.DISPLAY_NAME));
+			mWeatherOps.onUpdate(mWeatherOps.getName(UniqueOps.PM25),WeatherOps.UPDATE);
 		}
 	}
 
@@ -113,7 +114,7 @@ OnPageChangeListener{
 			if(RESULT_OK == resultCode) {
 				String cityName = data.getStringExtra(AlterActivity.DATA);
 				Log.d(TAG, "onActivity return city name is " + cityName);
-				mWeatherOps.onUpdate(cityName);
+				mWeatherOps.onUpdate(cityName,WeatherOps.ADD);
 			}
 			break;
 		default:

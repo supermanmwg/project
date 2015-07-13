@@ -161,8 +161,6 @@ public class ImageOps {
 					initEvent();
 				}
 			});
-			
-
 		}
 	}
 }

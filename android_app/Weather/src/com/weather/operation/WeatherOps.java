@@ -14,6 +14,10 @@ public interface WeatherOps {
 	 */
 	public static final String WEATHRE_DATA = "Weather Data";
 	
+	public static final int LOCATE = 1;
+	public static final int UPDATE = 2;
+	public static final int  ADD = 3;
+	
 
 	
 	/**
@@ -39,7 +43,7 @@ public interface WeatherOps {
 
 	public void onLocation();
 	
-	public void onUpdate(String string);
+	public void onUpdate(String string,int tag);
 	
 	public String getName(String type);
 
