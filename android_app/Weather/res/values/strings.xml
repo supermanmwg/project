@@ -1,13 +1,9 @@
 <resources>
 
     <string name="app_name">Fool Weather</string>
-    <string name="temperature">20°/31°</string>
     <string name="description">cloudy</string>
     <string name="details">Details</string>
-    <string name="winddefault">Wind:3 level</string>
-    <string name="sunriseset">Sunrise: 4:52 \n\nSunset: 19:46</string>
-    <string name="humidity">Humidity:70%</string>
-    
+   
     <string name="Today">Today</string>
     <string name="Tomorrow">Tomorrow</string>
     <string name="Thedayaftertomorrow">The day after\ntomorrow</string>

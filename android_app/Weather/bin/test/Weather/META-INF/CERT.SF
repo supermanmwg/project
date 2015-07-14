@@ -1,0 +1,58 @@
+Signature-Version: 1.0
+SHA1-Digest-Manifest: ENaK9wtZHumvjIOf1zEyZf/sPM8=
+Created-By: 1.0 (Android)
+
+Name: AndroidManifest.xml
+SHA1-Digest: tK1rwi70pk7ufLSeCeWKIkBSeBw=
+
+Name: res/layout/fragment.xml
+SHA1-Digest: O0WL57WiPh85rYU+vrFiNiYK3M0=
+
+Name: res/layout/main.xml
+SHA1-Digest: xuo3M6nvOAfk/YPWzzFmktCmNuQ=
+
+Name: res/drawable-hdpi-v4/alter.png
+SHA1-Digest: M/UOunDrHV6auk2Dc0/Gk4bP33w=
+
+Name: res/drawable-hdpi-v4/ic_launcher.png
+SHA1-Digest: ZbgRZQwsH0uCvzZ8AJgEu4FHPbI=
+
+Name: res/drawable-hdpi-v4/location.png
+SHA1-Digest: b5+W9tTKHeEziKGrDILcsKjByvw=
+
+Name: res/drawable-mdpi-v4/ic_launcher.png
+SHA1-Digest: J3wUeQTdk9XimN++Woq+As+mBPg=
+
+Name: pinyindb/pinyin_mapping.xml
+SHA1-Digest: TKjPYz/2etGbJ22iJIZY10PyVKQ=
+
+Name: res/drawable-xhdpi-v4/ic_launcher.png
+SHA1-Digest: wtgCPwjm1sLXjpMOjzO3WdOqYH0=
+
+Name: res/layout-v11/fragment.xml
+SHA1-Digest: 7qv5eKzxLeUSliPlAf54MHst+/E=
+
+Name: pinyindb/pinyin_gwoyeu_mapping.xml
+SHA1-Digest: bkX+LUlZgXmZe95SrIkYAOcgQ4s=
+
+Name: res/drawable-hdpi-v4/modify.png
+SHA1-Digest: hQu/Ai9Twtjt14PHPcz9BzokH/c=
+
+Name: resources.arsc
+SHA1-Digest: NcG/5hWSHzbxjjbPXCJiquy+4B0=
+
+Name: pinyindb/unicode_to_hanyu_pinyin.txt
+SHA1-Digest: +pZoFAhL7+9SPf06nOIVmAeI52A=
+
+Name: classes.dex
+SHA1-Digest: tC1W8berWiVnZnr8+8HiXbzEI/c=
+
+Name: res/drawable-xxhdpi-v4/ic_launcher.png
+SHA1-Digest: dZE9j2PY80oWaPHhI7y5AP8hruQ=
+
+Name: res/drawable-hdpi-v4/update.png
+SHA1-Digest: 0uoSCWHLTKMD5rjnn0pk72CvGy0=
+
+Name: res/layout/alter.xml
+SHA1-Digest: 52WSXs+qFuCpLF0JEeODKKdCx+Q=
+
