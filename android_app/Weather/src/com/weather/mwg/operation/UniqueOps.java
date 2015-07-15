@@ -1,9 +1,6 @@
 package com.weather.mwg.operation;
 
 import java.lang.ref.WeakReference;
-import java.util.Set;
-import java.util.StringTokenizer;
-
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -16,27 +13,34 @@ public class UniqueOps {
 	public static final String DISPLAY_NAME = "Display_Name";
 	
 	/**
-	 * String sql name
+	 * String for provider name
 	 */
 	public static final String SQL_NAME = "Sql_Name";
-	
-	/**
-	 * String for list name
-	 */
-	public static final String SQL_SET_NAME = "Sql_Set_Name";
-	
-	public static final String DISPLAY_SET_NAME = "Display_Set_NAME";
 
+	/**
+	 * String for AQI value
+	 */
 	public static final String AQI = "Aqi_Value";
 	
-	public static final String PM25= "pm2_5";
+	/**
+	 * String for PM25 city name;
+	 */
+	public static final String PM25_CITY= "pm2_5";
 	
+	/**
+	 * Used to enable garbage collection.
+	 */
 	private WeakReference<Activity> mActivity;
 	
 	public UniqueOps(Activity activity) {
 		mActivity = new WeakReference<Activity>(activity);
 	}
 	
+	/**
+	 * Get the name of type(String)
+	 * @param type
+	 * @return
+	 */
 	public String getName(String type) {
 		SharedPreferences pref = PreferenceManager
 				.getDefaultSharedPreferences(mActivity.get());
@@ -45,7 +49,11 @@ public class UniqueOps {
 		return name;
 	}
 
-
+	/**
+	 * Set the name of type(String)
+	 * @param type
+	 * @param name
+	 */
 	public void SetName(String type, String name) {
 		SharedPreferences pref = PreferenceManager
 				.getDefaultSharedPreferences(mActivity.get());
@@ -55,6 +63,11 @@ public class UniqueOps {
 		mEditor.commit();
 	}
 
+	/**
+	 * Get the name of type(int)
+	 * @param type
+	 * @return
+	 */
 	public int getValue(String type) {
 		SharedPreferences pref = PreferenceManager
 				.getDefaultSharedPreferences(mActivity.get());
@@ -62,6 +75,12 @@ public class UniqueOps {
 
 		return value;
 	}
+	
+	/**
+	 * Set the name of type(int)
+	 * @param type
+	 * @param value
+	 */
 	public void SetValue(String type, int value) {
 		SharedPreferences pref = PreferenceManager
 				.getDefaultSharedPreferences(mActivity.get());
@@ -70,24 +89,4 @@ public class UniqueOps {
 		mEditor.putInt(type, value);
 		mEditor.commit();
 	}
-
-	public Set<String> getList(String type) {
-		SharedPreferences pref = PreferenceManager
-				.getDefaultSharedPreferences(mActivity.get());
-		Set<String> mSet = pref.getStringSet(type, null);
-
-		return mSet;
-	}
-	
-	public void setListName(String type, Set<String> nameSet) {
-		SharedPreferences pref = PreferenceManager
-				.getDefaultSharedPreferences(mActivity.get());
-		SharedPreferences.Editor mEditor;
-		mEditor = pref.edit();
-		mEditor.putStringSet(type, nameSet);
-		mEditor.commit();
-
-	}
-
-
 }

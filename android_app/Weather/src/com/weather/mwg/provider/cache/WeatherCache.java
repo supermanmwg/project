@@ -2,51 +2,21 @@ package com.weather.mwg.provider.cache;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.weather.mwg.aidl.WeatherData;
 import com.weather.mwg.provider.WeatherContract;
 import com.weather.mwg.provider.WeatherContract.WeatherValuesEntry;
-
-import android.app.AlarmManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.os.SystemClock;
-import android.util.Log;
 
 /**
- * Timeout cache that uses a content provider to store data and the Alarm
- * manager and a broadcast receiver to remove expired cache entries
+ * Timeout cache that uses a content provider to store data
  */
-public class WeatherTimeoutCache implements
-		TimeoutCache<String, List<WeatherData>> {
+public class WeatherCache implements Cache<String, List<WeatherData>> {
 	/**
 	 * LogCat tag.
 	 */
-	private final static String TAG = WeatherTimeoutCache.class.getSimpleName();
-
-	/**
-	 * Default cache timeout in to 25 seconds (in milliseconds).
-	 */
-	private static final long DEFAULT_TIMEOUT = Long.valueOf(25000L);
-
-	/**
-	 * Cache is cleaned up at regular intervals (i.e., twice a day) to remove
-	 * expired WeatherData.
-	 */
-	public static final long CLEANUP_SCHEDULER_TIME_INTERVAL = AlarmManager.INTERVAL_HALF_DAY;
-
-	/**
-	 * AlarmManager provides access to the system alarm services. Used to
-	 * schedule Cache cleanup at regular intervals to remove expired Weather
-	 * Values.
-	 */
-	private AlarmManager mAlarmManager;
-
-	/**
-	 * The timeout for an instance of this class in milliseconds.
-	 */
-	private long mDefaultTimeout;
+	public final static String TAG = WeatherCache.class.getSimpleName();
 
 	/**
 	 * Context used to access the contentResolver.
@@ -54,18 +24,11 @@ public class WeatherTimeoutCache implements
 	private Context mContext;
 
 	/**
-	 * Constructor that sets the default timeout for the cache (in seconds).
+	 * Constructor
 	 */
-	public WeatherTimeoutCache(Context context) {
+	public WeatherCache(Context context) {
 		// Store the context.
 		mContext = context;
-
-		// Set the timeout in milliseconds.
-		mDefaultTimeout = DEFAULT_TIMEOUT;
-
-		// Get the AlarmManager system service.
-		mAlarmManager = (AlarmManager) context
-				.getSystemService(Context.ALARM_SERVICE);
 	}
 
 	/**
@@ -73,7 +36,7 @@ public class WeatherTimeoutCache implements
 	 * into the db's WeatherValuesEntry table from a given WeatherData object.
 	 */
 	private List<ContentValues> makeWeatherDataContentValues(
-			List<WeatherData> wd, long timeout) {
+			List<WeatherData> wd) {
 		List<ContentValues> contentList = new ArrayList<>();
 		for (int i = 0; i < wd.size(); i++) {
 			ContentValues cvs = new ContentValues();
@@ -101,8 +64,6 @@ public class WeatherTimeoutCache implements
 					.getmIconID());
 			cvs.put(WeatherContract.WeatherValuesEntry.COLUMN_DESCRIPTION, wd
 					.get(i).getmDescription());
-			cvs.put(WeatherContract.WeatherValuesEntry.COLUMN_EXPIRATION_TIME,
-					System.currentTimeMillis() + timeout);
 			contentList.add(cvs);
 		}
 		return contentList;
@@ -115,27 +76,15 @@ public class WeatherTimeoutCache implements
 	 */
 	@Override
 	public void put(List<WeatherData> obj) {
-		putImpl(obj, mDefaultTimeout);
-	}
-
-	/**
-	 * Places the WeatherData object into the cache with a user specified
-	 * timeout.
-	 */
-	@Override
-	public void put(List<WeatherData> obj, int timeout) {
-		putImpl( obj,
-		// Timeout must be expressed in milliseconds.
-				timeout * 1000);
+		putImpl(obj);
 	}
 
 	/**
 	 * Helper method that places a WeatherData object into the database.
 	 */
-	private void putImpl(List<WeatherData> wd, long timeout) {
+	private void putImpl(List<WeatherData> wd) {
 		// Enter the main WeatherData into the WeatherValues table.
-		List<ContentValues> weatheList = makeWeatherDataContentValues(wd,
-				timeout);
+		List<ContentValues> weatheList = makeWeatherDataContentValues(wd);
 		ContentValues[] contentArray = new ContentValues[weatheList.size()];
 		weatheList.toArray(contentArray);
 		mContext.getContentResolver().bulkInsert(
@@ -145,7 +94,7 @@ public class WeatherTimeoutCache implements
 
 	/**
 	 * Attempts to retrieve the given key's corresponding WeatherData object. If
-	 * the key doesn't exist or has timed out, null is returned.
+	 * the key doesn't exist.
 	 */
 	@Override
 	public List<WeatherData> get(final String location) {
@@ -157,26 +106,9 @@ public class WeatherTimeoutCache implements
 				new String[] { location }, null)) {
 			// Check that the cursor isn't null and contains an item.
 			if (wdCursor != null && wdCursor.moveToFirst()) {
-				Log.d(TAG, "Cursor not null and has first item");
-		/*		if (wdCursor
-						.getLong(wdCursor
-								.getColumnIndex(WeatherContract.WeatherValuesEntry.COLUMN_EXPIRATION_TIME)) < System
-						.currentTimeMillis()) {
-					Log.d(TAG, "remove the city , name is " +wdCursor
-							.getColumnIndex(WeatherContract.WeatherValuesEntry.COLUMN_NAME));
-					// Concurrently delete the stale data from the db
-					// in a new thread.
-					new Thread(new Runnable() {
-						public void run() {
-							remove(location);
-						}
-					}).start();
-
-					return null;
-				} else*/
-					// Convert the contents of the cursor into a
-					// WeatherData object.
-					return getWeatherDataFromCursor(wdCursor);
+				// Convert the contents of the cursor into a
+				// WeatherData object.
+				return getWeatherDataFromCursor(wdCursor);
 			} else
 
 				// Query was empty or returned null.
@@ -218,31 +150,21 @@ public class WeatherTimeoutCache implements
 				final String icon = data.getString(data
 						.getColumnIndex(WeatherValuesEntry.COLUMN_ICON));
 				final String description = data.getString(data
-								.getColumnIndex(WeatherValuesEntry.COLUMN_DESCRIPTION));
-				WeatherData weatherData =new  WeatherData(
-									speed,
-									degree, 
-									temp,
-									tempMax, 
-									tempMin, 
-									humidity, 
-									pressure,
-									date, 
-									country, 
-									name, 
-									icon,
-									description);
+						.getColumnIndex(WeatherValuesEntry.COLUMN_DESCRIPTION));
+				WeatherData weatherData = new WeatherData(speed, degree, temp,
+						tempMax, tempMin, humidity, pressure, date, country,
+						name, icon, description);
 				weatherList.add(weatherData);
 			} while (data.moveToNext());
-			
+
 			// Return a WeatherData list.
 			return weatherList;
 		}
 	}
 
 	/**
-	 * Delete the Weather Values and Weather Conditions associated with a @a
-	 * locationKey.
+	 * Delete the Weather Values and Weather Conditions associated with a
+	 * location.
 	 */
 	@Override
 	public void remove(String location) {
@@ -251,7 +173,6 @@ public class WeatherTimeoutCache implements
 				WeatherValuesEntry.WEATHER_VALUES_CONTENT_URI,
 				WeatherValuesEntry.COLUMN_NAME + " = ?",
 				new String[] { location });
-
 	}
 
 	/**
@@ -270,37 +191,4 @@ public class WeatherTimeoutCache implements
 			return cursor.getCount();
 		}
 	}
-
-	/**
-	 * Remove all expired WeatherData rows from the database. This method is
-	 * called periodically via the AlarmManager.
-	 */
-	public void removeExpiredWeatherData() {
-		// Defines the selection clause used to query for weather values
-		// that has expired.
-		final String EXPIRATION_SELECTION = WeatherValuesEntry.COLUMN_EXPIRATION_TIME
-				+ " <= ?";
-
-		// First query the db to find all expired Weather Values
-		// objects' ids.
-		try (Cursor expiredData = mContext.getContentResolver().query(
-				WeatherValuesEntry.WEATHER_VALUES_CONTENT_URI,
-				new String[] { WeatherValuesEntry.COLUMN_NAME },
-				EXPIRATION_SELECTION,
-				new String[] { String.valueOf(System.currentTimeMillis()) },
-				null)) {
-			// Use the expired data id's to delete the designated
-			// entries from both tables.
-			if (expiredData != null && expiredData.moveToFirst()) {
-				do {
-					// Get the location to delete.
-					final String deleteLocation = expiredData
-							.getString(expiredData
-									.getColumnIndex(WeatherValuesEntry.COLUMN_NAME));
-					remove(deleteLocation);
-				} while (expiredData.moveToNext());
-			}
-		}
-	}
-
 }

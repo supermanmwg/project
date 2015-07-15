@@ -3,7 +3,8 @@ package com.weather.mwg.activities;
 import com.weather.mwg.R;
 import com.weather.mwg.operation.UniqueOps;
 import com.weather.mwg.operation.WeatherOps;
-import com.weather.mwg.operation.WeatherOpsImpl;
+import com.weather.mwg.operation.weatherOpsImpl.WeatherOpsImpl;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -25,7 +26,6 @@ public class MainActivity extends BaseActivity implements OnClickListener,
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		Log.d(TAG, "language is " + getLanguage());
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main);
@@ -49,7 +49,7 @@ public class MainActivity extends BaseActivity implements OnClickListener,
 		if (null == displayName) {
 			mWeatherOps.onLocation();
 		} else {
-			mWeatherOps.onUpdate(mWeatherOps.getName(UniqueOps.PM25),
+			mWeatherOps.onUpdate(mWeatherOps.getName(UniqueOps.PM25_CITY),
 					WeatherOps.UPDATE);
 		}
 	}
@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity implements OnClickListener,
 		if (null == mWeatherOps.getName(UniqueOps.DISPLAY_NAME)) {
 			mWeatherOps.onLocation();
 		} else {
-			mWeatherOps.onUpdate(mWeatherOps.getName(UniqueOps.PM25),
+			mWeatherOps.onUpdate(mWeatherOps.getName(UniqueOps.PM25_CITY),
 					WeatherOps.UPDATE);
 		}
 	}
@@ -96,7 +96,6 @@ public class MainActivity extends BaseActivity implements OnClickListener,
 		case REQUEST_CODE:
 			if (RESULT_OK == resultCode) {
 				String cityName = data.getStringExtra(AlterActivity.DATA);
-				Log.d(TAG, "onActivity return city name is " + cityName);
 				mWeatherOps.onUpdate(cityName, WeatherOps.ADD);
 			}
 			break;

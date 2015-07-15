@@ -95,7 +95,6 @@ public class WeatherContract {
         public static final String COLUMN_DEG = "deg";
         public static final String COLUMN_ICON = "icon";
         public static final String COLUMN_DESCRIPTION = "description";
-        public static final String COLUMN_EXPIRATION_TIME = "expiration_time";
 
         /**
          * Return a URI that points to the row containing the given

@@ -1,4 +1,6 @@
-package com.weather.mwg.operation;
+package com.weather.mwg.operation.langOpsImpl;
+
+import com.weather.mwg.operation.LangOps;
 
 import android.annotation.SuppressLint;
 
@@ -57,6 +59,9 @@ public class CnLangOpsImpl implements LangOps {
 
 	/**
 	 * Convert wind speed to details info
+	 * 
+	 * @param speed
+	 *            : wind speed (m/s)
 	 */
 	@Override
 	public String convertWindDetails(double speed) {
@@ -134,6 +139,10 @@ public class CnLangOpsImpl implements LangOps {
 
 	/**
 	 * Generate the weather air condition from aqi value
+	 * 
+	 * @param aqi :
+	 * 				AQI value(Weather Air condition)
+	 * @return
 	 */
 	@Override
 	public String genWeatherConditon(int aqi) {

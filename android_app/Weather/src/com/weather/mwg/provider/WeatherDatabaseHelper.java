@@ -1,7 +1,5 @@
 package com.weather.mwg.provider;
 
-import java.io.File;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -12,12 +10,12 @@ public class WeatherDatabaseHelper extends SQLiteOpenHelper {
 	/**
 	 * Database name.
 	 */
-	private static String DATABASE_NAME = "weather_db";
+	public static String DATABASE_NAME = "WeatherData.db";
 
 	/**
 	 * Database version number, which is updated with each schema change.
 	 */
-	private static int DATABASE_VERSION = 1;
+	public static int DATABASE_VERSION = 1;
 
 	/**
 	 * SQL statement used to create the weather values table.
@@ -37,9 +35,7 @@ public class WeatherDatabaseHelper extends SQLiteOpenHelper {
 			+ WeatherContract.WeatherValuesEntry.COLUMN_DATE + " integer, "
 			+ WeatherContract.WeatherValuesEntry.COLUMN_COUNTRY + " text, "
 			+ WeatherContract.WeatherValuesEntry.COLUMN_ICON + " text, "
-			+ WeatherContract.WeatherValuesEntry.COLUMN_DESCRIPTION + " text, "
-			+ WeatherContract.WeatherValuesEntry.COLUMN_EXPIRATION_TIME
-			+ " integer)";
+			+ WeatherContract.WeatherValuesEntry.COLUMN_DESCRIPTION + " text) ";
 
 	/**
 	 * Constructor - initialize database name and version, but don't actually

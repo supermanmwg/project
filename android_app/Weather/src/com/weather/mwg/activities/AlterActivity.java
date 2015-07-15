@@ -1,9 +1,9 @@
 package com.weather.mwg.activities;
 
 import com.weather.mwg.R;
-import com.weather.mwg.operation.CnLangOpsImpl;
-import com.weather.mwg.operation.EnLangOpsImpl;
 import com.weather.mwg.operation.LangOps;
+import com.weather.mwg.operation.langOpsImpl.CnLangOpsImpl;
+import com.weather.mwg.operation.langOpsImpl.EnLangOpsImpl;
 
 import android.content.Intent;
 import android.os.Bundle;

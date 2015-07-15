@@ -1,10 +1,7 @@
 package com.weather.mwg.services;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
-import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -13,7 +10,6 @@ public abstract class LifecycleLoggingService extends Service{
 	protected final String TAG = getClass().getSimpleName();
 	protected final String ICON_URL = "http://openweathermap.org/img/w/";
 	
-	private final Handler mServiceHandler = new Handler();
 	/**
 	 * Hook method called when the Service is created.
 	 */
@@ -61,7 +57,4 @@ public abstract class LifecycleLoggingService extends Service{
 		super.onDestroy();
 		Log.d(TAG, "onDestroy() - service is being shut down");
 	}
-	
-	public abstract  Intent makeIntent(Context context);
-
 }

@@ -2,13 +2,17 @@ package com.weather.mwg.jsonlocation;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
 import android.util.JsonReader;
 import android.util.Log;
 
 public class BaiduLocationJsonParser implements LocationJsonParser {
-
+	
+	/**
+	 * Debugging tag used by the Android logger.
+	 */
 	public final String TAG = getClass().getSimpleName();
-
+	
 	/**
 	 * Return the city name by json
 	 */

@@ -1,10 +1,12 @@
-package com.weather.mwg.operation;
+package com.weather.mwg.operation.langOpsImpl;
 
+import com.weather.mwg.operation.LangOps;
 import com.weather.mwg.utils.Utils;
 
 import android.annotation.SuppressLint;
 
 public class EnLangOpsImpl implements LangOps{
+	
 	public static final String REFRESH_SUCCESS = "Refresh success";
 	public static final String LOCATE_SUCCESS = "Locate Successfully";
 	public static final String NO_INPUT = "Please enter the city's name";

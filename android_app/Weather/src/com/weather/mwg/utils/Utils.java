@@ -40,10 +40,9 @@ public class Utils {
 			WeatherDataForeCast mForeCast, long cnt) {
 		List<WeatherData> list = new ArrayList<WeatherData>();
 		/*
-		WeatherData mData = getWeatherFromCurrent(mCurrent);
-		if (null != mData)
-			list.add(mData);
-			*/
+		 * WeatherData mData = getWeatherFromCurrent(mCurrent); if (null !=
+		 * mData) list.add(mData);
+		 */
 		String name = mForeCast.getCity().getName();
 		String country = mForeCast.getCity().getCountry();
 		for (int i = 0; i < cnt; i++) {
@@ -118,79 +117,73 @@ public class Utils {
 
 	/**
 	 * Unix timestamp be converted to to date
-	 * @param timestamp 
-	 * 					:Unix timestamp
-	 * @param format 
-	 * 					:convert format
+	 * 
+	 * @param timestamp
+	 *            :Unix timestamp
+	 * @param format
+	 *            :convert format
 	 * @return date
 	 */
-	public static String TimeStampToDate(long timestamp ,String format) {
-		
+	public static String TimeStampToDate(long timestamp, String format) {
 
 		String date = new java.text.SimpleDateFormat(format)
 				.format(new java.util.Date(timestamp * 1000));
 		return date;
 	}
-    
+
 	/**
 	 * Obtain the location city name.
 	 * 
 	 * @return The information that responds to your current location search.
 	 */
-    
+
 	public static String getLocationName(String location) {
 		String cityName;
-		
+
 		try {
 			// Append the location to create the full URL.
-			final URL url = 
-					new URL(sLocation_Service_URL 
-							+ location);
+			final URL url = new URL(sLocation_Service_URL + location);
 			Log.d(TAG, "location URL is " + url.toString());
-			//Open a connection to the Weather Service.
-			HttpURLConnection urlConnection = 
-					(HttpURLConnection) url.openConnection();
+			// Open a connection to the Weather Service.
+			HttpURLConnection urlConnection = (HttpURLConnection) url
+					.openConnection();
 			urlConnection.setRequestMethod("GET");
-			
-			try (InputStream in = 
-				new BufferedInputStream(urlConnection.getInputStream())) {
-				//Create the parse.
+
+			try (InputStream in = new BufferedInputStream(
+					urlConnection.getInputStream())) {
+				// Create the parse.
 				Log.d(TAG, "Utils reader input stream");
-				final LocationJsonParser parser = 
-						new BaiduLocationJsonParser();
-				
+				final LocationJsonParser parser = new BaiduLocationJsonParser();
+
 				cityName = parser.parseJsonStream(in);
 				Log.d(TAG, "Utils return city name is " + cityName);
 			} finally {
 				urlConnection.disconnect();
 			}
 		} catch (Exception e) {
-			Log.d(TAG,e.getMessage());
+			Log.d(TAG, e.getMessage());
 			return null;
 		}
-		
+
 		return cityName;
 	}
-	
-	 public static String HanyuToPinyin(String name){
-	    	String pinyinName = "";
-	        char[] nameChar = name.toCharArray();
-	        HanyuPinyinOutputFormat defaultFormat = 
-	                                           new HanyuPinyinOutputFormat();
-	        defaultFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
-	        defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
-	        for (int i = 0; i < nameChar.length; i++) {
-	            if (nameChar[i] > 128) {
-	                try {
-	                    pinyinName += PinyinHelper.toHanyuPinyinStringArray
-	                                           (nameChar[i], defaultFormat)[0];
-	                } catch (BadHanyuPinyinOutputFormatCombination e) {
-	                    e.printStackTrace();
-	                }
-	            } 
-	        }
-	        return pinyinName;
-	    }
-	 
-	
+
+	public static String HanyuToPinyin(String name) {
+		String pinyinName = "";
+		char[] nameChar = name.toCharArray();
+		HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
+		defaultFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+		defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+		for (int i = 0; i < nameChar.length; i++) {
+			if (nameChar[i] > 128) {
+				try {
+					pinyinName += PinyinHelper.toHanyuPinyinStringArray(
+							nameChar[i], defaultFormat)[0];
+				} catch (BadHanyuPinyinOutputFormatCombination e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return pinyinName;
+	}
 }

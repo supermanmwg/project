@@ -3,10 +3,7 @@ package com.weather.mwg.utils;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
 import com.weather.mwg.activities.MainActivity;
-
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.ServiceConnection;
 import android.os.IBinder;

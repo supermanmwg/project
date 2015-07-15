@@ -22,18 +22,28 @@ import android.os.RemoteException;
 import android.util.Log;
 
 public class WeatherServiceAsync extends LifecycleLoggingService{
+	
+	/**
+	 * Error Tags
+	 */
 	public static final int CITY_NOT_FOUND = 0;
 	public static final int NET_ERROR = 1;
 	public static final int CITY_NOT_FOUND_NET_ERROR = 2;
 	public static final int PM2_5_ERROR = 3;
 	
+	/**
+	 * Used to get the weather info
+	 */
 	private WeatherWebServiceProxy mWeatherWebServiceProxy;
+	
+	/**
+	 * Used to get the pm2.5 info
+	 */
 	private PM2_5ServiceProxy mPM2_5ServiceProxy;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		Log.d(TAG, "weather Service Async is onCreated");
 		 mWeatherWebServiceProxy =
 	                new RestAdapter.Builder()
 	                .setEndpoint(WeatherWebServiceProxy.sWeather_Service_URL_Retro)
@@ -45,16 +55,34 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 		 			.build()
 		 			.create(PM2_5ServiceProxy.class);
 	}
-	@Override
-	public Intent makeIntent(Context context) {
+	
+    /**
+     * Factory method that makes an Intent used to start the
+     * WeatherServiceAsync when passed to bindService().
+     * 
+     * @param context
+     *            The context of the calling component.
+     */
+	public static Intent makeIntent(Context context) {
 		return new Intent(context, WeatherServiceAsync.class);
 	}
-
+	
+    /**
+     * Called when a client (e.g., MainActivity) calls
+     * bindService() with the proper Intent.  Returns the
+     * implementation of WeatherRequest, which is implicitly cast as
+     * an IBinder.
+     */
     @Override
     public IBinder onBind(Intent intent) {
         return mWeatherRequestImpl;
     }
-	
+    
+    /**
+     * The concrete implementation of the AIDL Interface
+     * WeatherRequest, which extends the Stub class that implements
+     * WeatherRequest
+     */
 	private final WeatherRequest.Stub mWeatherRequestImpl = 
 			new WeatherRequest.Stub() {
 
@@ -73,8 +101,7 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 					List<WeatherData> mList;
 					if(null != mWeatherDataCurrent && null != mForCastList) {
 						mList = Utils.genList(mWeatherDataCurrent, mForCastList, cnt);
-						Log.v(TAG, "current and forcast is ok");
-						Log.v(TAG, "mlist is " + mList.size());
+						Log.d(TAG, "mlist is " + mList.size());
 					} else {
 						results.sendErrors(CITY_NOT_FOUND);
 						return;
@@ -129,12 +156,12 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 						results.sendErrors(PM2_5_ERROR);
 						return ;
 					}
-					
 				}
 	};
 
 	public void onDestroy() {
 		mWeatherWebServiceProxy = null;
+		mPM2_5ServiceProxy = null;
 
 	};
 }

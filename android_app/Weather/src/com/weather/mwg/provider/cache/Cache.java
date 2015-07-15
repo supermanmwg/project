@@ -3,7 +3,7 @@ package com.weather.mwg.provider.cache;
 /**
  * This is common interface for all caches.
  */
-public interface TimeoutCache<K, V> {
+public interface Cache<K, V> {
     /**
      * Gets the @a value from the cache at the designated @a key.
      * 
@@ -19,16 +19,6 @@ public interface TimeoutCache<K, V> {
      * @param value
      */
     void put(V value);
-
-    /**
-     * Put the @a value into the cache at the designated @a key with a timeout
-     * after which the data will expire
-     * 
-     * @param key
-     * @param value
-     * @param timeout in seconds
-     */
-    void put(V obj, int timeout);
 
     /**
      * Removes the value associated with a key

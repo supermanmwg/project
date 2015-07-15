@@ -2,15 +2,17 @@ package com.weather.mwg.customview;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+
 import com.weather.mwg.R;
 import com.weather.mwg.activities.MainActivity;
 import com.weather.mwg.aidl.WeatherData;
-import com.weather.mwg.operation.CnLangOpsImpl;
-import com.weather.mwg.operation.EnLangOpsImpl;
 import com.weather.mwg.operation.LangOps;
 import com.weather.mwg.operation.UniqueOps;
-import com.weather.mwg.provider.cache.WeatherTimeoutCache;
+import com.weather.mwg.operation.langOpsImpl.CnLangOpsImpl;
+import com.weather.mwg.operation.langOpsImpl.EnLangOpsImpl;
+import com.weather.mwg.provider.cache.WeatherCache;
 import com.weather.mwg.utils.Utils;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,9 +29,9 @@ public class WeatherFragment extends BaseFragment {
 	private WeakReference<MainActivity> mActivity;
 
 	/**
-	 * Used get weather data from data provider
+	 * Used to  get weather data from data provider
 	 */
-	private WeatherTimeoutCache mCache;
+	private WeatherCache mCache;
 
 	/**
 	 * Used to set the simple shared data
@@ -37,7 +39,7 @@ public class WeatherFragment extends BaseFragment {
 	private UniqueOps mUniqueOps;
 
 	/**
-	 * Used to get the language operation (EN or CN)
+	 * Used to enable the language operation (EN or CN)
 	 */
 	private LangOps mLangOps;
 
@@ -74,7 +76,7 @@ public class WeatherFragment extends BaseFragment {
 		super.onAttach(activity);
 		mActivity = new WeakReference<MainActivity>((MainActivity) activity);
 		mUniqueOps = new UniqueOps(activity);
-		mCache = new WeatherTimeoutCache(activity);
+		mCache = new WeatherCache(activity);
 		if (MainActivity.CN == mActivity.get().getLanguage()) {
 			mLangOps = new CnLangOpsImpl();
 		} else {
@@ -193,7 +195,7 @@ public class WeatherFragment extends BaseFragment {
 	}
 
 	/**
-	 * Init fragment UI
+	 * Initiate fragment UI
 	 */
 	private void initFragmentUI() {
 		cityNameTView = (TextView) mActivity.get().findViewById(R.id.city_name);
