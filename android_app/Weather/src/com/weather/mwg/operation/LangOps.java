@@ -9,6 +9,7 @@ public interface LangOps {
 	public String getLocateSuccess();
 	public String getNo_Input();
 	public String getNetError();
+	public String getGPSNotFound();
 	public String getCityNotFound();
 	public String getPM25Error();
 	public String getOr();

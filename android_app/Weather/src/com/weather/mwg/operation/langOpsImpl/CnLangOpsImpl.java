@@ -9,6 +9,7 @@ public class CnLangOpsImpl implements LangOps {
 	public static final String REFRESH_SUCCESS = "刷新完成";
 	public static final String LOCATE_SUCCESS = "定位完成";
 	public static final String NO_INPUT = "请输入城市名称";
+	public static final String GPS_NOT_OPEN = "GPS定位没有打开";
 	public static String NET_ERROR = "网络出现问题";
 	public static String CITY_NOT_FOUND = "城市没有找到";
 	public static String PM2_5_ERROR = "PM2_5 请求错误";
@@ -189,6 +190,12 @@ public class CnLangOpsImpl implements LangOps {
 	public String getCityName(String name) {
 
 		return name;
+	}
+
+	@Override
+	public String getGPSNotFound() {
+		
+		return GPS_NOT_OPEN;
 	}
 
 }

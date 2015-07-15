@@ -10,6 +10,7 @@ public class EnLangOpsImpl implements LangOps{
 	public static final String REFRESH_SUCCESS = "Refresh success";
 	public static final String LOCATE_SUCCESS = "Locate Successfully";
 	public static final String NO_INPUT = "Please enter the city's name";
+	public static final String GPS_NOT_OPEN = "GPS was not opended";
 	public static String NET_ERROR = "Network Error";
 	public static String CITY_NOT_FOUND = "The city was not found";
 	public static String PM2_5_ERROR = "PM2_5 Error";
@@ -192,5 +193,11 @@ public class EnLangOpsImpl implements LangOps{
         return String.valueOf(cs);
         
     }
+
+	@Override
+	public String getGPSNotFound() {
+		
+		return GPS_NOT_OPEN;
+	}
 
 }

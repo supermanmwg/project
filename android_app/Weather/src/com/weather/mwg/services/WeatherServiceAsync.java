@@ -106,14 +106,15 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 						results.sendErrors(CITY_NOT_FOUND);
 						return;
 					}
-					for ( int i = 0; i < mList.size(); i++) {
+					/*					
+ 						for ( int i = 0; i < mList.size(); i++) {
 						WeatherData mWeatherData = mList.get(i);
 						Log.v(TAG, "name is " + mWeatherData.getmName());
 						Log.v(TAG, "max temp is " + mWeatherData.getmTempMax());
 						Log.v(TAG, "min temp is " + mWeatherData.getmTempMin());
 						Log.v(TAG, "data is " + mWeatherData.getmDate());
 						Log.v(TAG, "description is " + mWeatherData.getmDescription());
-					}
+					}*/
 					results.sendResult(mList);
 				}
 
@@ -134,13 +135,13 @@ public class WeatherServiceAsync extends LifecycleLoggingService{
 				public void getPM2_5(String cityName, WeatherResults results)
 						throws RemoteException {
 					try {
-						Log.d(TAG, "PM2.5 city name is " + cityName);
+						//Log.d(TAG, "PM2.5 city name is " + cityName);
 						List<PM2_5Item> mPm2_5List = mPM2_5ServiceProxy.getPM2_5(cityName, "5j1znBVAsnSf5xQyNQyq");
 						int average = 0;
 						int sum = 0;
 						int count = 0;
 						for(int i = 0; i < mPm2_5List.size(); i++) {
-							Log.d(TAG, "" + i + "PM2.5 si " + mPm2_5List.get(i).getaqi());
+						//	Log.d(TAG, "" + i + "PM2.5 os " + mPm2_5List.get(i).getaqi());
 							sum += mPm2_5List.get(i).getaqi();
 							if( mPm2_5List.get(i).getaqi() > 0) {
 								count ++;

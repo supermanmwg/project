@@ -47,6 +47,7 @@ public class MainActivity extends BaseActivity implements OnClickListener,
 		// weather data
 		// else update the display city weather info.
 		if (null == displayName) {
+			Log.d(TAG, "init data !");
 			mWeatherOps.onLocation();
 		} else {
 			mWeatherOps.onUpdate(mWeatherOps.getName(UniqueOps.PM25_CITY),

@@ -140,7 +140,11 @@ public class WeatherOpsImpl implements WeatherOps {
 		if (null != mWeatherRequest) {
 			try {
 				String location = mLocationOps.onLocation();
-				mWeatherRequest.getLocation(location, mWeatherResults);
+				if(null == location) {
+					Toast(mLangOps.getGPSNotFound());
+				} else {
+					mWeatherRequest.getLocation(location, mWeatherResults);
+				}
 			} catch (RemoteException e) {
 				Log.e(TAG, "RemoteException:" + e.getMessage());
 			}
@@ -184,7 +188,11 @@ public class WeatherOpsImpl implements WeatherOps {
 				mUniqueOps.SetName(UniqueOps.PM25_CITY, pm25City);
 				
 				//get city's pm2.5 data if it has
-				mWeatherRequest.getPM2_5(pm25City, mWeatherResults);
+			//	mWeatherRequest.getPM2_5(pm25City, mWeatherResults);
+				
+				//set the display city name
+				if (WeatherOps.ADD == tag || WeatherOps.LOCATE == tag)
+					mUniqueOps.SetName(UniqueOps.DISPLAY_NAME, name);
 				
 				//get The display city weather info
 				mWeatherRequest.getCurrentWeather(
@@ -192,9 +200,7 @@ public class WeatherOpsImpl implements WeatherOps {
 						WeatherWebServiceProxy.Celsius, 3,
 						mLangOps.getWeatherLang(), mWeatherResults);
 				
-				//set the display city name
-				if (WeatherOps.ADD == tag || WeatherOps.LOCATE == tag)
-					mUniqueOps.SetName(UniqueOps.DISPLAY_NAME, name);
+				
 			} catch (RemoteException e) {
 				Log.e(TAG, "RemoteException:" + e.getMessage());
 			}
