@@ -2,6 +2,7 @@ package com.weather.mwg.operation.weatherOpsImpl;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.weather.mwg.aidl.WeatherRequest;
 import com.weather.mwg.aidl.WeatherResults;
 import com.weather.mwg.activities.MainActivity;
@@ -23,6 +25,7 @@ import com.weather.mwg.operation.WeatherOps;
 import com.weather.mwg.operation.langOpsImpl.CnLangOpsImpl;
 import com.weather.mwg.operation.langOpsImpl.EnLangOpsImpl;
 import com.weather.mwg.retrofit.WeatherWebServiceProxy;
+import com.weather.mwg.services.GPSTrackerService;
 import com.weather.mwg.services.WeatherServiceAsync;
 import com.weather.mwg.utils.GenericServiceConnection;
 
@@ -62,6 +65,12 @@ public class WeatherOpsImpl implements WeatherOps {
 	 * Used to enable the language operation (EN or CN)
 	 */
 	private LangOps mLangOps;
+	
+	/**
+	 * GPSTrackerSerivce
+	 */
+	GPSTrackerService gpsService;
+	
 
 	 /**
      * Constructor initializes the fields.
@@ -139,7 +148,11 @@ public class WeatherOpsImpl implements WeatherOps {
 
 		if (null != mWeatherRequest) {
 			try {
-				String location = mLocationOps.onLocation();
+				gpsService = new GPSTrackerService(mActivity.get());
+				//String location = mLocationOps.onLocation();
+				String location = getLocation(gpsService);
+				Log.d(TAG, "Location is " + location);
+				
 				if(null == location) {
 					Toast(mLangOps.getGPSNotFound());
 				} else {
@@ -152,6 +165,27 @@ public class WeatherOpsImpl implements WeatherOps {
 			Log.d(TAG, "on loacate :mWeatherRequest was not bound");
 		}
 	}
+	
+	/**
+	 * Get Location from gpsService
+	 */
+    public String getLocation(GPSTrackerService gps) {
+
+        // Check if GPS enabled
+        if(gps.canGetLocation()) {
+
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+            return latitude + "," + longitude;
+
+        } else {
+            // Can't get location.
+            // GPS or network is not enabled.
+            // Ask user to enable GPS/network in settings.
+            gps.showSettingsAlert();
+            return null;
+        }
+    }
 
 	/**
 	 * Update the weather info
