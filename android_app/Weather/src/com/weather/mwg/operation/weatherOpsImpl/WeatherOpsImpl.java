@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.util.Log;
@@ -20,16 +21,16 @@ import com.weather.mwg.aidl.WeatherData;
 import com.weather.mwg.operation.ImageOps;
 import com.weather.mwg.operation.LangOps;
 import com.weather.mwg.operation.LocationOps;
+import com.weather.mwg.operation.LocationResults;
 import com.weather.mwg.operation.UniqueOps;
 import com.weather.mwg.operation.WeatherOps;
 import com.weather.mwg.operation.langOpsImpl.CnLangOpsImpl;
 import com.weather.mwg.operation.langOpsImpl.EnLangOpsImpl;
 import com.weather.mwg.retrofit.WeatherWebServiceProxy;
-import com.weather.mwg.services.GPSTrackerService;
 import com.weather.mwg.services.WeatherServiceAsync;
 import com.weather.mwg.utils.GenericServiceConnection;
 
-public class WeatherOpsImpl implements WeatherOps {
+public class WeatherOpsImpl implements WeatherOps,LocationResults {
 	/**
      * Debugging tag used by the Android logger.
      */
@@ -65,12 +66,6 @@ public class WeatherOpsImpl implements WeatherOps {
 	 * Used to enable the language operation (EN or CN)
 	 */
 	private LangOps mLangOps;
-	
-	/**
-	 * GPSTrackerSerivce
-	 */
-	GPSTrackerService gpsService;
-	
 
 	 /**
      * Constructor initializes the fields.
@@ -81,7 +76,7 @@ public class WeatherOpsImpl implements WeatherOps {
 		mServiceConnection = new GenericServiceConnection<>(
 				WeatherRequest.class, activity);
 		mUniqueOps = new UniqueOps(activity);
-		mLocationOps = new LocationOps(activity);
+		mLocationOps = new LocationOps(this,activity);
 		if (MainActivity.CN == activity.getLanguage()) {
 			mLangOps = new CnLangOpsImpl();
 		} else {
@@ -143,20 +138,22 @@ public class WeatherOpsImpl implements WeatherOps {
 	 */
 	@Override
 	public void onLocation() {
+		mLocationOps.onLocation();
+	}
+	
+	@Override
+	public void getLocation(Location mLocation) {
 		final WeatherRequest mWeatherRequest = mServiceConnection
 				.getInterface();
 
 		if (null != mWeatherRequest) {
 			try {
-				gpsService = new GPSTrackerService(mActivity.get());
-				//String location = mLocationOps.onLocation();
-				String location = getLocation(gpsService);
-				Log.d(TAG, "Location is " + location);
-				
-				if(null == location) {
+				if(null == mLocation) {
 					Toast(mLangOps.getGPSNotFound());
 				} else {
-					mWeatherRequest.getLocation(location, mWeatherResults);
+					String lltude = mLocation.getLatitude() + "," +mLocation.getLongitude();
+					Log.d(TAG, "location is " + lltude);
+					mWeatherRequest.getLocation(lltude, mWeatherResults);
 				}
 			} catch (RemoteException e) {
 				Log.e(TAG, "RemoteException:" + e.getMessage());
@@ -164,28 +161,8 @@ public class WeatherOpsImpl implements WeatherOps {
 		} else {
 			Log.d(TAG, "on loacate :mWeatherRequest was not bound");
 		}
+		
 	}
-	
-	/**
-	 * Get Location from gpsService
-	 */
-    public String getLocation(GPSTrackerService gps) {
-
-        // Check if GPS enabled
-        if(gps.canGetLocation()) {
-
-            double latitude = gps.getLatitude();
-            double longitude = gps.getLongitude();
-            return latitude + "," + longitude;
-
-        } else {
-            // Can't get location.
-            // GPS or network is not enabled.
-            // Ask user to enable GPS/network in settings.
-            gps.showSettingsAlert();
-            return null;
-        }
-    }
 
 	/**
 	 * Update the weather info
@@ -378,4 +355,6 @@ public class WeatherOpsImpl implements WeatherOps {
 			}
 		});
 	}
+
+
 }
