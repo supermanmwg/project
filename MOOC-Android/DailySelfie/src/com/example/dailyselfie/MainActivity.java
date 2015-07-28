@@ -64,6 +64,13 @@ public class MainActivity extends Activity {
 				R.layout.photo_item, photoList);
 		ListView mListView = (ListView) findViewById(R.id.list_view);
 		mListView.setAdapter(adapter);
+		adapter.registerDataSetObserver(new DataSetObserver() {
+		    @Override
+		    public void onChanged() {
+		        super.onChanged();
+		        mListView.setSelection(adapter.getCount() - 1);    
+		    }
+		});
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
